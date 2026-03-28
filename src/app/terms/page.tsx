@@ -137,7 +137,7 @@ function TermsTH() {
       <P>เราขอสงวนสิทธิ์ในการเปลี่ยนแปลงข้อกำหนดเหล่านี้ได้ตลอดเวลา การเปลี่ยนแปลงมีผลทันทีที่ประกาศบนเว็บไซต์ การใช้งานต่อเนื่องหลังจากนั้นถือว่ายอมรับการเปลี่ยนแปลง</P>
 
       <H2>8. ติดต่อเรา</H2>
-      <P>หากมีคำถามเกี่ยวกับข้อกำหนดเหล่านี้ ติดต่อได้ที่ <a href="mailto:legal@calqly.co" style={{ color: 'var(--c-primary, #2d7a5f)' }}>legal@calqly.co</a></P>
+      <P>หากมีคำถามเกี่ยวกับข้อกำหนดเหล่านี้ ติดต่อได้ที่ <a href="invioly01@gmail.com" style={{ color: 'var(--c-primary, #2d7a5f)' }}>invioly01@gmail.com</a></P>
     </>
   )
 }
@@ -175,7 +175,7 @@ function TermsEN() {
       <P>These Terms are governed by Thai law. Disputes shall be resolved in Thai courts.</P>
 
       <H2>7. Contact</H2>
-      <P>Questions about these Terms: <a href="mailto:legal@calqly.co" style={{ color: 'var(--c-primary, #2d7a5f)' }}>legal@calqly.co</a></P>
+      <P>Questions about these Terms: <a href="mailto:invioly01@gmail.com" style={{ color: 'var(--c-primary, #2d7a5f)' }}>invioly01@gmail.com</a></P>
     </>
   )
 }

@@ -26,12 +26,29 @@ export const metadata: Metadata = {
   },
   description:
     'เครื่องคิดเลขการเงินและบทความให้ความรู้ทางการเงิน ภาษาไทยและอังกฤษ ข้อมูลล่าสุดปี 2568/2569 ใช้ฟรี',
+  
+  // 👇 ส่วนที่แก้ไข: ระบุไฟล์ Icon (Favicon) ที่อัปโหลดมา 👇
+  icons: {
+    icon: '/icon.png', // อ้างอิงไฟล์ icon.png ใน src/app/
+    apple: '/icon.png', // สำหรับอุปกรณ์ Apple
+  },
+
   keywords: ['คำนวณภาษี 2568', 'คำนวณสินเชื่อ', 'วางแผนเกษียณ', 'ลดหย่อนภาษี 2568'],
   openGraph: {
     type: 'website',
     locale: 'th_TH',
     alternateLocale: 'en_US',
     siteName: 'Calqly.co',
+
+    // 👇 ส่วนที่แก้ไข: ระบุไฟล์ Open Graph Image ที่อัปโหลดมา 👇
+    images: [
+      {
+        url: '/opengraph-image.png', // อ้างอิงไฟล์ opengraph-image.png ใน src/app/
+        width: 1200, // ขนาดมาตรฐาน OG Image
+        height: 630, // ขนาดมาตรฐาน OG Image
+        alt: 'Calqly - เครื่องมือคำนวณการเงิน เข้าใจง่าย',
+      },
+    ],
   },
   robots: {
     index: true,

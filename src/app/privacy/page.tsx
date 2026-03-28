@@ -90,8 +90,9 @@ export default function PrivacyPage() {
             {lang === 'th'
               ? 'หากมีคำถามเกี่ยวกับนโยบายความเป็นส่วนตัว หรือต้องการใช้สิทธิ์ตาม PDPA ติดต่อได้ที่'
               : 'For privacy questions or to exercise your PDPA rights, contact us at'}
-            {' '}<a href="mailto:privacy@calqly.co" style={{ color: 'var(--c-primary, #2d7a5f)', fontWeight: 600 }}>
-              privacy@calqly.co
+            {' '}<a href="invioly01@gmail.com" style={{ color: 'var(--c-primary, #2d7a5f)', fontWeight: 600 }}>
+              invioly01@gmail.com
+              
             </a>
           </p>
         </div>
