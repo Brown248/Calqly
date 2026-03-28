@@ -1,0 +1,59 @@
+.page { padding: var(--space-12) 0; }
+.container { max-width: var(--max-width); margin: 0 auto; padding: 0 var(--space-6); }
+.header { text-align: center; margin-bottom: var(--space-8); animation: fadeInUp 0.6s ease-out; }
+.header h1 { margin-bottom: var(--space-2); }
+.header p { color: var(--text-tertiary); }
+.accent { background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+.layout { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-6); align-items: start; }
+.formPanel, .resultPanel { background: var(--card-bg); backdrop-filter: blur(20px); border: 1px solid var(--card-border); border-radius: var(--radius-xl); padding: var(--space-8); animation: fadeInUp 0.6s ease-out; }
+.formPanel h3 { margin-bottom: var(--space-6); }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); margin-bottom: var(--space-6); }
+.inputGroup { display: flex; flex-direction: column; gap: var(--space-2); }
+.inputGroup label { font-size: 0.8125rem; font-weight: 500; color: var(--text-tertiary); }
+
+.adviceBox { padding: var(--space-4); background: rgba(13,148,136,0.05); border: 1px solid rgba(13,148,136,0.15); border-radius: var(--radius-lg); }
+.adviceBox h4 { margin-bottom: var(--space-3); font-size: 0.9375rem; }
+.adviceBox ul { list-style: none; padding: 0; }
+.adviceBox li { font-size: 0.8125rem; color: var(--text-tertiary); padding: var(--space-1) 0; line-height: 1.7; }
+.adviceBox li::before { content: '• '; color: var(--primary-400); }
+
+/* Gap Card */
+.gapCard { text-align: center; padding: var(--space-6); border-radius: var(--radius-xl); margin-bottom: var(--space-6); }
+.gapSurplus { background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); }
+.gapDeficit { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); }
+.gapExact { background: rgba(13,148,136,0.1); border: 1px solid rgba(13,148,136,0.3); }
+.gapIcon { font-size: 2rem; margin-bottom: var(--space-2); }
+.gapTitle { font-size: 1rem; font-weight: 600; color: var(--text-secondary); margin-bottom: var(--space-2); }
+.gapAmount { font-size: 2rem; font-weight: 900; }
+.gapSurplus .gapAmount { color: var(--success-400); }
+.gapDeficit .gapAmount { color: var(--danger-400); }
+
+.resultGrid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); margin-bottom: var(--space-6); }
+.miniResult { padding: var(--space-3); background: var(--bg-secondary); border-radius: var(--radius-lg); text-align: center; }
+.miniResult span { display: block; font-size: 0.6875rem; color: var(--text-muted); margin-bottom: var(--space-1); }
+.miniResult strong { font-size: 0.9375rem; color: var(--text-primary); }
+
+.deficitAdvice { padding: var(--space-4); background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.2); border-radius: var(--radius-lg); margin-bottom: var(--space-6); }
+.deficitAdvice h4 { margin-bottom: var(--space-2); font-size: 0.9375rem; }
+.deficitAdvice p { font-size: 0.875rem; color: var(--text-tertiary); line-height: 1.7; }
+
+/* Bar Chart */
+.chartSection { margin-top: var(--space-4); }
+.chartSection h4 { margin-bottom: var(--space-4); font-size: 0.9375rem; }
+.barChart { display: flex; align-items: flex-end; gap: 4px; height: 200px; padding: var(--space-4); background: var(--bg-secondary); border-radius: var(--radius-lg); }
+.barGroup { flex: 1; display: flex; flex-direction: column; align-items: center; height: 100%; }
+.barContainer { flex: 1; width: 100%; display: flex; align-items: flex-end; }
+.bar { width: 100%; border-radius: 4px 4px 0 0; transition: height var(--transition-slow); min-height: 4px; }
+.barWorking { background: var(--gradient-primary); }
+.barRetired { background: linear-gradient(to top, var(--danger-500), var(--warning-500)); }
+.barLabel { font-size: 0.625rem; color: var(--text-muted); margin-top: 4px; }
+.chartLegend { display: flex; justify-content: center; gap: var(--space-6); margin-top: var(--space-3); font-size: 0.8125rem; color: var(--text-tertiary); }
+.dotWorking, .dotRetired { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: var(--space-2); vertical-align: middle; }
+.dotWorking { background: var(--primary-500); }
+.dotRetired { background: var(--danger-500); }
+
+@media (max-width: 1024px) { .layout { grid-template-columns: 1fr; } }
+@media (max-width: 640px) { .grid2, .resultGrid { grid-template-columns: 1fr; } }
+
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }

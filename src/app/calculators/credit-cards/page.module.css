@@ -1,0 +1,55 @@
+.page { padding: var(--space-12) 0; }
+.container { max-width: var(--max-width); margin: 0 auto; padding: 0 var(--space-6); }
+.header { text-align: center; margin-bottom: var(--space-8); animation: fadeInUp 0.6s ease-out; }
+.header h1 { margin-bottom: var(--space-2); }
+.header p { color: var(--text-tertiary); }
+.accent { background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+.filters { display: flex; justify-content: space-between; align-items: flex-end; gap: var(--space-4); margin-bottom: var(--space-8); flex-wrap: wrap; }
+.filterTabs { display: flex; gap: var(--space-2); flex-wrap: wrap; }
+.filterBtn { padding: var(--space-2) var(--space-4); border: 1px solid var(--border-primary); border-radius: var(--radius-full); background: transparent; color: var(--text-tertiary); font-family: var(--font-sans); font-size: 0.8125rem; cursor: pointer; transition: all var(--transition-fast); }
+.filterBtn.filterActive { background: rgba(13,148,136,0.15); border-color: var(--primary-500); color: var(--primary-400); }
+.incomeFilter { display: flex; align-items: center; gap: var(--space-2); }
+.incomeFilter label { font-size: 0.875rem; color: var(--text-tertiary); white-space: nowrap; }
+.incomeFilter .input-field { width: 140px; }
+
+.cardGrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); margin-bottom: var(--space-12); }
+
+.creditCard { background: var(--card-bg); backdrop-filter: blur(20px); border: 1px solid var(--card-border); border-radius: var(--radius-xl); overflow: hidden; transition: all var(--transition-base); animation: fadeInUp 0.6s ease-out backwards; }
+.creditCard:nth-child(1) { animation-delay: 0ms; }
+.creditCard:nth-child(2) { animation-delay: 80ms; }
+.creditCard:nth-child(3) { animation-delay: 160ms; }
+.creditCard:nth-child(4) { animation-delay: 240ms; }
+.creditCard:nth-child(5) { animation-delay: 320ms; }
+.creditCard:nth-child(6) { animation-delay: 400ms; }
+.creditCard:hover { transform: translateY(-4px); box-shadow: var(--shadow-xl); border-color: var(--card-hover-border); }
+
+.cardHeader { padding: var(--space-6); color: white; }
+.cardName { font-size: 1.0625rem; font-weight: 700; margin-bottom: var(--space-1); }
+.cardBank { font-size: 0.8125rem; opacity: 0.85; }
+
+.cardBody { padding: var(--space-5); }
+.cardDetail { display: flex; justify-content: space-between; padding: var(--space-2) 0; border-bottom: 1px solid var(--border-secondary); font-size: 0.8125rem; gap: var(--space-2); }
+.cardDetail span { color: var(--text-muted); flex-shrink: 0; }
+.cardDetail strong { color: var(--text-primary); text-align: right; font-weight: 500; }
+
+.benefitsList { padding: var(--space-3) 0; }
+.benefitsList > span { font-size: 0.8125rem; color: var(--text-muted); display: block; margin-bottom: var(--space-2); }
+.benefitsList ul { list-style: none; padding: 0; }
+.benefitsList li { font-size: 0.8125rem; color: var(--text-tertiary); padding: var(--space-1) 0; }
+.benefitsList li::before { content: '✓ '; color: var(--success-400); }
+
+.compareBtn { width: 100%; padding: var(--space-3); border: 1px solid var(--border-primary); border-radius: var(--radius-lg); background: transparent; color: var(--text-secondary); font-family: var(--font-sans); font-size: 0.875rem; font-weight: 500; cursor: pointer; transition: all var(--transition-fast); margin-top: var(--space-3); }
+.compareBtn:hover { border-color: var(--primary-500); color: var(--primary-400); background: rgba(13,148,136,0.05); }
+.compareBtn.compareBtnActive { background: rgba(13,148,136,0.15); border-color: var(--primary-500); color: var(--primary-400); }
+
+.compareSection { background: var(--card-bg); backdrop-filter: blur(20px); border: 1px solid var(--card-border); border-radius: var(--radius-xl); padding: var(--space-8); animation: fadeInUp 0.4s ease-out; }
+.compareSection h3 { margin-bottom: var(--space-6); text-align: center; }
+.compareTable { overflow-x: auto; }
+.compList { list-style: none; padding: 0; }
+.compList li { font-size: 0.75rem; padding: 2px 0; }
+.compList li::before { content: '• '; color: var(--primary-400); }
+
+@media (max-width: 1024px) { .cardGrid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 640px) { .cardGrid { grid-template-columns: 1fr; } .filters { flex-direction: column; align-items: stretch; } }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }

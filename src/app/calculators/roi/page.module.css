@@ -1,0 +1,52 @@
+.page { padding: var(--space-12) 0; }
+.container { max-width: var(--max-width); margin: 0 auto; padding: 0 var(--space-6); }
+.header { text-align: center; margin-bottom: var(--space-8); animation: fadeInUp 0.6s ease-out; }
+.header h1 { margin-bottom: var(--space-2); }
+.header p { color: var(--text-tertiary); }
+.accent { background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+.layout { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-6); align-items: start; }
+.formPanel, .resultPanel { background: var(--card-bg); backdrop-filter: blur(20px); border: 1px solid var(--card-border); border-radius: var(--radius-xl); padding: var(--space-8); animation: fadeInUp 0.6s ease-out; }
+.formPanel h3 { margin-bottom: var(--space-6); }
+.inputGroup { margin-bottom: var(--space-5); }
+.inputGroup label { display: block; font-size: 0.875rem; font-weight: 500; color: var(--text-secondary); margin-bottom: var(--space-2); }
+
+.benchmarks { padding: var(--space-4); background: rgba(13,148,136,0.05); border-radius: var(--radius-lg); margin-top: var(--space-4); }
+.benchmarks h4 { margin-bottom: var(--space-3); font-size: 0.875rem; }
+.bmGrid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2); }
+.bmItem { padding: var(--space-2) var(--space-3); background: var(--bg-secondary); border: 1px solid var(--border-secondary); border-radius: var(--radius-md); font-size: 0.8125rem; color: var(--text-tertiary); cursor: pointer; text-align: center; transition: all var(--transition-fast); }
+.bmItem:hover { border-color: var(--primary-500); color: var(--primary-400); background: rgba(13,148,136,0.1); }
+
+.mainResult { text-align: center; padding: var(--space-6); background: linear-gradient(135deg, rgba(13,148,136,0.08), rgba(20,184,166,0.08)); border-radius: var(--radius-xl); border: 1px solid rgba(13,148,136,0.2); margin-bottom: var(--space-6); }
+.resultLabel { font-size: 0.875rem; color: var(--text-tertiary); margin-bottom: var(--space-2); text-transform: uppercase; letter-spacing: 0.05em; }
+.resultValue { font-size: clamp(2rem, 4vw, 3rem); font-weight: 900; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+.resultGrid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); margin-bottom: var(--space-6); }
+.mr { text-align: center; padding: var(--space-3); background: var(--bg-secondary); border-radius: var(--radius-lg); }
+.mr span { display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: var(--space-1); }
+.mr strong { font-size: 0.9375rem; }
+
+.comparison { padding: var(--space-4); background: var(--bg-secondary); border-radius: var(--radius-lg); margin-bottom: var(--space-6); }
+.comparison h4 { margin-bottom: var(--space-3); font-size: 0.875rem; color: var(--text-secondary); }
+.compRow { display: flex; justify-content: space-between; padding: var(--space-2) 0; font-size: 0.875rem; border-bottom: 1px solid var(--border-secondary); }
+.compRow:last-child { border-bottom: none; font-weight: 700; }
+.compRow span { color: var(--text-tertiary); }
+.compGood { color: var(--success-400); }
+.compNeutral { color: var(--text-secondary); }
+
+.chartSection { margin-top: var(--space-4); }
+.chartSection h4 { margin-bottom: var(--space-4); font-size: 0.875rem; }
+.barChart { display: flex; align-items: flex-end; gap: 4px; height: 180px; padding: var(--space-4); background: var(--bg-secondary); border-radius: var(--radius-lg); }
+.barGroup { flex: 1; display: flex; flex-direction: column; align-items: center; height: 100%; }
+.barContainer { flex: 1; width: 100%; display: flex; flex-direction: column; justify-content: flex-end; }
+.barReturns { width: 100%; background: var(--success-500); border-radius: 4px 4px 0 0; transition: height var(--transition-slow); }
+.barInvested { width: 100%; background: var(--primary-500); transition: height var(--transition-slow); }
+.barLabel { font-size: 0.5625rem; color: var(--text-muted); margin-top: 4px; }
+.chartLegend { display: flex; justify-content: center; gap: var(--space-6); margin-top: var(--space-3); font-size: 0.8125rem; color: var(--text-tertiary); }
+.dotInvested, .dotReturns { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: var(--space-2); vertical-align: middle; }
+.dotInvested { background: var(--primary-500); }
+.dotReturns { background: var(--success-500); }
+
+@media (max-width: 1024px) { .layout { grid-template-columns: 1fr; } }
+@media (max-width: 640px) { .resultGrid, .bmGrid { grid-template-columns: 1fr; } }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
