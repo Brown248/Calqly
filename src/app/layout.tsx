@@ -10,6 +10,8 @@
 import type { Metadata } from 'next'
 import { ThemeProvider } from 'next-themes'
 import Script from 'next/script'
+import Header from '@/components/layout/Header'
+import Footer from '@/components/layout/Footer'
 import { CookieBanner, CookieSettingsButton } from '@/components/CookieBanner'
 import './globals.css'
 
@@ -114,7 +116,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           enableSystem
           disableTransitionOnChange
         >
+
+          <Header />
+          
           {children}
+
+          <Footer />
 
           {/* ── PDPA Components ────────────────────────────────── */}
           <CookieBanner />

@@ -99,7 +99,7 @@
 /* ========================================
    Light Theme (Default) — Warm & Comfortable
    ======================================== */
-[data-theme="light"] {
+:root, .light {
   --bg-primary: #FAFBFC;
   --bg-secondary: #F0FAF8;
   --bg-tertiary: #E6F2F0;
@@ -131,7 +131,7 @@
 /* ========================================
    Dark Theme — Muted Teal Night
    ======================================== */
-[data-theme="dark"] {
+.dark {
   --bg-primary: #0C1B21;
   --bg-secondary: #132D2E;
   --bg-tertiary: #1E3F3F;
