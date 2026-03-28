@@ -89,6 +89,36 @@
   color: var(--text-muted);
 }
 
+.legalLinks {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: 0.8125rem;
+}
+
+.legalLinks a {
+  color: var(--text-tertiary);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.legalLinks a:hover {
+  color: var(--primary-400);
+}
+
+.legalLinks .dot {
+  color: var(--border-primary);
+  font-size: 0.5rem;
+}
+
+/* ทำให้บนจอคอม (หน้าจอกว้าง) ลิขสิทธิ์กับลิงก์อยู่บรรทัดเดียวกัน ซ้าย-ขวา */
+@media (min-width: 768px) {
+  .bottom {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+
 @media (max-width: 768px) {
   .grid {
     grid-template-columns: 1fr 1fr;
