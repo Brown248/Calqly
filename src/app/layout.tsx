@@ -15,14 +15,15 @@ import Footer from '@/components/layout/Footer'
 import { CookieBanner, CookieSettingsButton } from '@/components/CookieBanner'
 import './globals.css'
 
+
 const GA_ID = process.env.NEXT_PUBLIC_GA_ID ?? ''
 const ADSENSE_CLIENT = process.env.NEXT_PUBLIC_ADSENSE_CLIENT ?? ''
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://calqly.co'),
+  metadataBase: new URL('https://calqlyhub.com'),
   title: {
-    default: 'Calqly — คำนวณการเงิน เข้าใจง่าย',
-    template: '%s | Calqly.co',
+    default: 'CalqlyHub — คำนวณการเงิน เข้าใจง่าย',
+    template: '%s | CalqlyHub.com',
   },
   description:
     'เครื่องคิดเลขการเงินและบทความให้ความรู้ทางการเงิน ภาษาไทยและอังกฤษ ข้อมูลล่าสุดปี 2568/2569 ใช้ฟรี',
@@ -38,7 +39,7 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'th_TH',
     alternateLocale: 'en_US',
-    siteName: 'Calqly.co',
+    siteName: 'CalqlyHub',
 
     // 👇 ส่วนที่แก้ไข: ระบุไฟล์ Open Graph Image ที่อัปโหลดมา 👇
     images: [
