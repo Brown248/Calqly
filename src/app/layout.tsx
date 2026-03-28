@@ -1,36 +1,126 @@
-import type { Metadata } from "next";
-import "./globals.css";
-import { ThemeProvider } from "@/hooks/useTheme";
-import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
+// ============================================================
+// src/app/layout.tsx — อัปเดตจากไฟล์เดิม
+//
+// สิ่งที่เพิ่ม/เปลี่ยน:
+// 1. Google Consent Mode v2 (บังคับก่อน GA4 โหลด)
+// 2. IP Anonymization ใน GA4
+// 3. CookieBanner + CookieSettingsButton
+// ============================================================
+
+import type { Metadata } from 'next'
+import { ThemeProvider } from 'next-themes'
+import Script from 'next/script'
+import { CookieBanner, CookieSettingsButton } from '@/components/CookieBanner'
+import './globals.css'
+
+const GA_ID = process.env.NEXT_PUBLIC_GA_ID ?? ''
+const ADSENSE_CLIENT = process.env.NEXT_PUBLIC_ADSENSE_CLIENT ?? ''
 
 export const metadata: Metadata = {
-  title: "Thai CalqlyHub — เครื่องมือคำนวณการเงินส่วนบุคคล",
-  description:
-    "คำนวณภาษี สินเชื่อ วางแผนเกษียณ เช็ค ROI เปรียบเทียบบัตรเครดิต พร้อมบทความอธิบายการเงินง่ายๆ สำหรับคนไทย",
-  keywords:
-    "คำนวณภาษี, สินเชื่อบ้าน, วางแผนเกษียณ, ROI, บัตรเครดิต, การเงินส่วนบุคคล",
-  icons: {
-    icon: "/favicon.ico",
+  metadataBase: new URL('https://calqly.co'),
+  title: {
+    default: 'Calqly — คำนวณการเงิน เข้าใจง่าย',
+    template: '%s | Calqly.co',
   },
-};
+  description:
+    'เครื่องคิดเลขการเงินและบทความให้ความรู้ทางการเงิน ภาษาไทยและอังกฤษ ข้อมูลล่าสุดปี 2568/2569 ใช้ฟรี',
+  keywords: ['คำนวณภาษี 2568', 'คำนวณสินเชื่อ', 'วางแผนเกษียณ', 'ลดหย่อนภาษี 2568'],
+  openGraph: {
+    type: 'website',
+    locale: 'th_TH',
+    alternateLocale: 'en_US',
+    siteName: 'Calqly.co',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, 'max-image-preview': 'large' },
+  },
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFY ?? '',
+  },
+}
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="th" data-theme="light" suppressHydrationWarning>
-      <body data-gr-ext-installed="">
-        <ThemeProvider>
-          <Header />
-          <main style={{ paddingTop: "var(--header-height)", minHeight: "100vh" }}>
-            {children}
-          </main>
-          <Footer />
+    <html lang="th" suppressHydrationWarning>
+      <head>
+        {/* ── Google Consent Mode v2 ──────────────────────────────
+            ต้องโหลดก่อน gtag.js เสมอ
+            Default: denied ทั้งหมด — จะเปิดเมื่อ user กด accept ใน CookieBanner
+            ที่มา: https://developers.google.com/tag-platform/security/guides/consent
+        */}
+        {GA_ID && (
+          <Script id="consent-mode-default" strategy="beforeInteractive">
+            {`
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+
+              // Default: ปิดทั้งหมดก่อน user ให้ consent
+              gtag('consent', 'default', {
+                analytics_storage: 'denied',
+                ad_storage: 'denied',
+                ad_user_data: 'denied',
+                ad_personalization: 'denied',
+                wait_for_update: 500,
+              });
+            `}
+          </Script>
+        )}
+
+        {/* AdSense — โหลด async ไม่ block render */}
+        {ADSENSE_CLIENT && (
+          <Script
+            async
+            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`}
+            crossOrigin="anonymous"
+            strategy="afterInteractive"
+          />
+        )}
+      </head>
+
+      <body suppressHydrationWarning>
+        {/* ── Google Analytics 4 ─────────────────────────────────
+            anonymize_ip: true = IP Anonymization (PDPA compliant)
+            ข้อมูลที่เก็บจะเป็นแค่ IP ที่ตัดส่วนท้ายออก เช่น 203.0.113.xxx
+        */}
+        {GA_ID && (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+              strategy="afterInteractive"
+            />
+            <Script id="ga4-init" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${GA_ID}', {
+                  send_page_view: true,
+                  anonymize_ip: true,
+                  cookie_flags: 'SameSite=None;Secure',
+                  // ไม่ส่ง PII ใดๆ ไปยัง Google
+                  allow_google_signals: false,
+                  allow_ad_personalization_signals: false,
+                });
+              `}
+            </Script>
+          </>
+        )}
+
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+
+          {/* ── PDPA Components ────────────────────────────────── */}
+          <CookieBanner />
+          <CookieSettingsButton />
         </ThemeProvider>
       </body>
     </html>
-  );
+  )
 }

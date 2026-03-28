@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useTheme } from '@/hooks/useTheme';
+import { useTheme } from 'next-themes';
 import styles from './Header.module.css';
 
 const NAV_ITEMS = [
@@ -12,7 +12,7 @@ const NAV_ITEMS = [
 ];
 
 export default function Header() {
-  const { theme, toggleTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
@@ -46,7 +46,7 @@ export default function Header() {
         </nav>
 
         <div className={styles.actions}>
-          <button onClick={toggleTheme} className={styles.themeBtn} aria-label="Toggle theme">
+          <button onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')} className={styles.themeBtn} aria-label="Toggle theme">
             {theme === 'dark' ? '☀️' : '🌙'}
           </button>
           <button
