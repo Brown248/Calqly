@@ -1,318 +1,242 @@
-'use client'
+'use client';
 
-// ============================================================
-// CookieBanner.tsx
-// PDPA (พ.ร.บ.คุ้มครองข้อมูลส่วนบุคคล 2562) Compliant
-// ต้องได้รับ consent ก่อน GA4 และ AdSense จะทำงาน
-// ============================================================
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
 
-import { useState, useEffect } from 'react'
-
-const CONSENT_KEY = 'calqly_cookie_consent'
-const CONSENT_VERSION = 'v1' // เพิ่มเลขเมื่อ policy เปลี่ยน — จะ reset consent ทั้งหมด
-
-type ConsentStatus = 'pending' | 'accepted' | 'declined'
-
-declare global {
-  interface Window {
-    gtag: (...args: any[]) => void;
-  }
-}
-
-// ── Helper: เปิด/ปิด GA4 ──────────────────────────────────
-function enableAnalytics() {
-  if (typeof window === 'undefined') return
-  // เปิด GA4 — gtag ถูก inject ใน layout.tsx แล้ว
-  window.gtag?.('consent', 'update', {
-    analytics_storage: 'granted',
-    ad_storage: 'granted',
-    ad_user_data: 'granted',
-    ad_personalization: 'granted',
-  })
-}
-
-function disableAnalytics() {
-  if (typeof window === 'undefined') return
-  window.gtag?.('consent', 'update', {
-    analytics_storage: 'denied',
-    ad_storage: 'denied',
-    ad_user_data: 'denied',
-    ad_personalization: 'denied',
-  })
-}
-
-// ── Exports: ใช้ใน layout.tsx ──────────────────────────────
-export function getStoredConsent(): ConsentStatus {
-  if (typeof window === 'undefined') return 'pending'
-  try {
-    const stored = localStorage.getItem(CONSENT_KEY)
-    if (!stored) return 'pending'
-    const parsed = JSON.parse(stored)
-    if (parsed.version !== CONSENT_VERSION) return 'pending'
-    return parsed.status as ConsentStatus
-  } catch {
-    return 'pending'
-  }
-}
-
-function storeConsent(status: 'accepted' | 'declined') {
-  localStorage.setItem(
-    CONSENT_KEY,
-    JSON.stringify({ status, version: CONSENT_VERSION, timestamp: Date.now() })
-  )
-}
-
-// ── Main Component ─────────────────────────────────────────
+// ==========================================
+// 1. Component: CookieBanner (ตัวแบนเนอร์และ Modal)
+// ==========================================
 export function CookieBanner() {
-  const [status, setStatus] = useState<ConsentStatus>('pending')
-  const [visible, setVisible] = useState(false)
-  const [showDetails, setShowDetails] = useState(false)
+  const [showBanner, setShowBanner] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+  
+  // State สำหรับเก็บค่าตัวเลือก
+  const [preferences, setPreferences] = useState({ analytics: true, ads: true });
 
   useEffect(() => {
-    const stored = getStoredConsent()
-    setStatus(stored)
-
-    if (stored === 'pending') {
-      // หน่วง 0.5s ให้หน้าโหลดก่อน
-      const t = setTimeout(() => setVisible(true), 500)
-      return () => clearTimeout(t)
+    setIsMounted(true);
+    
+    // โหลดค่าเดิมที่เคยตั้งไว้
+    const consent = localStorage.getItem('cookieConsent');
+    if (!consent) {
+      setShowBanner(true); // ถ้าไม่เคยเลือก ให้โชว์ Banner
+    } else if (consent === 'custom') {
+      const savedPrefs = localStorage.getItem('cookiePreferences');
+      if (savedPrefs) {
+        setPreferences(JSON.parse(savedPrefs));
+      }
     }
 
-    // ถ้า consent เดิมอยู่แล้ว ใช้ตามนั้นได้เลย
-    if (stored === 'accepted') enableAnalytics()
-    else disableAnalytics()
-  }, [])
+    // สร้าง Event Listener รับคำสั่งเปิด Modal จากปุ่มตั้งค่า (CookieSettingsButton)
+    const handleOpenModal = () => setShowModal(true);
+    window.addEventListener('openCookieModal', handleOpenModal);
+    
+    return () => window.removeEventListener('openCookieModal', handleOpenModal);
+  }, []);
 
-  const handleAccept = () => {
-    storeConsent('accepted')
-    enableAnalytics()
-    setStatus('accepted')
-    setVisible(false)
-  }
+  // ฟังก์ชันกดยอมรับทั้งหมด
+  const acceptAll = () => {
+    localStorage.setItem('cookieConsent', 'all');
+    setPreferences({ analytics: true, ads: true });
+    updateGtag('granted', 'granted');
+    setShowBanner(false);
+    setShowModal(false);
+  };
 
-  const handleDecline = () => {
-    storeConsent('declined')
-    disableAnalytics()
-    setStatus('declined')
-    setVisible(false)
-  }
+  // ฟังก์ชันบันทึกการตั้งค่าแบบเลือกเอง
+  const savePreferences = () => {
+    localStorage.setItem('cookieConsent', 'custom');
+    localStorage.setItem('cookiePreferences', JSON.stringify(preferences));
+    updateGtag(preferences.analytics ? 'granted' : 'denied', preferences.ads ? 'granted' : 'denied');
+    setShowBanner(false);
+    setShowModal(false);
+  };
 
-  if (!visible || status !== 'pending') return null
+  // อัปเดต Google Tag Manager Consent Mode
+  const updateGtag = (analyticsStatus: string, adsStatus: string) => {
+    if (typeof window !== 'undefined' && (window as any).gtag) {
+      (window as any).gtag('consent', 'update', {
+        analytics_storage: analyticsStatus,
+        ad_storage: adsStatus,
+        ad_user_data: adsStatus,
+        ad_personalization: adsStatus,
+      });
+    }
+  };
+
+  // ป้องกัน Hydration Error
+  if (!isMounted) return null;
 
   return (
     <>
-      {/* Backdrop overlay เบาๆ */}
-      <div
-        style={{
-          position: 'fixed', inset: 0, zIndex: 998,
-          background: 'rgba(0,0,0,0.25)',
-          backdropFilter: 'blur(2px)',
-          animation: 'fadeIn 0.3s ease',
-        }}
-        onClick={handleDecline}
-        aria-hidden
-      />
-
-      {/* Banner */}
-      <div
-        role="dialog"
-        aria-modal="true"
-        aria-label="การตั้งค่าคุกกี้"
-        style={{
-          position: 'fixed',
-          bottom: '1.25rem',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          width: 'min(640px, calc(100vw - 2rem))',
-          zIndex: 999,
-          background: 'var(--c-surface, #fff)',
-          border: '1px solid var(--c-border-strong, rgba(0,0,0,0.13))',
-          borderRadius: '1.25rem',
-          boxShadow: '0 8px 40px rgba(0,0,0,0.18)',
-          padding: '1.5rem',
-          animation: 'slideUp 0.35s cubic-bezier(0.16,1,0.3,1)',
-          fontFamily: 'inherit',
-        }}
-      >
-        <style>{`
-          @keyframes fadeIn { from{opacity:0} to{opacity:1} }
-          @keyframes slideUp { from{opacity:0;transform:translateX(-50%) translateY(20px)} to{opacity:1;transform:translateX(-50%) translateY(0)} }
-        `}</style>
-
-        {/* Header */}
-        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '1rem', marginBottom: '0.875rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <span style={{ fontSize: '1.25rem' }}>🍪</span>
-            <h2 style={{
-              fontSize: '0.9375rem', fontWeight: 700,
-              color: 'var(--c-text, #1a1a18)', margin: 0,
-            }}>
-              เว็บไซต์นี้ใช้คุกกี้
-            </h2>
-          </div>
-          <div style={{
-            fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.06em',
-            color: 'var(--c-primary, #2d7a5f)',
-            background: 'var(--c-primary-pale, #e8f5ef)',
-            borderRadius: '99px', padding: '0.2rem 0.6rem',
-            whiteSpace: 'nowrap',
-          }}>
-            PDPA Compliant
-          </div>
-        </div>
-
-        {/* Body */}
-        <p style={{
-          fontSize: '0.8375rem', color: 'var(--c-text-2, #4a4a42)',
-          lineHeight: 1.7, marginBottom: '0.875rem',
-        }}>
-          เราใช้คุกกี้เพื่อวิเคราะห์การใช้งาน (Google Analytics 4) และแสดงโฆษณาที่เหมาะสม (Google AdSense)
-          ตามกฎหมาย PDPA คุณสามารถเลือกอนุญาตหรือปฏิเสธได้{' '}
-          <a href="/privacy" style={{ color: 'var(--c-primary, #2d7a5f)', fontWeight: 600 }}>
-            อ่าน Privacy Policy
-          </a>
-        </p>
-
-        {/* Details toggle */}
-        <button
-          onClick={() => setShowDetails(!showDetails)}
-          style={{
-            background: 'none', border: 'none', cursor: 'pointer',
-            fontSize: '0.775rem', color: 'var(--c-text-3, #7a7a70)',
-            fontWeight: 600, padding: 0, marginBottom: '0.875rem',
-            display: 'flex', alignItems: 'center', gap: '0.3rem',
-            fontFamily: 'inherit',
+      {/* ── แถบ Banner ด้านล่างสุด ── */}
+      {showBanner && !showModal && (
+        <div 
+          className="animate-fade-in-up"
+          style={{ 
+            position: 'fixed', 
+            bottom: 0, left: 0, right: 0, 
+            background: 'var(--bg-surface)', 
+            backdropFilter: 'blur(10px)', 
+            WebkitBackdropFilter: 'blur(10px)',
+            borderTop: '1px solid var(--border-primary)', 
+            padding: 'var(--space-4)', 
+            zIndex: 9999, 
+            display: 'flex', 
+            flexWrap: 'wrap', 
+            gap: '1rem', 
+            alignItems: 'center', 
+            justifyContent: 'space-between', 
+            boxShadow: 'var(--shadow-lg)' 
           }}
         >
-          {showDetails ? '▲' : '▼'} {showDetails ? 'ซ่อนรายละเอียด' : 'ดูรายละเอียดคุกกี้'}
-        </button>
+          <div style={{ flex: '1 1 300px', fontSize: '0.875rem', color: 'var(--text-secondary)', lineHeight: '1.6' }}>
+            🍪 <strong>เว็บไซต์นี้ใช้คุกกี้</strong> เราใช้คุกกี้เพื่อพัฒนาประสบการณ์การใช้งานของคุณ และเพื่อนำเสนอเนื้อหาโฆษณาที่ตรงกับความสนใจ สามารถอ่านรายละเอียดเพิ่มเติมได้ที่ <Link href="/privacy" style={{ color: 'var(--primary-500)', textDecoration: 'underline' }}>นโยบายความเป็นส่วนตัว</Link>
+          </div>
+          <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+            <button className="btn btn-secondary btn-sm" onClick={() => setShowModal(true)}>
+              ตั้งค่าคุกกี้
+            </button>
+            <button className="btn btn-primary btn-sm" onClick={acceptAll}>
+              ยอมรับทั้งหมด
+            </button>
+          </div>
+        </div>
+      )}
 
-        {showDetails && (
-          <div style={{
-            background: 'var(--c-bg, #f7f6f2)',
-            borderRadius: '0.75rem',
-            padding: '0.875rem 1rem',
-            marginBottom: '0.875rem',
-            fontSize: '0.775rem',
-            color: 'var(--c-text-2, #4a4a42)',
-          }}>
-            <div style={{ marginBottom: '0.625rem' }}>
-              <span style={{ fontWeight: 700 }}>✅ คุกกี้ที่จำเป็น (Strictly Necessary)</span>
-              <p style={{ margin: '0.25rem 0 0', color: 'var(--c-text-3, #7a7a70)' }}>
-                ใช้สำหรับการทำงานพื้นฐานของเว็บ เช่น การบันทึกการตั้งค่า dark mode ไม่สามารถปิดได้
+      {/* ── Modal สำหรับตั้งค่าแบบละเอียด ── */}
+      {showModal && (
+        <div 
+          style={{ 
+            position: 'fixed', inset: 0, 
+            background: 'rgba(0,0,0,0.6)', 
+            backdropFilter: 'blur(4px)',
+            WebkitBackdropFilter: 'blur(4px)',
+            zIndex: 10000, 
+            display: 'flex', 
+            alignItems: 'center', 
+            justifyContent: 'center',
+            padding: 'var(--space-4)'
+          }}
+        >
+          <div className="glass-card animate-scale-in" style={{ width: '100%', maxWidth: '500px', background: 'var(--bg-primary)', padding: 'var(--space-6)' }}>
+            <h3 style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              ⚙️ ตั้งค่าความเป็นส่วนตัว
+            </h3>
+            
+            {/* 1. คุกกี้ที่จำเป็น */}
+            <div style={{ marginBottom: '1rem', paddingBottom: '1rem', borderBottom: '1px solid var(--border-secondary)' }}>
+              <label style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontWeight: '600', color: 'var(--text-primary)' }}>
+                คุกกี้ที่จำเป็น (Strictly Necessary)
+                <input type="checkbox" checked disabled style={{ width: '1.2rem', height: '1.2rem', accentColor: 'var(--primary-500)' }} />
+              </label>
+              <p style={{ fontSize: '0.8125rem', color: 'var(--text-tertiary)', marginTop: '0.5rem', lineHeight: '1.5' }}>
+                จำเป็นต่อการทำงานพื้นฐานของเว็บไซต์ เช่น การเข้าสู่ระบบ ระบบความปลอดภัย (ไม่สามารถปิดได้)
               </p>
             </div>
-            <div style={{ borderTop: '1px solid var(--c-border, rgba(0,0,0,0.07))', paddingTop: '0.625rem', marginBottom: '0.625rem' }}>
-              <span style={{ fontWeight: 700 }}>📊 คุกกี้วิเคราะห์ (Analytics)</span>
-              <p style={{ margin: '0.25rem 0 0', color: 'var(--c-text-3, #7a7a70)' }}>
-                Google Analytics 4 — วิเคราะห์ว่า user ใช้เว็บอย่างไร เก็บ IP แบบ anonymized เท่านั้น
+
+            {/* 2. คุกกี้วิเคราะห์ (GA4) */}
+            <div style={{ marginBottom: '1rem', paddingBottom: '1rem', borderBottom: '1px solid var(--border-secondary)' }}>
+              <label style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontWeight: '600', cursor: 'pointer', color: 'var(--text-primary)' }}>
+                คุกกี้เพื่อการวิเคราะห์ (Analytics)
+                <input 
+                  type="checkbox" 
+                  checked={preferences.analytics} 
+                  onChange={(e) => setPreferences({ ...preferences, analytics: e.target.checked })} 
+                  style={{ width: '1.2rem', height: '1.2rem', cursor: 'pointer', accentColor: 'var(--primary-500)' }}
+                />
+              </label>
+              <p style={{ fontSize: '0.8125rem', color: 'var(--text-tertiary)', marginTop: '0.5rem', lineHeight: '1.5' }}>
+                ช่วยให้เราเข้าใจรูปแบบการใช้งานเว็บไซต์ เพื่อนำไปพัฒนาเนื้อหาและเครื่องมือให้ดียิ่งขึ้น
               </p>
             </div>
-            <div style={{ borderTop: '1px solid var(--c-border, rgba(0,0,0,0.07))', paddingTop: '0.625rem' }}>
-              <span style={{ fontWeight: 700 }}>📢 คุกกี้โฆษณา (Advertising)</span>
-              <p style={{ margin: '0.25rem 0 0', color: 'var(--c-text-3, #7a7a70)' }}>
-                Google AdSense — แสดงโฆษณาที่เกี่ยวข้อง ข้อมูลถูกส่งให้ Google ตาม Privacy Policy ของ Google
+
+            {/* 3. คุกกี้โฆษณา (AdSense) */}
+            <div style={{ marginBottom: '2rem' }}>
+              <label style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontWeight: '600', cursor: 'pointer', color: 'var(--text-primary)' }}>
+                คุกกี้เพื่อการโฆษณา (Advertising)
+                <input 
+                  type="checkbox" 
+                  checked={preferences.ads} 
+                  onChange={(e) => setPreferences({ ...preferences, ads: e.target.checked })} 
+                  style={{ width: '1.2rem', height: '1.2rem', cursor: 'pointer', accentColor: 'var(--primary-500)' }}
+                />
+              </label>
+              <p style={{ fontSize: '0.8125rem', color: 'var(--text-tertiary)', marginTop: '0.5rem', lineHeight: '1.5' }}>
+                ช่วยให้เราสามารถนำเสนอโฆษณาที่ตรงกับความสนใจของคุณได้มากขึ้น
               </p>
+            </div>
+
+            {/* ปุ่ม Actions */}
+            <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'flex-end' }}>
+              <button className="btn btn-secondary" onClick={acceptAll}>
+                ยอมรับทั้งหมด
+              </button>
+              <button className="btn btn-primary" onClick={savePreferences}>
+                บันทึกการตั้งค่า
+              </button>
             </div>
           </div>
-        )}
-
-        {/* Actions */}
-        <div style={{ display: 'flex', gap: '0.625rem', flexWrap: 'wrap' }}>
-          <button
-            onClick={handleAccept}
-            style={{
-              flex: 1, minWidth: 120,
-              padding: '0.7rem 1.25rem',
-              background: 'var(--c-primary, #2d7a5f)',
-              color: 'white', border: 'none',
-              borderRadius: '0.75rem', cursor: 'pointer',
-              fontSize: '0.875rem', fontWeight: 700,
-              fontFamily: 'inherit',
-              boxShadow: '0 2px 8px rgba(45,122,95,0.3)',
-              transition: 'background 0.15s',
-            }}
-            onMouseEnter={e => (e.currentTarget.style.background = '#38966f')}
-            onMouseLeave={e => (e.currentTarget.style.background = 'var(--c-primary, #2d7a5f)')}
-          >
-            ยอมรับทั้งหมด
-          </button>
-
-          <button
-            onClick={handleDecline}
-            style={{
-              flex: 1, minWidth: 120,
-              padding: '0.7rem 1.25rem',
-              background: 'transparent',
-              color: 'var(--c-text-2, #4a4a42)',
-              border: '1.5px solid var(--c-border-strong, rgba(0,0,0,0.13))',
-              borderRadius: '0.75rem', cursor: 'pointer',
-              fontSize: '0.875rem', fontWeight: 600,
-              fontFamily: 'inherit',
-              transition: 'background 0.15s',
-            }}
-            onMouseEnter={e => (e.currentTarget.style.background = 'var(--c-bg, #f7f6f2)')}
-            onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
-          >
-            ยอมรับเฉพาะที่จำเป็น
-          </button>
         </div>
-
-        <p style={{
-          fontSize: '0.7rem', color: 'var(--c-text-3, #7a7a70)',
-          textAlign: 'center', marginTop: '0.75rem',
-        }}>
-          คุณสามารถเปลี่ยนการตั้งค่าได้ตลอดเวลาใน{' '}
-          <a href="/privacy" style={{ color: 'var(--c-primary, #2d7a5f)' }}>Privacy Policy</a>
-        </p>
-      </div>
+      )}
     </>
-  )
+  );
 }
 
-// ── Floating button สำหรับเปิด consent อีกครั้ง ─────────────
+// ==========================================
+// 2. Component: CookieSettingsButton (ปุ่มลอยมุมซ้ายล่าง)
+// ==========================================
 export function CookieSettingsButton() {
-  const [status, setStatus] = useState<ConsentStatus>('pending')
+  const [isMounted, setIsMounted] = useState(false);
+  const [hasConsented, setHasConsented] = useState(false);
 
   useEffect(() => {
-    setStatus(getStoredConsent())
-  }, [])
+    setIsMounted(true);
+    // เช็คว่าเคยตอบรับ Banner ไปหรือยัง
+    const checkConsent = () => {
+      setHasConsented(!!localStorage.getItem('cookieConsent'));
+    };
+    
+    checkConsent(); // เช็คตอนโหลดครั้งแรก
 
-  const handleReset = () => {
-    localStorage.removeItem(CONSENT_KEY)
-    window.location.reload()
-  }
+    // ให้เช็คซ้ำทุกครั้งที่มีการคลิกในเว็บ (เผื่อเพิ่งกดยอมรับไปหมาดๆ)
+    window.addEventListener('click', checkConsent);
+    return () => window.removeEventListener('click', checkConsent);
+  }, []);
 
-  if (status === 'pending') return null
+  // จะแสดงปุ่มนี้ ก็ต่อเมื่อผู้ใช้เคยกด ยอมรับ/บันทึก แบนเนอร์ไปแล้วเท่านั้น
+  if (!isMounted || !hasConsented) return null;
 
   return (
     <button
-      onClick={handleReset}
-      title="จัดการคุกกี้"
-      aria-label="จัดการการตั้งค่าคุกกี้"
+      onClick={() => window.dispatchEvent(new Event('openCookieModal'))}
+      className="glass-card animate-scale-in"
       style={{
-        position: 'fixed', bottom: '1.25rem', left: '1.25rem',
-        zIndex: 100,
-        width: 38, height: 38,
+        position: 'fixed',
+        bottom: '24px',
+        left: '24px',
+        zIndex: 9998,
+        width: '46px',
+        height: '46px',
         borderRadius: '50%',
-        background: 'var(--c-surface, #fff)',
-        border: '1px solid var(--c-border-strong, rgba(0,0,0,0.13))',
-        cursor: 'pointer', fontSize: '1rem',
-        boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        transition: 'transform 0.15s, box-shadow 0.15s',
-        fontFamily: 'inherit',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        cursor: 'pointer',
+        padding: 0,
+        fontSize: '1.25rem',
+        border: '1px solid var(--border-primary)',
+        boxShadow: 'var(--shadow-md)',
+        background: 'var(--bg-surface)',
+        transition: 'all 0.2s ease-in-out',
       }}
-      onMouseEnter={e => {
-        (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1.1)'
-        ;(e.currentTarget as HTMLButtonElement).style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)'
-      }}
-      onMouseLeave={e => {
-        (e.currentTarget as HTMLButtonElement).style.transform = ''
-        ;(e.currentTarget as HTMLButtonElement).style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)'
-      }}
+      aria-label="ตั้งค่าความเป็นส่วนตัว (PDPA)"
+      title="ตั้งค่าคุกกี้"
+      onMouseOver={(e) => (e.currentTarget.style.transform = 'scale(1.1)')}
+      onMouseOut={(e) => (e.currentTarget.style.transform = 'scale(1)')}
     >
       🍪
     </button>
-  )
+  );
 }

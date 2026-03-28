@@ -112,13 +112,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
-          enableSystem
+          defaultTheme="light"    // 1. บังคับค่าเริ่มต้นเป็นสว่าง
+          enableSystem={false}    // 2. ปิดการดึงค่าจากระบบปฏิบัติการมือถือ/คอมของ User
           disableTransitionOnChange
         >
 
           <Header />
-          
+
           {children}
 
           <Footer />
