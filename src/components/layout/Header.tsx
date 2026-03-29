@@ -9,6 +9,7 @@ const NAV_ITEMS = [
   { href: '/', label: 'หน้าแรก' },
   { href: '/calculators', label: 'เครื่องมือ' },
   { href: '/articles', label: 'บทความ' },
+  { href: '/about-us', label: 'เกี่ยวกับเรา / ติดต่อ' },
 ];
 
 export default function Header() {
