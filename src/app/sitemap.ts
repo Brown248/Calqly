@@ -4,12 +4,11 @@ import { MetadataRoute } from 'next'
 // import { articles } from '@/data/articles'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://calqlyhub.com'
+  const baseUrl = 'https://calqly.co'
 
   // 1. กำหนดหน้าเว็บแบบ Static ทั้งหมดที่มีในโปรเจค
   const routes = [
     '', // หน้าแรก (/)
-    '/about-us',
     '/calculators',
     '/calculators/tax',
     '/calculators/loan',

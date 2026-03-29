@@ -28,7 +28,6 @@ export default function Footer() {
             <Link href="/articles/consumer-protection-law-2569">คุ้มครองผู้บริโภค</Link>
             <Link href="/articles/digital-asset-tax-law-2569">ภาษีคริปโต</Link>
           </div>
-
           <div className={styles.linkGroup}>
             <h4>แหล่งอ้างอิง</h4>
             <a href="https://www.rd.go.th" target="_blank" rel="noopener noreferrer">กรมสรรพากร</a>
@@ -45,8 +44,6 @@ export default function Footer() {
         <div className={styles.bottom}>
           <p>© {new Date().getFullYear() + 543} Thai Calqly — All rights reserved</p>
           <div className={styles.legalLinks}>
-            <Link href="/about-us">เกี่ยวกับเรา / ติดต่อทีมงาน</Link>
-            <span className={styles.dot}>•</span>
             <Link href="/terms">ข้อตกลงการใช้งาน</Link>
             <span className={styles.dot}>•</span>
             <Link href="/privacy">นโยบายความเป็นส่วนตัว</Link>

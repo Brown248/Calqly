@@ -159,7 +159,7 @@ function PrivacyTH() {
         <Li><strong>สิทธิ์ในการถอนความยินยอม</strong> — เปลี่ยนการตั้งค่า cookie ได้ตลอดเวลาโดยคลิก 🍪 ที่มุมซ้ายล่าง</Li>
         <Li><strong>สิทธิ์ในการร้องเรียน</strong> — ร้องเรียนต่อสำนักงานคณะกรรมการคุ้มครองข้อมูลส่วนบุคคล (PDPC)</Li>
       </ul>
-      <P>ติดต่อใช้สิทธิ์ได้ที่ <a href="mailto:support@calqlyhub.com" style={{ color: 'var(--c-primary, #2d7a5f)' }}>support@calqlyhub.com</a> เราจะตอบกลับภายใน 30 วัน</P>
+      <P>ติดต่อใช้สิทธิ์ได้ที่ <a href="mailto:privacy@calqly.co" style={{ color: 'var(--c-primary, #2d7a5f)' }}>privacy@calqly.co</a> เราจะตอบกลับภายใน 30 วัน</P>
 
       <H2>6. ระยะเวลาเก็บรักษาข้อมูล</H2>
       <ul>
