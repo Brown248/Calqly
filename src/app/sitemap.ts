@@ -9,6 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // 1. กำหนดหน้าเว็บแบบ Static ทั้งหมดที่มีในโปรเจค
   const routes = [
     '', // หน้าแรก (/)
+    '/about-us',
     '/calculators',
     '/calculators/tax',
     '/calculators/loan',
