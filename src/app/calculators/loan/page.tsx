@@ -179,6 +179,29 @@ export default function LoanPage() {
             </div>
           </div>
         </div>
+
+        {/* Educational Section */}
+        <div style={{ marginTop: '3rem', background: 'var(--c-surface, #fff)', padding: '2rem', borderRadius: '1.25rem', border: '1px solid var(--c-border, rgba(0,0,0,0.07))', color: 'var(--c-text-2, #4a4a42)' }}>
+          <h2 style={{ fontSize: '1.25rem', color: 'var(--c-text, #1a1a18)', marginBottom: '1rem', borderBottom: '2px solid var(--c-primary-pale, #e8f5ef)', paddingBottom: '0.75rem', fontWeight: 800 }}>💡 เกร็ดความรู้เรื่องสินเชื่อบ้าน</h2>
+          
+          <h3 style={{ fontSize: '1.05rem', color: 'var(--c-primary-dark, #1f5942)', marginTop: '1.5rem', marginBottom: '0.5rem', fontWeight: 700 }}>ดอกเบี้ยแบบ &quot;ลดต้นลดดอก&quot; (Effective Rate) คืออะไร?</h3>
+          <p style={{ lineHeight: 1.7, marginBottom: '1.5rem', fontSize: '0.925rem' }}>
+            สินเชื่อบ้านส่วนใหญ่จะคิดดอกเบี้ยแบบ <strong>ลดต้นลดดอก (Effective Rate)</strong> หมายความว่า ดอกเบี้ยในแต่ละเดือนจะถูกคำนวณจาก <b>&quot;เงินต้นคงเหลือจริง ณ ปัจจุบัน&quot;</b> เมื่อเราจ่ายค่างวดไป เงินส่วนหนึ่งจะถูกหักไปจ่ายดอกเบี้ยของเดือนนั้นก่อน ส่วนที่เหลือทั้งหมดจะนำไปหัก &quot;เงินต้น&quot; เมื่อเงินต้นลดลง ดอกเบี้ยในเดือนถัดไปก็จะลดลงตาม ทำให้เราผ่อนค่างวดต่อๆ ไปได้เบาขึ้นในระยะยาว
+          </p>
+
+          <h3 style={{ fontSize: '1.05rem', color: 'var(--c-primary-dark, #1f5942)', marginTop: '1.5rem', marginBottom: '0.5rem', fontWeight: 700 }}>ทำไมการ &quot;โปะบ้าน&quot; หรือผ่อนเพิ่มทุกเดือนถึงช่วยประหยัดดอกเบี้ยรวดเร็ว?</h3>
+          <p style={{ lineHeight: 1.7, marginBottom: '1.5rem', fontSize: '0.925rem' }}>
+            เนื่องจากระบบคิดดอกเบี้ยตามเงินต้นคงเหลือ เงินที่คุณ <strong>&quot;จ่ายเกิน&quot; หรือ &quot;โปะเพิ่ม&quot;</strong> เข้าไปในแต่ละเดือนจะไม่ถูกนำไปคิดดอกเบี้ยซ้ำซ้อนแล้ว (เพราะดอกเบี้ยรอบเดือนนั้นถูกหักจากยอดชำระขั้นต่ำไปแล้ว) เงินชำระส่วนเกินนี้จึงวิ่งตรงไป <b>&quot;หักเงินต้นเต็มๆ 100%&quot;</b> ส่งผลให้ยอดหนี้ก้อนใหญ่ลดลงอย่างรวดเร็ว ทำให้อายุสัญญาการผ่อนสั้นลงหลายปี และประหยัดดอกเบี้ยสะสมได้อย่างมหาศาลดังที่เห็นในผลลัพธ์การคำนวณข้างต้น
+          </p>
+          
+          <h3 style={{ fontSize: '1.05rem', color: 'var(--c-primary-dark, #1f5942)', marginTop: '1.5rem', marginBottom: '0.5rem', fontWeight: 700 }}>การรีไฟแนนซ์บ้าน (Refinance) คืออะไร และควรทำเมื่อไหร่?</h3>
+          <p style={{ lineHeight: 1.7, marginBottom: '0.5rem', fontSize: '0.925rem' }}>
+            <strong>รีไฟแนนซ์ (Refinance)</strong> คือการขอกู้เงินจากธนาคารแห่งใหม่เพื่อนำไปปิดหนี้กับธนาคารเดิมที่ผ่อนอยู่ โดยมีเป้าหมายคือการได้รับอัตราดอกเบี้ยที่ถูกลง (หรือบางกรณีอาจเป็นการเจรจาขอลดดอกเบี้ยกับธนาคารเดิมที่เรียกว่า <strong>รีเทนชัน - Retention</strong>)
+          </p>
+          <ul style={{ paddingLeft: '1.5rem', lineHeight: 1.7, fontSize: '0.925rem' }}>
+            <li><strong>ควรทำเมื่อไหร่?</strong> ปกติแล้วสัญญาสินเชื่อบ้านมักจะให้อัตราดอกเบี้ยต่ำเพียงช่วง 3 ปีแรก หลังจากนั้นจะลอยตัวตามอัตรา MRR ทำให้ดอกเบี้ยแพงขึ้นกระโดด เมื่อครบ 3 ปี (หรือเงื่อนไขห้ามปิดบัญชีก่อนกำหนดสิ้นสุดลง) ก็ถึงเวลาที่คุณควรเริ่มประเมินโปรถูกๆ เพื่อรีไฟแนนซ์ นำพาดอกเบี้ยให้กลับมาต่ำเหมือนใหม่</li>
+          </ul>
+        </div>
       </div>
     </div>
   );

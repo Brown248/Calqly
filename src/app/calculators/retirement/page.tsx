@@ -92,6 +92,27 @@ export default function RetirementPage() {
             </div>
           </div>
         </div>
+
+        {/* Educational Section */}
+        <div style={{ marginTop: '3rem', background: 'var(--c-surface, #fff)', padding: '2rem', borderRadius: '1.25rem', border: '1px solid var(--c-border, rgba(0,0,0,0.07))', color: 'var(--c-text-2, #4a4a42)' }}>
+          <h2 style={{ fontSize: '1.25rem', color: 'var(--c-text, #1a1a18)', marginBottom: '1rem', borderBottom: '2px solid var(--c-primary-pale, #e8f5ef)', paddingBottom: '0.75rem', fontWeight: 800 }}>💡 เกร็ดความรู้ก่อนเกษียณ</h2>
+          
+          <h3 style={{ fontSize: '1.05rem', color: 'var(--c-primary-dark, #1f5942)', marginTop: '1.5rem', marginBottom: '0.5rem', fontWeight: 700 }}>ทำไมต้องรีบวางแผนเกษียณตั้งแต่อายุยังน้อย?</h3>
+          <p style={{ lineHeight: 1.7, marginBottom: '1.5rem', fontSize: '0.925rem' }}>
+            ยิ่งคุณเริ่มต้นเร็วเท่าไหร่ คุณก็จะได้รับประโยชน์จากพลังของ <strong>&quot;ดอกเบี้ยทบต้น&quot; (Compound Interest)</strong> มากเท่านั้น 
+            การลงทุนเดือนละ 3,000 บาท ตั้งแต่อายุ 25 จะสร้างเงินก้อนโตมหาศาลได้ง่ายกว่าผลกระทบจากการลงทุนเดือนละ 10,000 บาทที่เริ่มต้นตอนอายุ 45 อย่างมาก 
+            การมีเวลาเหลือมากทำให้เราไม่ต้องฝืนเก็บเงินหนักๆ ในช่วงท้ายของวัยทำงาน 
+          </p>
+
+          <h3 style={{ fontSize: '1.05rem', color: 'var(--c-primary-dark, #1f5942)', marginTop: '1.5rem', marginBottom: '0.5rem', fontWeight: 700 }}>กฎ 4% (4% Rule) สำหรับการถอนเงินเกษียณคืออะไร?</h3>
+          <p style={{ lineHeight: 1.7, marginBottom: '0.5rem', fontSize: '0.925rem' }}>
+            <strong>กฎ 4%</strong> เป็นหลักการประมาณการอย่างง่ายว่า &quot;คุณควรมีเงินเก็บเท่าไหร่จึงจะพอใช้ชีวิตหลังเกษียณ&quot; โดยกฎนี้เชื่อว่าถ้าคุณนำเงินเก็บไปลงทุนในสินทรัพย์ที่มีความเสี่ยงต่ำ-ปานกลางให้ได้ผลตอบแทนชนะเงินเฟ้อ คุณจะสามารถถอนเงินออกมาใช้ได้ <b>4% ของพอร์ตในปีแรก</b> (และปรับเพิ่มตามเงินเฟ้อในปีต่อๆ ไป) โดยที่เงินต้นจะแทบไม่มีวันหมดไปตลอดระยะเวลา 30 ปี
+          </p>
+          <ul style={{ paddingLeft: '1.5rem', lineHeight: 1.7, fontSize: '0.925rem' }}>
+            <li><strong>วิธีคำนวณเงินก้อนแบบคร่าวๆ:</strong> นำค่าใช้จ่ายต่อปีของคุณ x 25 <br/> เช่น ถ้าอยากใช้เงินปีละ 360,000 บาท (เดือนละ 30,000) คุณควรจะมีพอร์ตเกษียณ = 360,000 * 25 = <b>9,000,000 บาท</b></li>
+            <li style={{ color: 'var(--c-text-3, #7a7a70)' }}><i>หมายเหตุ: กฎ 4% เป็นหลักการอ้างอิงเบื้องต้น ในความเป็นจริงอายุขัยและสภาวะเงินเฟ้อของแต่ละประเทศมีความแตกต่างกัน ควรปรับแผนลงทุนให้เหมาะสมในแต่ละปี</i></li>
+          </ul>
+        </div>
       </div>
     </div>
   );

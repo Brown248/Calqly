@@ -80,6 +80,34 @@ export default function ROIPage() {
             </div>
           </div>
         </div>
+
+        {/* Educational Section */}
+        <div style={{ marginTop: '3rem', background: 'var(--c-surface, #fff)', padding: '2rem', borderRadius: '1.25rem', border: '1px solid var(--c-border, rgba(0,0,0,0.07))', color: 'var(--c-text-2, #4a4a42)' }}>
+          <h2 style={{ fontSize: '1.25rem', color: 'var(--c-text, #1a1a18)', marginBottom: '1rem', borderBottom: '2px solid var(--c-primary-pale, #e8f5ef)', paddingBottom: '0.75rem', fontWeight: 800 }}>💡 เกร็ดความรู้เรื่องการลงทุน (ROI &amp; DCA)</h2>
+          
+          <h3 style={{ fontSize: '1.05rem', color: 'var(--c-primary-dark, #1f5942)', marginTop: '1.5rem', marginBottom: '0.5rem', fontWeight: 700 }}>ROI (Return on Investment) คืออะไร?</h3>
+          <p style={{ lineHeight: 1.7, marginBottom: '1.5rem', fontSize: '0.925rem' }}>
+            <strong>ROI</strong> คือ &quot;อัตราส่วนผลตอบแทนจากการลงทุน&quot; เป็นตัวชี้วัดที่บอกว่าเราได้กำไรหรือขาดทุนเป็นสัดส่วนกี่เปอร์เซ็นต์เมื่อเทียบกับ &quot;เงินต้นที่ลงทุนไป&quot; 
+            ยิ่ง ROI สูงก็แปลว่าพอร์ตของเราเติบโตได้ดี คุ้มค่าแก่การลงทุนนั้นๆ อย่างไรก็ตามเครื่องคิดเลขนี้ไม่เพียงแต่ให้ค่า ROI รวม แต่ยังคำนวณอัตราการเติบโตเฉลี่ยแบบทบต้นต่อปี (CAGR) ที่สะท้อนผลลัพธ์รายปีได้แม่นยำกว่าด้วย 
+          </p>
+
+          <h3 style={{ fontSize: '1.05rem', color: 'var(--c-primary-dark, #1f5942)', marginTop: '1.5rem', marginBottom: '0.5rem', fontWeight: 700 }}>ความมหัศจรรย์ของดอกเบี้ยทบต้น (Compound Interest)</h3>
+          <p style={{ lineHeight: 1.7, marginBottom: '1.5rem', fontSize: '0.925rem' }}>
+            อัลเบิร์ต ไอน์สไตน์ เคยกล่าวไว้ว่า <i>&quot;ดอกเบี้ยทบต้นคือสิ่งมหัศจรรย์อันดับที่ 8 ของโลก&quot;</i> มันคือการที่เรานำ &quot;กำไร&quot; หรือ &quot;ผลตอบแทน&quot; ที่ได้ในแต่ละรอบปี 
+            ไปผนวกกลับเป็นการลงทุนต่อตั้งต้นสำหรับรอบถัดไปซ้ำๆ เมื่อกาลเวลาผ่านไป ฐานเงินทุนที่มีขนาดใหญ่ขึ้นก็จะผลิตกำไรออกมาในอัตราที่ก้าวกระโดดทวีคูณ ไม่ได้เพิ่มเป็นเพียงกราฟเส้นตรง 
+            เพราะดอกเบี้ยที่เกิดขึ้นใหม่สามารถงอกเงยนำไปสร้างดอกเบี้ยเพิ่มเติมซ้อนกันได้ต่อไปอย่างมหาศาล!
+          </p>
+
+          <h3 style={{ fontSize: '1.05rem', color: 'var(--c-primary-dark, #1f5942)', marginTop: '1.5rem', marginBottom: '0.5rem', fontWeight: 700 }}>DCA (Dollar-Cost Averaging) ดีกว่าการลงทุนแบบก้อนเดียวยังไง?</h3>
+          <p style={{ lineHeight: 1.7, marginBottom: '0.5rem', fontSize: '0.925rem' }}>
+            <strong>DCA</strong> คือการทยอยลงทุนด้วยเงินจำนวนเท่าๆ กันอย่างสม่ำเสมอเป็นประจำ (เช่น ทุกๆ เดือน) โดยไม่ต้องสนใจว่าตลาดช่วงนั้นราคาหุ้นจะขึ้นหรือลง:
+          </p>
+          <ul style={{ paddingLeft: '1.5rem', lineHeight: 1.7, fontSize: '0.925rem' }}>
+            <li style={{ marginBottom: '0.5rem' }}><strong>ไม่ต้องคอยกะจังหวะ (Timing the Market):</strong> เราไม่ต้องมากังวลว่าตอนนี้ของแพงไปไหม อาจะเข้าซื้อทันทีหรือรอดี เพราะการพยายามจับจังหวะมักผิดพลาดเสมอ</li>
+            <li style={{ marginBottom: '0.5rem' }}><strong>เฉลี่ยต้นทุนให้ถูกลง:</strong> ตอนที่ราคาหุ้นตกหนัก เราจะได้ปริมาณสินทรัพย์ (หน่วยลงทุน) เพิ่มขึ้นโดยอัตโนมัติจากเงินก้อนเดิม ทำให้ต้นทุนระยะยาวเฉลี่ยของเราต่ำลง ช่วยลดความเสี่ยงจากวิกฤตความผันผวน</li>
+            <li style={{ marginBottom: '0.5rem' }}><strong>สร้างวินัยการออม:</strong> ทำได้ง่าย เป็นระบบ และช่วยให้เงินออมกลายเป็นการสร้างความมั่งคั่งระยะยาวได้ทันทีแม้ไม่ได้มีเงินก้อนใหญ่</li>
+          </ul>
+        </div>
       </div>
     </div>
   );

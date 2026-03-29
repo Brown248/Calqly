@@ -252,6 +252,35 @@ export default function TaxCalculatorPage() {
             </div>
           </div>
         </div>
+
+        {/* Educational Section */}
+        <div style={{ marginTop: '3rem', background: 'var(--c-surface, #fff)', padding: '2rem', borderRadius: '1.25rem', border: '1px solid var(--c-border, rgba(0,0,0,0.07))', color: 'var(--c-text-2, #4a4a42)' }}>
+          <h2 style={{ fontSize: '1.25rem', color: 'var(--c-text, #1a1a18)', marginBottom: '1rem', borderBottom: '2px solid var(--c-primary-pale, #e8f5ef)', paddingBottom: '0.75rem', fontWeight: 800 }}>💡 เกร็ดความรู้เรื่องภาษี</h2>
+          
+          <h3 style={{ fontSize: '1.05rem', color: 'var(--c-primary-dark, #1f5942)', marginTop: '1.5rem', marginBottom: '0.5rem', fontWeight: 700 }}>วิธีคำนวณภาษีแบบขั้นบันไดคิดยังไง?</h3>
+          <p style={{ lineHeight: 1.7, marginBottom: '1rem', fontSize: '0.925rem' }}>
+            การคำนวณภาษีแบบ &quot;ขั้นบันได&quot; คือการนำ <b>เงินได้สุทธิ</b> (รายได้ทั้งปี หักค่าใช้จ่ายและค่าลดหย่อนแล้ว) มาแบ่งคำนวณตามฐานภาษีแต่ละขั้น 
+            โดยไม่ได้นำเงินได้ทั้งหมดไปคูณกับอัตราภาษีสูงสุดทีเดียว ตัวอย่างเช่น หากคุณมีเงินได้สุทธิ 500,000 บาท:
+          </p>
+          <ul style={{ paddingLeft: '1.5rem', lineHeight: 1.7, marginBottom: '1.5rem', fontSize: '0.925rem' }}>
+            <li>0 - 150,000 บาทแรก: <b>ยกเว้นภาษี</b> (เสีย 0 บาท)</li>
+            <li>150,001 - 300,000 บาทส่วนถัดมา (150,000 บาท): เสียภาษีอัตรา 5% = 7,500 บาท</li>
+            <li>300,001 - 500,000 บาทส่วนที่เหลือ (200,000 บาท): เสียภาษีอัตรา 10% = 20,000 บาท</li>
+            <li><strong>รวมภาษีที่ต้องเสีย: 0 + 7,500 + 20,000 = 27,500 บาท</strong></li>
+          </ul>
+
+          <h3 style={{ fontSize: '1.05rem', color: 'var(--c-primary-dark, #1f5942)', marginTop: '1.5rem', marginBottom: '0.5rem', fontWeight: 700 }}>รวมรายการลดหย่อนภาษีปี 2569 ที่สำคัญมีอะไรบ้าง?</h3>
+          <p style={{ lineHeight: 1.7, marginBottom: '1rem', fontSize: '0.925rem' }}>
+            เพื่อให้การวางแผนภาษีมีประสิทธิภาพมากขึ้น นี่คือรายการลดหย่อนที่คุณสามารถใช้สิทธิ์ได้ (เงื่อนไขเบื้องต้น):
+          </p>
+          <ul style={{ paddingLeft: '1.5rem', lineHeight: 1.7, fontSize: '0.925rem' }}>
+            <li style={{ marginBottom: '0.5rem' }}><strong>กลุ่มส่วนตัวและครอบครัว:</strong> ลดหย่อนส่วนตัว 60,000 บาท, คู่สมรสไม่มีรายได้ 60,000 บาท, บุตรคนละ 30,000 บาท (คนที่เกิดตั้งแต่ปี 2561 ได้ 60,000 บาท), บิดามารดา (อายุ 60 ปีขึ้นไป) คนละ 30,000 บาท</li>
+            <li style={{ marginBottom: '0.5rem' }}><strong>กลุ่มประกันสุขภาพและชีวิต:</strong> ประกันชีวิตสูงสุด 100,000 บาท, ประกันสุขภาพสูงสุด 25,000 บาท (เมื่อรวมกับประกันชีวิตต้องไม่เกิน 1 แสนบาท)</li>
+            <li style={{ marginBottom: '0.5rem' }}><strong>กลุ่มการลงทุน:</strong> กองทุนสำรองเลี้ยงชีพ (PVD), กองทุนรวมเพื่อการออม (SSF), กองทุน RMF, และ Thai ESG ซึ่งแต่ละตัวมีเพดานสูงสุดในการลดหย่อนแยกกัน (ควรศึกษาเงื่อนไขของแต่ละกองทุน)</li>
+            <li style={{ marginBottom: '0.5rem' }}><strong>กลุ่มเงินบริจาค:</strong> บริจาคทั่วไปลดหย่อนตามจริงแบบไม่เกิน 10% ของเงินได้สุทธิ, บริจาคการศึกษาและโรงพยาบาลรัฐหักลดหย่อนได้ 2 เท่า</li>
+            <li style={{ marginBottom: '0.5rem' }}><strong>กลุ่มอสังหาริมทรัพย์:</strong> ดอกเบี้ยกู้ยืมเพื่อซื้อที่อยู่อาศัยสูงสุด 100,000 บาท</li>
+          </ul>
+        </div>
       </div>
     </div>
   );
