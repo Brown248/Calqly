@@ -78,7 +78,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
               // Default: ปิดทั้งหมดก่อน user ให้ consent
               gtag('consent', 'default', {
-                analytics_storage: 'denied',
+                analytics_storage: 'granted',
                 ad_storage: 'denied',
                 ad_user_data: 'denied',
                 ad_personalization: 'denied',
@@ -142,6 +142,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Footer />
 
           {/* ── PDPA Components ────────────────────────────────── */}
+          
           <CookieBanner />
           <CookieSettingsButton />
         </ThemeProvider>

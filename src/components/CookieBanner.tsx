@@ -55,15 +55,15 @@ export function CookieBanner() {
 
   // อัปเดต Google Tag Manager Consent Mode
   const updateGtag = (analyticsStatus: string, adsStatus: string) => {
-    if (typeof window !== 'undefined' && (window as any).gtag) {
-      (window as any).gtag('consent', 'update', {
-        analytics_storage: analyticsStatus,
-        ad_storage: adsStatus,
-        ad_user_data: adsStatus,
-        ad_personalization: adsStatus,
-      });
-    }
-  };
+  if (typeof window !== 'undefined' && (window as any).gtag) {
+    (window as any).gtag('consent', 'update', {
+      analytics_storage: analyticsStatus,
+      ad_storage: adsStatus,
+      ad_user_data: adsStatus,
+      ad_personalization: adsStatus,
+    });
+  }
+};
 
   // ป้องกัน Hydration Error
   if (!isMounted) return null;
