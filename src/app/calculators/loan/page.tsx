@@ -1,7 +1,7 @@
 'use client';
 import { useState, useMemo } from 'react';
 import { calculateLoan, LOAN_TYPES, REFERENCE_RATES } from '@/utils/loanCalculations';
-import { formatCurrency, formatNumber } from '@/utils/formatters';
+import { formatCurrency } from '@/utils/formatters';
 import styles from './page.module.css';
 
 export default function LoanPage() {
@@ -15,7 +15,6 @@ export default function LoanPage() {
   const [usePromo, setUsePromo] = useState(true);
   const [showAmort, setShowAmort] = useState(false);
 
-  const selectedType = LOAN_TYPES.find(t => t.id === loanType)!;
 
   const result = useMemo(() => calculateLoan({
     principal, annualRate: rate, termYears, extraPayment,

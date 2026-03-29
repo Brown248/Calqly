@@ -90,17 +90,18 @@ export default function TermsPage() {
   )
 }
 
+const H2 = ({ children }: { children: React.ReactNode }) => (
+  <h2 style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--c-text, #1a1a18)', marginTop: '2rem', marginBottom: '0.625rem', paddingBottom: '0.5rem', borderBottom: '2px solid var(--c-primary-pale, #e8f5ef)' }}>{children}</h2>
+)
+const P = ({ children }: { children: React.ReactNode }) => <p style={{ marginBottom: '0.875rem' }}>{children}</p>
+const Li = ({ children }: { children: React.ReactNode }) => <li style={{ marginBottom: '0.4rem' }}>{children}</li>
+
 function TermsTH() {
-  const H2 = ({ children }: { children: React.ReactNode }) => (
-    <h2 style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--c-text, #1a1a18)', marginTop: '2rem', marginBottom: '0.625rem', paddingBottom: '0.5rem', borderBottom: '2px solid var(--c-primary-pale, #e8f5ef)' }}>{children}</h2>
-  )
-  const P = ({ children }: { children: React.ReactNode }) => <p style={{ marginBottom: '0.875rem' }}>{children}</p>
-  const Li = ({ children }: { children: React.ReactNode }) => <li style={{ marginBottom: '0.4rem' }}>{children}</li>
 
   return (
     <>
       <H2>1. การยอมรับข้อกำหนด</H2>
-      <P>การใช้งานเว็บไซต์ Calqly.co ("เว็บไซต์") หมายความว่าคุณยอมรับข้อกำหนดเหล่านี้ครบถ้วน หากคุณไม่ยอมรับ กรุณาหยุดใช้งานเว็บไซต์</P>
+      <P>การใช้งานเว็บไซต์ Calqly.co (&quot;เว็บไซต์&quot;) หมายความว่าคุณยอมรับข้อกำหนดเหล่านี้ครบถ้วน หากคุณไม่ยอมรับ กรุณาหยุดใช้งานเว็บไซต์</P>
 
       <H2>2. ขอบเขตของบริการ</H2>
       <P>Calqly.co ให้บริการ:</P>
@@ -143,11 +144,6 @@ function TermsTH() {
 }
 
 function TermsEN() {
-  const H2 = ({ children }: { children: React.ReactNode }) => (
-    <h2 style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--c-text, #1a1a18)', marginTop: '2rem', marginBottom: '0.625rem', paddingBottom: '0.5rem', borderBottom: '2px solid var(--c-primary-pale, #e8f5ef)' }}>{children}</h2>
-  )
-  const P = ({ children }: { children: React.ReactNode }) => <p style={{ marginBottom: '0.875rem' }}>{children}</p>
-  const Li = ({ children }: { children: React.ReactNode }) => <li style={{ marginBottom: '0.4rem' }}>{children}</li>
 
   return (
     <>

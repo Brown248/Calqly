@@ -1,7 +1,7 @@
 'use client';
 import { useState, useMemo } from 'react';
 import { calculateRetirement, defaultRetirementInput } from '@/utils/retirementCalc';
-import { formatCurrency, formatNumber } from '@/utils/formatters';
+import { formatCurrency } from '@/utils/formatters';
 import styles from './page.module.css';
 
 export default function RetirementPage() {

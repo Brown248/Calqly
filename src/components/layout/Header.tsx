@@ -23,7 +23,10 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  useEffect(() => { setIsMobileOpen(false); }, [pathname]);
+  useEffect(() => { 
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setIsMobileOpen(false); 
+  }, [pathname]);
 
   return (
     <header className={`${styles.header} ${isScrolled ? styles.scrolled : ''}`}>

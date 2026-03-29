@@ -15,6 +15,7 @@ export function CookieBanner() {
   const [preferences, setPreferences] = useState({ analytics: true, ads: true });
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsMounted(true);
     
     // โหลดค่าเดิมที่เคยตั้งไว้
@@ -55,7 +56,9 @@ export function CookieBanner() {
 
   // อัปเดต Google Tag Manager Consent Mode
   const updateGtag = (analyticsStatus: string, adsStatus: string) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   if (typeof window !== 'undefined' && (window as any).gtag) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (window as any).gtag('consent', 'update', {
       analytics_storage: analyticsStatus,
       ad_storage: adsStatus,
@@ -192,6 +195,7 @@ export function CookieSettingsButton() {
   const [hasConsented, setHasConsented] = useState(false);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsMounted(true);
     // เช็คว่าเคยตอบรับ Banner ไปหรือยัง
     const checkConsent = () => {

@@ -59,10 +59,8 @@ export function calculateROI(input: ROIInput): ROIResult {
   // Bank comparison at 1.5%
   const bankMr = 0.015 / 12;
   let bankBalance = initialInvestment;
-  let bankTotalInvested = initialInvestment;
   for (let m = 0; m < tm; m++) {
     bankBalance = bankBalance * (1 + bankMr) + monthlyInvestment;
-    bankTotalInvested += monthlyInvestment;
   }
 
   return { totalInvested, finalValue: balance, totalReturns, totalReturnPercent,

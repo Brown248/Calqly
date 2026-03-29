@@ -101,19 +101,20 @@ export default function PrivacyPage() {
   )
 }
 
+const H2 = ({ children }: { children: React.ReactNode }) => (
+  <h2 style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--c-text, #1a1a18)', marginTop: '2rem', marginBottom: '0.625rem', paddingBottom: '0.5rem', borderBottom: '2px solid var(--c-primary-pale, #e8f5ef)' }}>
+    {children}
+  </h2>
+)
+const P = ({ children }: { children: React.ReactNode }) => (
+  <p style={{ marginBottom: '0.875rem' }}>{children}</p>
+)
+const Li = ({ children }: { children: React.ReactNode }) => (
+  <li style={{ marginBottom: '0.4rem' }}>{children}</li>
+)
+
 // ── Thai Content ────────────────────────────────────────────
 function PrivacyTH() {
-  const H2 = ({ children }: { children: React.ReactNode }) => (
-    <h2 style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--c-text, #1a1a18)', marginTop: '2rem', marginBottom: '0.625rem', paddingBottom: '0.5rem', borderBottom: '2px solid var(--c-primary-pale, #e8f5ef)' }}>
-      {children}
-    </h2>
-  )
-  const P = ({ children }: { children: React.ReactNode }) => (
-    <p style={{ marginBottom: '0.875rem' }}>{children}</p>
-  )
-  const Li = ({ children }: { children: React.ReactNode }) => (
-    <li style={{ marginBottom: '0.4rem' }}>{children}</li>
-  )
 
   return (
     <>
@@ -200,24 +201,13 @@ function PrivacyTH() {
       <P>เว็บไซต์อาจมีลิงก์ไปยังเว็บไซต์ภายนอก เราไม่รับผิดชอบต่อนโยบายความเป็นส่วนตัวของเว็บไซต์เหล่านั้น</P>
 
       <H2>10. การเปลี่ยนแปลงนโยบาย</H2>
-      <P>เราอาจอัปเดตนโยบายนี้เป็นครั้งคราว การเปลี่ยนแปลงสำคัญจะแจ้งผ่านแบนเนอร์บนเว็บไซต์ วันที่ "อัปเดตล่าสุด" ที่ด้านบนจะแสดงเวอร์ชันปัจจุบันเสมอ</P>
+      <P>เราอาจอัปเดตนโยบายนี้เป็นครั้งคราว การเปลี่ยนแปลงสำคัญจะแจ้งผ่านแบนเนอร์บนเว็บไซต์ วันที่ &quot;อัปเดตล่าสุด&quot; ที่ด้านบนจะแสดงเวอร์ชันปัจจุบันเสมอ</P>
     </>
   )
 }
 
 // ── English Content ─────────────────────────────────────────
 function PrivacyEN() {
-  const H2 = ({ children }: { children: React.ReactNode }) => (
-    <h2 style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--c-text, #1a1a18)', marginTop: '2rem', marginBottom: '0.625rem', paddingBottom: '0.5rem', borderBottom: '2px solid var(--c-primary-pale, #e8f5ef)' }}>
-      {children}
-    </h2>
-  )
-  const P = ({ children }: { children: React.ReactNode }) => (
-    <p style={{ marginBottom: '0.875rem' }}>{children}</p>
-  )
-  const Li = ({ children }: { children: React.ReactNode }) => (
-    <li style={{ marginBottom: '0.4rem' }}>{children}</li>
-  )
 
   return (
     <>
