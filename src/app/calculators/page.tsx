@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import styles from './page.module.css';
 
 export const metadata: Metadata = {
-  title: 'เครื่องมือคำนวณการเงิน — Thai FinanceHub',
+  title: 'เครื่องมือคำนวณการเงิน — CalqlyHub',
   description: 'รวมเครื่องมือคำนวณการเงินส่วนบุคคล คำนวณภาษี สินเชื่อ วางแผนเกษียณ ROI เปรียบเทียบบัตรเครดิต',
 };
 

@@ -4,6 +4,14 @@ import { CREDIT_CARDS, CARD_TYPES } from '@/data/creditCards';
 import { formatNumber } from '@/utils/formatters';
 import styles from './page.module.css';
 
+export const metadata = {
+  title: 'เปรียบเทียบบัตรเครดิต 2569 — หาบัตรที่ใช่ พร้อมสิทธิประโยชน์',
+  description: 'เปรียบเทียบบัตรเครดิตจากธนาคารชั้นนำของไทย ดูค่าธรรมเนียม รายได้ขั้นต่ำ และสิทธิประโยชน์ Cashback ให้เหมาะกับไลฟ์สไตล์คุณ',
+  alternates: {
+    canonical: '/calculators/credit-cards',
+  },
+};
+
 export default function CreditCardsPage() {
   const [filter, setFilter] = useState('all');
   const [compare, setCompare] = useState<string[]>([]);

@@ -4,6 +4,14 @@ import { calculateLoan, LOAN_TYPES, REFERENCE_RATES } from '@/utils/loanCalculat
 import { formatCurrency } from '@/utils/formatters';
 import styles from './page.module.css';
 
+export const metadata = {
+  title: 'คำนวณสินเชื่อบ้าน สินเชื่อรถ หนี้บัตรเครดิต',
+  description: 'คำนวณค่างวดสินเชื่อ ดอกเบี้ย และตารางการผ่อนชำระต่อเดือนสำหรับสินเชื่อบ้าน รถ และหนี้บัตร ช่วยคุณวางแผนล้างหนี้ด้วย CalqlyHub',
+  alternates: {
+    canonical: '/calculators/loan',
+  },
+};
+
 export default function LoanPage() {
   const [loanType, setLoanType] = useState('home');
   const [principal, setPrincipal] = useState(3000000);
@@ -30,8 +38,19 @@ export default function LoanPage() {
     setUsePromo(id === 'home');
   };
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: 'เครื่องคิดเลขคำนวณค่างวดสินเชื่อ',
+    applicationCategory: 'FinanceApplication',
+    description: 'คำนวณค่างวดสินเชื่อ ดอกเบี้ย และตารางการผ่อนชำระต่อเดือนสำหรับสินเชื่อบ้าน รถ',
+    operatingSystem: 'All',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'THB' }
+  };
+
   return (
     <div className={styles.page}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <div className={styles.container}>
         <div className={styles.header}>
           <h1>🏠 คำนวณ<span className={styles.accent}>สินเชื่อ / ผ่อนชำระ</span></h1>

@@ -4,14 +4,33 @@ import { calculateROI, defaultROIInput } from '@/utils/roiCalculations';
 import { formatCurrency, formatPercent } from '@/utils/formatters';
 import styles from './page.module.css';
 
+export const metadata = {
+  title: 'คำนวณผลตอบแทนการลงทุน (ROI & DCA)',
+  description: 'เครื่องคิดเลขคำนวณผลตอบแทนการลงทุนแบบก้อนเดียวและรายเดือน (DCA) เปรียบเทียบกับดอกเบี้ยเงินฝากธนาคาร ใช้งานฟรี 100% ที่ CalqlyHub',
+  alternates: {
+    canonical: '/calculators/roi',
+  },
+};
+
 export default function ROIPage() {
   const [input, setInput] = useState(defaultROIInput);
   const update = (k: string, v: number) => setInput(p => ({ ...p, [k]: v }));
   const result = useMemo(() => calculateROI(input), [input]);
   const maxVal = Math.max(...result.yearlyData.map(d => d.portfolioValue), 1);
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: 'เครื่องคิดเลขคำนวณผลตอบแทนการลงทุน ROI',
+    applicationCategory: 'FinanceApplication',
+    description: 'คำนวณผลตอบแทนการลงทุนแบบก้อนเดียวและ DCA พร้อมเปรียบเทียบดอกเบี้ยเงินฝากธนาคาร',
+    operatingSystem: 'All',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'THB' }
+  };
+
   return (
     <div className={styles.page}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <div className={styles.container}>
         <div className={styles.header}>
           <h1>📈 คำนวณ<span className={styles.accent}>ROI การลงทุน</span></h1>

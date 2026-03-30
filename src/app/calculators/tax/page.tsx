@@ -4,6 +4,14 @@ import { calculateTax, defaultTaxInput, TaxInput } from '@/utils/taxCalculations
 import { formatCurrency, formatPercent } from '@/utils/formatters';
 import styles from './page.module.css';
 
+export const metadata = {
+  title: 'คำนวณภาษีเงินได้บุคคลธรรมดา 2568/2569',
+  description: 'เครื่องคิดเลขคำนวณภาษีเงินได้บุคคลธรรมดา อัปเดตล่าสุดปี 2568/2569 คำนวณแบบขั้นบันได ลดหย่อนภาษี ใช้งานฟรีบน CalqlyHub',
+  alternates: {
+    canonical: '/calculators/tax',
+  },
+};
+
 const STEPS = ['รายได้', 'สถานะ', 'ลดหย่อน', 'ผลลัพธ์'];
 
 export default function TaxCalculatorPage() {
@@ -16,8 +24,19 @@ export default function TaxCalculatorPage() {
 
   const result = useMemo(() => calculateTax(input), [input]);
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: 'เครื่องคิดเลขคำนวณภาษีเงินได้ 2568/2569',
+    applicationCategory: 'FinanceApplication',
+    description: 'คำนวณภาษีเงินได้บุคคลธรรมดา อัปเดตล่าสุดปี 2568/2569 พร้อมยอดลดหย่อน',
+    operatingSystem: 'All',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'THB' }
+  };
+
   return (
     <div className={styles.page}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <div className={styles.container}>
         <div className={styles.header}>
           <h1>📋 คำนวณ<span className={styles.accent}>ภาษีเงินได้</span>บุคคลธรรมดา</h1>

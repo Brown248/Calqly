@@ -4,6 +4,14 @@ import { calculateRetirement, defaultRetirementInput } from '@/utils/retirementC
 import { formatCurrency } from '@/utils/formatters';
 import styles from './page.module.css';
 
+export const metadata = {
+  title: 'วางแผนเกษียณ 4% Rule คำนวณเงินเฟ้อ',
+  description: 'คำนวณเงินออมยามเกษียณ วิเคราะห์ Gap Analysis ตามกฎ 4% Rule และอัตราเงินเฟ้อ เพื่อเป้าหมายอิสรภาพทางการเงินบน CalqlyHub',
+  alternates: {
+    canonical: '/calculators/retirement',
+  },
+};
+
 export default function RetirementPage() {
   const [input, setInput] = useState(defaultRetirementInput);
   const update = (k: string, v: number) => setInput(p => ({ ...p, [k]: v }));
@@ -11,8 +19,19 @@ export default function RetirementPage() {
 
   const maxSavings = Math.max(...result.yearlyProjection.map(y => y.savings));
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: 'เครื่องคิดเลขวางแผนเกษียณอายุ',
+    applicationCategory: 'FinanceApplication',
+    description: 'คำนวณเงินออมสำหรับเกษียณ วิเคราะห์ส่วนต่าง และผลตอบแทนที่ครอบคลุมเงินเฟ้อ',
+    operatingSystem: 'All',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'THB' }
+  };
+
   return (
     <div className={styles.page}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <div className={styles.container}>
         <div className={styles.header}>
           <h1>🏖️ วางแผน<span className={styles.accent}>เกษียณ</span></h1>

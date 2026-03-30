@@ -7,7 +7,7 @@
 // 3. CookieBanner + CookieSettingsButton
 // ============================================================
 
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { ThemeProvider } from 'next-themes'
 import Script from 'next/script'
 import Header from '@/components/layout/Header'
@@ -19,8 +19,21 @@ import './globals.css'
 const GA_ID = process.env.NEXT_PUBLIC_GA_ID ?? ''
 const ADSENSE_CLIENT = process.env.NEXT_PUBLIC_ADSENSE_CLIENT ?? ''
 
+export const viewport: Viewport = {
+  themeColor: '#2d7a5f',
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+}
+
 export const metadata: Metadata = {
-  metadataBase: new URL('https://calqlyhub.com'),
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL
+      ? process.env.NEXT_PUBLIC_SITE_URL
+      : process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : 'http://localhost:3000'
+  ),
   title: {
     default: 'CalqlyHub — คำนวณการเงิน เข้าใจง่าย',
     template: '%s | CalqlyHub.com',
@@ -50,6 +63,12 @@ export const metadata: Metadata = {
         alt: 'Calqly - เครื่องมือคำนวณการเงิน เข้าใจง่าย',
       },
     ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'CalqlyHub — คำนวณการเงิน เข้าใจง่าย',
+    description: 'เครื่องคิดเลขการเงินและบทความให้ความรู้ทางการเงิน ภาษาไทยและอังกฤษ ข้อมูลล่าสุดปี 2568/2569 ใช้ฟรี',
+    images: ['/opengraph-image.png'],
   },
   robots: {
     index: true,
