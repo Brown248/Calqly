@@ -34,7 +34,7 @@ export default function Header() {
       <div className={styles.container}>
         <Link href="/" className={styles.logo}>
           <span className={styles.logoIcon}>💰</span>
-          <span className={styles.logoText}>Calqly<span className={styles.logoAccent}>Hub</span></span>
+          <span className={styles.logoText}>Thai Calqly<span className={styles.logoAccent}>Hub</span></span>
         </Link>
 
         <nav className={`${styles.nav} ${isMobileOpen ? styles.navOpen : ''}`}>

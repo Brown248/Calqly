@@ -9,14 +9,6 @@
 import { useState } from 'react'
 import Link from 'next/link'
 
-export const metadata = {
-  title: 'ข้อกำหนดการใช้งาน (Terms of Service)',
-  description: 'ข้อกำหนดการใช้งาน คำจำกัดความรับผิดชอบ และนโยบายของเว็บไซต์ครอบคลุมถึงผลการคำนวณและข้อมูล',
-  alternates: {
-    canonical: '/terms',
-  },
-};
-
 export default function TermsPage() {
   const [lang, setLang] = useState<'th' | 'en'>('th')
 

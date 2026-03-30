@@ -4,7 +4,7 @@ import { ARTICLES } from '@/data/articles';
 import styles from './page.module.css';
 
 export const metadata: Metadata = {
-  title: 'บทความการเงิน — CalqlyHub',
+  title: 'บทความการเงิน — Thai FinanceHub',
   description: 'บทความอธิบายเรื่องการเงินให้เข้าใจง่าย ภาษี สินเชื่อ วางแผนเกษียณ การลงทุน อิงข้อมูลปี 2569',
 };
 

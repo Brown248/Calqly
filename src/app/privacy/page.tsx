@@ -9,14 +9,6 @@
 import { useState } from 'react'
 import Link from 'next/link'
 
-export const metadata = {
-  title: 'นโยบายความเป็นส่วนตัว (Privacy Policy)',
-  description: 'นโยบายการคุ้มครองข้อมูลส่วนบุคคลของเว็บไซต์ ตาม พ.ร.บ. PDPA และ Google AdSense',
-  alternates: {
-    canonical: '/privacy',
-  },
-};
-
 export default function PrivacyPage() {
   const [lang, setLang] = useState<'th' | 'en'>('th')
 
