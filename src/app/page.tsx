@@ -1,7 +1,6 @@
-'use client';
 import Link from 'next/link';
-import { useEffect, useRef, useState } from 'react';
 import styles from './page.module.css';
+import AnimatedCounter from '@/components/AnimatedCounter';
 
 const CALCULATORS = [
   { href: '/calculators/tax', icon: '📋', title: 'คำนวณภาษีเงินได้', desc: 'คำนวณภาษีบุคคลธรรมดา พ.ศ. 2569 พร้อมค่าลดหย่อนทุกรายการ', color: '#6366F1' },
@@ -17,32 +16,6 @@ const STATS = [
   { value: 100, suffix: '%', label: 'ฟรี ไม่มีค่าใช้จ่าย' },
   { value: 2569, suffix: '', label: 'ข้อมูลปีล่าสุด' },
 ];
-
-function AnimatedCounter({ target, suffix }: { target: number; suffix: string }) {
-  const [count, setCount] = useState(0);
-  const ref = useRef<HTMLSpanElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting) {
-        let start = 0;
-        const duration = 1500;
-        const step = (timestamp: number) => {
-          if (!start) start = timestamp;
-          const progress = Math.min((timestamp - start) / duration, 1);
-          setCount(Math.floor(progress * target));
-          if (progress < 1) requestAnimationFrame(step);
-        };
-        requestAnimationFrame(step);
-        observer.disconnect();
-      }
-    }, { threshold: 0.5 });
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, [target]);
-
-  return <span ref={ref}>{count.toLocaleString()}{suffix}</span>;
-}
 
 export default function Home() {
   return (

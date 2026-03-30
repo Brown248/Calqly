@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       // disallow: '/private/', // หากในอนาคตมีหน้าที่ไม่อยากให้ Google ค้นเจอ ค่อยมาเพิ่มตรงนี้ครับ
     },
-    sitemap: 'https://calqly.co/sitemap.xml',
+    sitemap: 'https://calqlyhub.com/sitemap.xml',
   }
 }

@@ -47,7 +47,7 @@ export function FinancialDisclaimer({
         lineHeight: 1.5,
       }}>
         <span style={{ color: '#f59e0b', flexShrink: 0 }}>⚠</span>
-        {t.body}
+        <span>{t.body}</span>
         {source && sourceUrl && (
           <span style={{ marginLeft: 4 }}>
             {t.sourceLabel}{' '}

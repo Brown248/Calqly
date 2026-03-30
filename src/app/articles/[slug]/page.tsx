@@ -1,33 +1,27 @@
-'use client';
-import { useParams } from 'next/navigation';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
 import { ARTICLES } from '@/data/articles';
 import styles from './page.module.css';
+import { ProgressBar, TOC } from './ArticleClientSide';
 
-export default function ArticlePage() {
-  const params = useParams();
-  const slug = params.slug as string;
+export async function generateStaticParams() {
+  return ARTICLES.map((article) => ({
+    slug: article.slug,
+  }));
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
   const article = ARTICLES.find(a => a.slug === slug);
-  const [progress, setProgress] = useState(0);
-  const [activeSection, setActiveSection] = useState(0);
+  if (!article) return { title: 'ไม่พบบทความ' };
+  return {
+    title: `${article.title} | Calqly`,
+    description: article.excerpt,
+  };
+}
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      setProgress(docHeight > 0 ? (scrollTop / docHeight) * 100 : 0);
-
-      // Track active section
-      const sections = document.querySelectorAll('[data-section]');
-      sections.forEach((el, i) => {
-        const rect = el.getBoundingClientRect();
-        if (rect.top < 200) setActiveSection(i);
-      });
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const article = ARTICLES.find(a => a.slug === slug);
 
   if (!article) {
     return (
@@ -40,24 +34,29 @@ export default function ArticlePage() {
 
   return (
     <div className={styles.page}>
-      <div className={styles.progressBar} style={{ width: `${progress}%` }} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "headline": article.title,
+            "description": article.excerpt,
+            "image": ["https://calqlyhub.com/opengraph-image.png"],
+            "datePublished": "2026-03-30T00:00:00+07:00",
+            "author": [{
+              "@type": "Organization",
+              "name": "CalqlyHub",
+              "url": "https://calqlyhub.com"
+            }]
+          })
+        }}
+      />
+      <ProgressBar />
       <div className={styles.container}>
         <div className={styles.layout}>
           {/* TOC Sidebar */}
-          <aside className={styles.toc}>
-            <div className={styles.tocSticky}>
-              <h4>📑 สารบัญ</h4>
-              {article.content.map((section, i) => (
-                <a key={i} href={`#section-${i}`} className={`${styles.tocLink} ${activeSection === i ? styles.tocActive : ''}`}>
-                  {section.heading}
-                </a>
-              ))}
-              <div className={styles.tocDivider} />
-              <Link href={article.relatedCalc} className={styles.tocCalc}>
-                🧮 ไปใช้เครื่องมือคำนวณ →
-              </Link>
-            </div>
-          </aside>
+          <TOC article={article} />
 
           {/* Article Content */}
           <article className={styles.article}>
@@ -71,12 +70,12 @@ export default function ArticlePage() {
               <p className={styles.excerpt}>{article.excerpt}</p>
             </div>
 
-            {article.content.map((section, i) => (
+            {article.content.map((section: any, i: number) => (
               <section key={i} id={`section-${i}`} data-section className={styles.section}>
                 <h2>{section.heading}</h2>
-                {section.body.split('\n\n').map((para, j) => (
+                {section.body.split('\n\n').map((para: string, j: number) => (
                   <div key={j} className={styles.paragraph}>
-                    {para.split('\n').map((line, k) => (
+                    {para.split('\n').map((line: string, k: number) => (
                       <p key={k}>{line}</p>
                     ))}
                   </div>

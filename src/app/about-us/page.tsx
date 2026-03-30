@@ -48,8 +48,9 @@ export default function AboutUsPage() {
             <p style={{ marginBottom: "1.5rem" }}>
               หากมีข้อเสนอแนะ แจ้งปัญหาการใช้งาน สอบถามข้อมูล หรือต้องการติดต่อเพื่อเป็นพาร์ทเนอร์ สามารถส่งอีเมลมาหาเราได้โดยตรงที่:
             </p>
-            <a href="mailto:support@calqlyhub.com" className={styles.contactBtn}>
-              📩 support@calqlyhub.com
+            <a href="mailto:invioly01@gmail.com" className={styles.contactBtn}>
+              📩 invioly01@gmail.com
+
             </a>
             <p style={{ marginTop: "1.5rem", fontSize: "0.85rem", color: "var(--c-text-3)" }}>
               เราตั้งใจอ่านทุกข้อความและจะรีบตอบกลับคุณให้เร็วที่สุดครับ!

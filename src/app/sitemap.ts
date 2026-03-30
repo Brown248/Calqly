@@ -1,16 +1,13 @@
 import { MetadataRoute } from 'next'
-// หากคุณต้องการให้หน้าบทความ (Dynamic Routes) เข้าไปอยู่ใน Sitemap ด้วย 
-// สามารถ Import ข้อมูลบทความจากไฟล์ data ของคุณมาใช้ได้ เช่น:
-// import { articles } from '@/data/articles'
+import { ARTICLES } from '@/data/articles'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://calqly.co'
+  const baseUrl = 'https://calqlyhub.com' // อัปเดตให้ตรงกับโดเมนจริงแบบ 100%
 
-  // 1. กำหนดหน้าเว็บแบบ Static ทั้งหมดที่มีในโปรเจค
+  // 1. หน้าหลัก (Static Routes)
   const routes = [
-    '', // หน้าแรก (/)
+    '',
     '/about-us',
-    '/calculators',
     '/calculators/tax',
     '/calculators/loan',
     '/calculators/retirement',
@@ -25,21 +22,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
     url: `${baseUrl}${route}`,
     lastModified: new Date(),
     changeFrequency: 'weekly' as const,
-    priority: route === '' ? 1.0 : 0.8, // หน้าแรกให้ความสำคัญสูงสุด (1.0)
+    priority: route === '' ? 1.0 : 0.8,
   }))
 
-  // 2. (ทางเลือก) การเพิ่มหน้าบทความ (Dynamic Routes) เข้าไปใน Sitemap แบบอัตโนมัติ
-  // หากในไฟล์ '@/data/articles' มีข้อมูลตัวแปร articles อยู่ สามารถเอาคอมเมนต์ออกและใช้งานได้เลย
-  /*
-  const articleRoutes = articles.map((article) => ({
+  // 2. ปล่อยพลัง! ดึงหน้าบทความทั้งหมดที่มีในระบบเข้า Sitemap อัตโนมัติ (Dynamic Routes)
+  const articleRoutes = ARTICLES.map((article) => ({
     url: `${baseUrl}/articles/${article.slug}`,
-    lastModified: new Date(), // หรือใช้ article.updatedAt ถ้ามี
+    lastModified: new Date(article.date),
     changeFrequency: 'monthly' as const,
-    priority: 0.6,
+    priority: 0.7,
   }))
-  
-  return [...staticRoutes, ...articleRoutes]
-  */
 
-  return [...staticRoutes]
+  return [...staticRoutes, ...articleRoutes]
 }

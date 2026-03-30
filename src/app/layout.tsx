@@ -7,7 +7,7 @@
 // 3. CookieBanner + CookieSettingsButton
 // ============================================================
 
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { ThemeProvider } from 'next-themes'
 import Script from 'next/script'
 import Header from '@/components/layout/Header'
@@ -19,11 +19,18 @@ import './globals.css'
 const GA_ID = process.env.NEXT_PUBLIC_GA_ID ?? ''
 const ADSENSE_CLIENT = process.env.NEXT_PUBLIC_ADSENSE_CLIENT ?? ''
 
+export const viewport: Viewport = {
+  themeColor: '#10B981',
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+}
+
 export const metadata: Metadata = {
   metadataBase: new URL('https://calqlyhub.com'),
   title: {
     default: 'CalqlyHub — คำนวณการเงิน เข้าใจง่าย',
-    template: '%s | CalqlyHub.com',
+    template: '%s | calqly-hub.vercel.app',
   },
   description:
     'เครื่องคิดเลขการเงินและบทความให้ความรู้ทางการเงิน ภาษาไทยและอังกฤษ ข้อมูลล่าสุดปี 2568/2569 ใช้ฟรี',
@@ -134,6 +141,27 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           enableSystem={false}    // 2. ปิดการดึงค่าจากระบบปฏิบัติการมือถือ/คอมของ User
           disableTransitionOnChange
         >
+          <Script
+            id="website-schema"
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "WebSite",
+                "name": "CalqlyHub",
+                "url": "https://calqlyhub.com",
+                "description": "เรื่องเงินให้เราช่วยคิด — เครื่องมือคำนวณการเงิน ภาษี สินเชื่อ อัปเดตล่าสุด พ.ศ. 2569",
+                "publisher": {
+                  "@type": "Organization",
+                  "name": "CalqlyHub",
+                  "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://calqlyhub.com/icon.png"
+                  }
+                }
+              })
+            }}
+          />
 
           <Header />
 
