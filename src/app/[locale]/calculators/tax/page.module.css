@@ -1,0 +1,216 @@
+.page { 
+  padding: var(--space-12) 0; 
+  background: radial-gradient(circle at top right, rgba(13, 148, 136, 0.05), transparent),
+              radial-gradient(circle at bottom left, rgba(20, 184, 166, 0.05), transparent),
+              var(--bg-primary);
+  min-height: 100vh;
+}
+.container { max-width: 1200px; margin: 0 auto; padding: 0 var(--space-6); }
+
+.header { text-align: left; margin-bottom: var(--space-12); max-width: 800px; }
+.header h1 { 
+  font-size: clamp(2rem, 5vw, 3.5rem); 
+  font-weight: 900; 
+  letter-spacing: -0.04em; 
+  line-height: 1;
+  margin-bottom: var(--space-4);
+  background: linear-gradient(to bottom right, var(--text-primary), var(--text-tertiary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Side Stepper Layout */
+.layout { 
+  display: grid; 
+  grid-template-columns: 280px 1fr 380px; 
+  gap: var(--space-10); 
+  align-items: start; 
+}
+
+/* Modern Vertical Stepper */
+.stepperSide {
+  position: sticky;
+  top: var(--space-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.stepItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-4);
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid transparent;
+}
+.stepItem.active {
+  background: var(--card-bg);
+  border-color: var(--card-border);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+}
+.stepIcon {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: var(--bg-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+.active .stepIcon {
+  background: var(--primary-500);
+  color: white;
+  transform: scale(1.1);
+}
+.stepInfo { display: flex; flex-direction: column; }
+.stepTitle { font-size: 0.875rem; font-weight: 700; color: var(--text-muted); transition: color 0.3s ease; }
+.active .stepTitle { color: var(--text-primary); }
+.stepStatus { font-size: 0.75rem; color: var(--text-muted); opacity: 0.6; }
+
+/* Main Content Area */
+.formPanel { 
+  background: var(--card-bg); 
+  border: 1px solid var(--card-border); 
+  border-radius: 32px; 
+  padding: var(--space-10); 
+  box-shadow: 0 40px 80px rgba(0,0,0,0.03);
+  backdrop-filter: blur(20px);
+}
+.formSection h3 { font-size: 2rem; font-weight: 800; margin-bottom: var(--space-8); letter-spacing: -0.02em; }
+
+.inputGrid { display: grid; grid-template-columns: 1fr; gap: var(--space-8); }
+.inputGroup label { 
+  font-size: 0.8125rem; 
+  font-weight: 800; 
+  text-transform: uppercase; 
+  letter-spacing: 0.1em; 
+  color: var(--text-muted);
+  margin-bottom: var(--space-3);
+  display: block;
+}
+.inputWrapper { position: relative; }
+.inputField {
+  width: 100%;
+  padding: 1.25rem 1.5rem;
+  background: var(--bg-secondary);
+  border: 2px solid transparent;
+  border-radius: 20px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+}
+.inputField:focus {
+  background: var(--bg-primary);
+  border-color: var(--primary-500);
+  outline: none;
+  box-shadow: 0 15px 30px rgba(13,148,136,0.1);
+}
+.currencyBadge {
+  position: absolute;
+  right: 1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-weight: 800;
+  color: var(--text-muted);
+  font-size: 1.25rem;
+}
+
+/* Toggle Buttons */
+.toggleGroup {
+  display: flex;
+  background: var(--bg-secondary);
+  padding: 0.5rem;
+  border-radius: 20px;
+  gap: 0.5rem;
+}
+.toggleBtn {
+  flex: 1;
+  padding: 1rem;
+  border-radius: 15px;
+  border: none;
+  background: transparent;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: var(--text-tertiary);
+}
+.toggleActive {
+  background: var(--bg-primary);
+  color: var(--primary-500);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+/* Result Dashboard */
+.resultPanel { 
+  position: sticky;
+  top: var(--space-8);
+  background: #111827; 
+  color: white;
+  border-radius: 32px; 
+  padding: var(--space-8); 
+  display: flex; 
+  flex-direction: column; 
+  gap: var(--space-8);
+  box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+}
+.mainResultCard { text-align: left; }
+.resultLabel { color: rgba(255,255,255,0.5); font-weight: 700; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.1em; }
+.resultMain { font-size: 3rem; font-weight: 900; margin: 0.5rem 0; color: var(--primary-400); }
+.resultSub { color: rgba(255,255,255,0.4); font-weight: 500; }
+
+.miniGrid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); }
+.miniBox { 
+  padding: var(--space-4); 
+  background: rgba(255,255,255,0.05); 
+  border-radius: 20px; 
+  border: 1px solid rgba(255,255,255,0.1); 
+}
+.miniBox span { display: block; font-size: 0.7rem; color: rgba(255,255,255,0.4); font-weight: 700; margin-bottom: 4px; }
+.miniBox strong { font-size: 1.125rem; font-weight: 800; }
+
+.breakdown { margin-top: var(--space-4); }
+.breakdownRow { 
+  display: flex; 
+  justify-content: space-between; 
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  font-size: 0.875rem;
+}
+.breakdownRow:last-child { border: none; }
+.brLabel { color: rgba(255,255,255,0.5); }
+.brValue { font-weight: 700; }
+
+.tipCard {
+  background: linear-gradient(135deg, rgba(16,185,129,0.2), rgba(16,185,129,0.05));
+  padding: var(--space-5);
+  border-radius: 20px;
+  border: 1px solid rgba(16,185,129,0.3);
+}
+.tipTitle { font-weight: 800; color: #34d399; margin-bottom: 4px; }
+.tipText { font-size: 0.8125rem; color: rgba(255,255,255,0.7); line-height: 1.5; }
+
+.navActions { display: flex; gap: var(--space-4); margin-top: var(--space-10); }
+.btnNext {
+  flex: 1;
+  padding: 1.25rem;
+  background: var(--primary-500);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  font-weight: 800;
+  font-size: 1.125rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 20px rgba(13,148,136,0.3);
+}
+.btnNext:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(13,148,136,0.4); }
+
+@media (max-width: 1200px) {
+  .layout { grid-template-columns: 1fr; }
+  .stepperSide { display: none; }
+}

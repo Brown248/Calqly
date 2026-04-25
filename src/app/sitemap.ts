@@ -1,13 +1,14 @@
 import { MetadataRoute } from 'next'
-import { ARTICLES } from '@/data/articles'
+import { getArticles } from '@/data/articles'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://calqlyhub.com' // อัปเดตให้ตรงกับโดเมนจริงแบบ 100%
+  const baseUrl = 'https://calqlyhub.com'
+  const locales = ['th', 'en']
 
-  // 1. หน้าหลัก (Static Routes)
-  const routes = [
+  const paths = [
     '',
     '/about-us',
+    '/calculators',
     '/calculators/tax',
     '/calculators/loan',
     '/calculators/retirement',
@@ -18,20 +19,55 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/privacy',
   ]
 
-  const staticRoutes = routes.map((route) => ({
-    url: `${baseUrl}${route}`,
-    lastModified: new Date(),
-    changeFrequency: 'weekly' as const,
-    priority: route === '' ? 1.0 : 0.8,
-  }))
+  const staticRoutes: MetadataRoute.Sitemap = []
 
-  // 2. ปล่อยพลัง! ดึงหน้าบทความทั้งหมดที่มีในระบบเข้า Sitemap อัตโนมัติ (Dynamic Routes)
-  const articleRoutes = ARTICLES.map((article) => ({
-    url: `${baseUrl}/articles/${article.slug}`,
-    lastModified: new Date(article.date),
-    changeFrequency: 'monthly' as const,
-    priority: 0.7,
-  }))
+  locales.forEach((locale) => {
+    paths.forEach((path) => {
+      const isDefault = locale === 'th'
+      const url = isDefault ? `${baseUrl}${path}` : `${baseUrl}/${locale}${path}`
+      
+      staticRoutes.push({
+        url,
+        lastModified: new Date(),
+        changeFrequency: 'weekly' as const,
+        priority: path === '' ? 1.0 : 0.8,
+      })
+    })
+  })
+
+  // Dynamic Article Routes for all locales
+  const articleRoutes: MetadataRoute.Sitemap = []
+  
+  locales.forEach((locale) => {
+    const articles = getArticles(locale)
+    articles.forEach((article) => {
+      const isDefault = locale === 'th'
+      const url = isDefault 
+        ? `${baseUrl}/articles/${article.slug}` 
+        : `${baseUrl}/${locale}/articles/${article.slug}`
+
+      // Safely convert BE date (Thai) to AD for Date object
+      // BE 2569 -> AD 2026
+      let lastModDate = new Date()
+      try {
+        const parts = article.date.split('-')
+        if (parts.length === 3) {
+          let year = parseInt(parts[0])
+          if (year > 2400) year -= 543 // Convert BE to AD
+          lastModDate = new Date(year, parseInt(parts[1]) - 1, parseInt(parts[2]))
+        }
+      } catch (e) {
+        // Fallback to now
+      }
+
+      articleRoutes.push({
+        url,
+        lastModified: lastModDate,
+        changeFrequency: 'monthly' as const,
+        priority: 0.7,
+      })
+    })
+  })
 
   return [...staticRoutes, ...articleRoutes]
 }

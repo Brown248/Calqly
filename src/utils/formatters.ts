@@ -11,6 +11,16 @@ export function formatCurrency(amount: number, locale: string = 'th-TH'): string
   }).format(amount);
 }
 
+export function formatCompactCurrency(amount: number, locale: string = 'th-TH'): string {
+  return new Intl.NumberFormat(locale, {
+    style: 'currency',
+    currency: 'THB',
+    notation: 'compact',
+    compactDisplay: 'short',
+    maximumFractionDigits: 2,
+  }).format(amount);
+}
+
 export function formatCurrencyFull(amount: number, locale: string = 'th-TH'): string {
   return new Intl.NumberFormat(locale, {
     style: 'currency',
@@ -24,6 +34,14 @@ export function formatNumber(num: number, locale: string = 'th-TH'): string {
   return new Intl.NumberFormat(locale, {
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
+  }).format(num);
+}
+
+export function formatCompactNumber(num: number, locale: string = 'th-TH'): string {
+  return new Intl.NumberFormat(locale, {
+    notation: 'compact',
+    compactDisplay: 'short',
+    maximumFractionDigits: 2,
   }).format(num);
 }
 

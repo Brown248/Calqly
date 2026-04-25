@@ -1,37 +1,61 @@
 'use client';
-import { useEffect, useRef, useState } from 'react';
 
-export default function AnimatedCounter({ target, suffix }: { target: number; suffix: string }) {
-  const [count, setCount] = useState(0);
+import { useEffect, useRef } from 'react';
+import { useMotionValue, useTransform, animate, MotionValue } from 'framer-motion';
+
+interface AnimatedCounterProps {
+  value: number;
+  direction?: 'up' | 'down';
+  includeDecimals?: boolean;
+  prefix?: string;
+  suffix?: string;
+  className?: string;
+}
+
+export default function AnimatedCounter({
+  value,
+  direction = 'up',
+  includeDecimals = false,
+  prefix = '',
+  suffix = '',
+  className = '',
+}: AnimatedCounterProps) {
+  const count = useMotionValue(direction === 'up' ? 0 : value);
+  const rounded = useTransform(count, (latest) => {
+    const formatter = new Intl.NumberFormat('th-TH', {
+      minimumFractionDigits: includeDecimals ? 2 : 0,
+      maximumFractionDigits: includeDecimals ? 2 : 0,
+    });
+    return formatter.format(latest);
+  });
+
+  useEffect(() => {
+    const controls = animate(count, value, {
+      duration: 1.5,
+      ease: [0.16, 1, 0.3, 1], // Custom easeOutQuart-like for premium feel
+    });
+    return () => controls.stop();
+  }, [value, count]);
+
+  return (
+    <span className={className}>
+      {prefix}
+      <AnimatedValue value={rounded} />
+      {suffix}
+    </span>
+  );
+}
+
+function AnimatedValue({ value }: { value: MotionValue<string> }) {
   const ref = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
-    let frameId: number;
-    let isMounted = true;
-
-    const observer = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting) {
-        let start = 0;
-        const duration = 1500;
-        const step = (timestamp: number) => {
-          if (!start) start = timestamp;
-          const progress = Math.min((timestamp - start) / duration, 1);
-          if (isMounted) setCount(Math.floor(progress * target));
-          if (progress < 1 && isMounted) frameId = requestAnimationFrame(step);
-        };
-        frameId = requestAnimationFrame(step);
-        observer.disconnect();
+    return value.on('change', (latest: string) => {
+      if (ref.current) {
+        ref.current.textContent = latest;
       }
-    }, { threshold: 0.5 });
-    
-    if (ref.current) observer.observe(ref.current);
-    
-    return () => {
-      isMounted = false;
-      if (frameId) cancelAnimationFrame(frameId);
-      observer.disconnect();
-    };
-  }, [target]);
+    });
+  }, [value]);
 
-  return <span ref={ref}>{count.toLocaleString()}{suffix}</span>;
+  return <span ref={ref} style={{ fontVariantNumeric: 'tabular-nums' }} />;
 }

@@ -1,42 +1,51 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
+import { useTranslations } from 'next-intl';
 
-// ==========================================
-// 1. Component: CookieBanner (ตัวแบนเนอร์และ Modal)
-// ==========================================
 export function CookieBanner() {
+  const t = useTranslations('CookieBanner');
   const [showBanner, setShowBanner] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
-  
-  // State สำหรับเก็บค่าตัวเลือก
   const [preferences, setPreferences] = useState({ analytics: true, ads: true });
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setIsMounted(true);
-    
-    // โหลดค่าเดิมที่เคยตั้งไว้
-    const consent = localStorage.getItem('cookieConsent');
-    if (!consent) {
-      setShowBanner(true); // ถ้าไม่เคยเลือก ให้โชว์ Banner
-    } else if (consent === 'custom') {
-      const savedPrefs = localStorage.getItem('cookiePreferences');
-      if (savedPrefs) {
-        setPreferences(JSON.parse(savedPrefs));
-      }
-    }
+    const frame = requestAnimationFrame(() => {
+      setIsMounted(true);
 
-    // สร้าง Event Listener รับคำสั่งเปิด Modal จากปุ่มตั้งค่า (CookieSettingsButton)
+      const consent = localStorage.getItem('cookieConsent');
+      if (!consent) {
+        setShowBanner(true);
+      } else if (consent === 'custom') {
+        const savedPrefs = localStorage.getItem('cookiePreferences');
+        if (savedPrefs) {
+          setPreferences(JSON.parse(savedPrefs));
+        }
+      }
+    });
+
     const handleOpenModal = () => setShowModal(true);
     window.addEventListener('openCookieModal', handleOpenModal);
-    
-    return () => window.removeEventListener('openCookieModal', handleOpenModal);
+
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener('openCookieModal', handleOpenModal);
+    };
   }, []);
 
-  // ฟังก์ชันกดยอมรับทั้งหมด
+  const updateGtag = (analyticsStatus: string, adsStatus: string) => {
+    if (typeof window !== 'undefined' && 'gtag' in window) {
+      (window as Window & { gtag?: (...args: unknown[]) => void }).gtag?.('consent', 'update', {
+        analytics_storage: analyticsStatus,
+        ad_storage: adsStatus,
+        ad_user_data: adsStatus,
+        ad_personalization: adsStatus,
+      });
+    }
+  };
+
   const acceptAll = () => {
     localStorage.setItem('cookieConsent', 'all');
     setPreferences({ analytics: true, ads: true });
@@ -45,7 +54,6 @@ export function CookieBanner() {
     setShowModal(false);
   };
 
-  // ฟังก์ชันบันทึกการตั้งค่าแบบเลือกเอง
   const savePreferences = () => {
     localStorage.setItem('cookieConsent', 'custom');
     localStorage.setItem('cookiePreferences', JSON.stringify(preferences));
@@ -54,130 +62,82 @@ export function CookieBanner() {
     setShowModal(false);
   };
 
-  // อัปเดต Google Tag Manager Consent Mode
-  const updateGtag = (analyticsStatus: string, adsStatus: string) => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  if (typeof window !== 'undefined' && (window as any).gtag) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (window as any).gtag('consent', 'update', {
-      analytics_storage: analyticsStatus,
-      ad_storage: adsStatus,
-      ad_user_data: adsStatus,
-      ad_personalization: adsStatus,
-    });
-  }
-};
-
-  // ป้องกัน Hydration Error
   if (!isMounted) return null;
 
   return (
     <>
-      {/* ── แถบ Banner ด้านล่างสุด ── */}
       {showBanner && !showModal && (
-        <div 
-          className="animate-fade-in-up"
-          style={{ 
-            position: 'fixed', 
-            bottom: 0, left: 0, right: 0, 
-            background: 'var(--bg-surface)', 
-            backdropFilter: 'blur(10px)', 
-            WebkitBackdropFilter: 'blur(10px)',
-            borderTop: '1px solid var(--border-primary)', 
-            padding: 'var(--space-4)', 
-            zIndex: 9999, 
-            display: 'flex', 
-            flexWrap: 'wrap', 
-            gap: '1rem', 
-            alignItems: 'center', 
-            justifyContent: 'space-between', 
-            boxShadow: 'var(--shadow-lg)' 
-          }}
-        >
-          <div style={{ flex: '1 1 300px', fontSize: '0.875rem', color: 'var(--text-secondary)', lineHeight: '1.6' }}>
-            🍪 <strong>เว็บไซต์นี้ใช้คุกกี้</strong> เราใช้คุกกี้เพื่อพัฒนาประสบการณ์การใช้งานของคุณ และเพื่อนำเสนอเนื้อหาโฆษณาที่ตรงกับความสนใจ สามารถอ่านรายละเอียดเพิ่มเติมได้ที่ <Link href="/privacy" style={{ color: 'var(--primary-500)', textDecoration: 'underline' }}>นโยบายความเป็นส่วนตัว</Link>
+        <div className="fixed bottom-0 left-0 right-0 bg-white/80 backdrop-blur-xl border-t border-slate-200 p-4 z-[9999] flex flex-wrap gap-4 items-center justify-between shadow-2xl animate-fade-in-up">
+          <div className="flex-1 min-w-[300px] text-sm text-slate-600 leading-relaxed">
+            🍪 <strong>{t('notice')}</strong> {t('read_more_prefix')}{' '}
+            <Link href="/privacy" className="text-teal-600 underline font-bold">
+              {t('privacy_policy')}
+            </Link>
           </div>
-          <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+          <div className="flex gap-2 flex-wrap">
             <button className="btn btn-secondary btn-sm" onClick={() => setShowModal(true)}>
-              ตั้งค่าคุกกี้
+              {t('settings')}
             </button>
             <button className="btn btn-primary btn-sm" onClick={acceptAll}>
-              ยอมรับทั้งหมด
+              {t('accept_all')}
             </button>
           </div>
         </div>
       )}
 
-      {/* ── Modal สำหรับตั้งค่าแบบละเอียด ── */}
       {showModal && (
-        <div 
-          style={{ 
-            position: 'fixed', inset: 0, 
-            background: 'rgba(0,0,0,0.6)', 
-            backdropFilter: 'blur(4px)',
-            WebkitBackdropFilter: 'blur(4px)',
-            zIndex: 10000, 
-            display: 'flex', 
-            alignItems: 'center', 
-            justifyContent: 'center',
-            padding: 'var(--space-4)'
-          }}
-        >
-          <div className="glass-card animate-scale-in" style={{ width: '100%', maxWidth: '500px', background: 'var(--bg-primary)', padding: 'var(--space-6)' }}>
-            <h3 style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              ⚙️ ตั้งค่าความเป็นส่วนตัว
-            </h3>
-            
-            {/* 1. คุกกี้ที่จำเป็น */}
-            <div style={{ marginBottom: '1rem', paddingBottom: '1rem', borderBottom: '1px solid var(--border-secondary)' }}>
-              <label style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontWeight: '600', color: 'var(--text-primary)' }}>
-                คุกกี้ที่จำเป็น (Strictly Necessary)
-                <input type="checkbox" checked disabled style={{ width: '1.2rem', height: '1.2rem', accentColor: 'var(--primary-500)' }} />
+        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[10000] flex items-center justify-center p-4 animate-fade-in">
+          <div className="bg-white rounded-[32px] p-8 w-full max-w-[500px] shadow-2xl animate-scale-in border border-white">
+            <h3 className="text-xl font-bold mb-6 flex items-center gap-2 text-slate-800">⚙️ {t('privacy_title')}</h3>
+
+            <div className="mb-4 pb-4 border-b border-slate-100">
+              <label className="flex justify-between items-center font-bold text-slate-800">
+                {t('necessary_title')}
+                <input type="checkbox" checked disabled className="w-5 h-5 accent-teal-600" aria-label={t('necessary_title')} />
               </label>
-              <p style={{ fontSize: '0.8125rem', color: 'var(--text-tertiary)', marginTop: '0.5rem', lineHeight: '1.5' }}>
-                จำเป็นต่อการทำงานพื้นฐานของเว็บไซต์ เช่น การเข้าสู่ระบบ ระบบความปลอดภัย (ไม่สามารถปิดได้)
+              <p className="text-xs text-slate-400 mt-2 leading-relaxed">
+                {t('necessary_desc')}
               </p>
             </div>
 
-            {/* 2. คุกกี้วิเคราะห์ (GA4) */}
-            <div style={{ marginBottom: '1rem', paddingBottom: '1rem', borderBottom: '1px solid var(--border-secondary)' }}>
-              <label style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontWeight: '600', cursor: 'pointer', color: 'var(--text-primary)' }}>
-                คุกกี้เพื่อการวิเคราะห์ (Analytics)
-                <input 
-                  type="checkbox" 
-                  checked={preferences.analytics} 
-                  onChange={(e) => setPreferences({ ...preferences, analytics: e.target.checked })} 
-                  style={{ width: '1.2rem', height: '1.2rem', cursor: 'pointer', accentColor: 'var(--primary-500)' }}
+            <div className="mb-4 pb-4 border-b border-slate-100">
+              <label className="flex justify-between items-center font-bold text-slate-800 cursor-pointer">
+                {t('analytics_title')}
+                <input
+                  type="checkbox"
+                  checked={preferences.analytics}
+                  onChange={(e) => setPreferences({ ...preferences, analytics: e.target.checked })}
+                  className="w-5 h-5 accent-teal-600 cursor-pointer"
+                  aria-label={t('analytics_title')}
                 />
               </label>
-              <p style={{ fontSize: '0.8125rem', color: 'var(--text-tertiary)', marginTop: '0.5rem', lineHeight: '1.5' }}>
-                ช่วยให้เราเข้าใจรูปแบบการใช้งานเว็บไซต์ เพื่อนำไปพัฒนาเนื้อหาและเครื่องมือให้ดียิ่งขึ้น
+              <p className="text-xs text-slate-400 mt-2 leading-relaxed">
+                {t('analytics_desc')}
               </p>
             </div>
 
-            {/* 3. คุกกี้โฆษณา (AdSense) */}
-            <div style={{ marginBottom: '2rem' }}>
-              <label style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontWeight: '600', cursor: 'pointer', color: 'var(--text-primary)' }}>
-                คุกกี้เพื่อการโฆษณา (Advertising)
-                <input 
-                  type="checkbox" 
-                  checked={preferences.ads} 
-                  onChange={(e) => setPreferences({ ...preferences, ads: e.target.checked })} 
-                  style={{ width: '1.2rem', height: '1.2rem', cursor: 'pointer', accentColor: 'var(--primary-500)' }}
+            <div className="mb-8">
+              <label className="flex justify-between items-center font-bold text-slate-800 cursor-pointer">
+                {t('ads_title')}
+                <input
+                  type="checkbox"
+                  checked={preferences.ads}
+                  onChange={(e) => setPreferences({ ...preferences, ads: e.target.checked })}
+                  className="w-5 h-5 accent-teal-600 cursor-pointer"
+                  aria-label={t('ads_title')}
                 />
               </label>
-              <p style={{ fontSize: '0.8125rem', color: 'var(--text-tertiary)', marginTop: '0.5rem', lineHeight: '1.5' }}>
-                ช่วยให้เราสามารถนำเสนอโฆษณาที่ตรงกับความสนใจของคุณได้มากขึ้น
+              <p className="text-xs text-slate-400 mt-2 leading-relaxed">
+                {t('ads_desc')}
               </p>
             </div>
 
-            {/* ปุ่ม Actions */}
-            <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'flex-end' }}>
-              <button className="btn btn-secondary" onClick={acceptAll}>
-                ยอมรับทั้งหมด
+            <div className="flex gap-2 justify-end">
+              <button className="btn btn-secondary btn-md" onClick={acceptAll}>
+                {t('accept_all')}
               </button>
-              <button className="btn btn-primary" onClick={savePreferences}>
-                บันทึกการตั้งค่า
+              <button className="btn btn-primary btn-md" onClick={savePreferences}>
+                {t('save_preferences')}
               </button>
             </div>
           </div>
@@ -187,29 +147,28 @@ export function CookieBanner() {
   );
 }
 
-// ==========================================
-// 2. Component: CookieSettingsButton (ปุ่มลอยมุมซ้ายล่าง)
-// ==========================================
 export function CookieSettingsButton() {
+  const t = useTranslations('CookieBanner');
   const [isMounted, setIsMounted] = useState(false);
   const [hasConsented, setHasConsented] = useState(false);
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setIsMounted(true);
-    // เช็คว่าเคยตอบรับ Banner ไปหรือยัง
     const checkConsent = () => {
       setHasConsented(!!localStorage.getItem('cookieConsent'));
     };
-    
-    checkConsent(); // เช็คตอนโหลดครั้งแรก
 
-    // ให้เช็คซ้ำทุกครั้งที่มีการคลิกในเว็บ (เผื่อเพิ่งกดยอมรับไปหมาดๆ)
+    const frame = requestAnimationFrame(() => {
+      setIsMounted(true);
+      checkConsent();
+    });
     window.addEventListener('click', checkConsent);
-    return () => window.removeEventListener('click', checkConsent);
+
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener('click', checkConsent);
+    };
   }, []);
 
-  // จะแสดงปุ่มนี้ ก็ต่อเมื่อผู้ใช้เคยกด ยอมรับ/บันทึก แบนเนอร์ไปแล้วเท่านั้น
   if (!isMounted || !hasConsented) return null;
 
   return (
@@ -230,13 +189,14 @@ export function CookieSettingsButton() {
         cursor: 'pointer',
         padding: 0,
         fontSize: '1.25rem',
-        border: '1px solid var(--border-primary)',
-        boxShadow: 'var(--shadow-md)',
-        background: 'var(--bg-surface)',
+        border: '1px solid rgba(15, 23, 42, 0.05)',
+        boxShadow: 'var(--shadow-premium)',
+        background: 'rgba(255, 255, 255, 0.85)',
+        backdropFilter: 'blur(12px)',
         transition: 'all 0.2s ease-in-out',
       }}
-      aria-label="ตั้งค่าความเป็นส่วนตัว (PDPA)"
-      title="ตั้งค่าคุกกี้"
+      aria-label={t('settings')}
+      title={t('settings')}
       onMouseOver={(e) => (e.currentTarget.style.transform = 'scale(1.1)')}
       onMouseOut={(e) => (e.currentTarget.style.transform = 'scale(1)')}
     >

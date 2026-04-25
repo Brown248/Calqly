@@ -1,25 +1,29 @@
-import type { MetadataRoute } from 'next';
+import type { MetadataRoute } from 'next'
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'Calqly - เครื่องมือคำนวณการเงิน',
-    short_name: 'Calqly',
-    description: 'เครื่องมือคำนวณการเงิน ภาษี สินเชื่อส่วนบุคคล สำหรับคนไทย',
+    name: 'CalqlyHub - Smart Financial Planner',
+    short_name: 'CalqlyHub',
+    description: 'Precision financial calculators for tax, loans, and personal wealth planning.',
     start_url: '/',
     display: 'standalone',
-    background_color: '#ffffff',
-    theme_color: '#10B981', // Emerald theme default
+    background_color: '#fcfdfd',
+    theme_color: '#0d9488',
     icons: [
       {
-        src: '/icon-192x192.png',
+        src: '/icon.png',
         sizes: '192x192',
         type: 'image/png',
+        purpose: 'any',
       },
       {
-        src: '/icon-512x512.png',
+        src: '/icon.png',
         sizes: '512x512',
         type: 'image/png',
+        purpose: 'maskable',
       },
     ],
-  };
+    orientation: 'portrait',
+    scope: '/',
+  }
 }
