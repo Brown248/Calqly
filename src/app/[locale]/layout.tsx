@@ -12,6 +12,10 @@ import Header from '@/components/layout/Header'
 import AIAdvisor from '@/components/AIAdvisor'
 import { routing } from '@/i18n/routing'
 
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }))
+}
+
 const inter = Inter({ 
   subsets: ['latin'], 
   variable: '--font-inter',

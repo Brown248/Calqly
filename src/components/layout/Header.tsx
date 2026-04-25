@@ -127,6 +127,7 @@ export default function Header() {
             <Magnetic strength={0.2}>
               <button 
                 onClick={switchLocale}
+                aria-label={locale === 'th' ? 'Switch to English' : 'เปลี่ยนเป็นภาษาไทย'}
                 className="flex items-center gap-2 px-4 py-2.5 rounded-[16px] text-[12px] font-black text-slate-500 hover:text-teal-600 hover:bg-teal-50 transition-all duration-300 border border-transparent hover:border-teal-100/50 uppercase tracking-widest"
               >
                 <Languages size={15} />

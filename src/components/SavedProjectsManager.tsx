@@ -122,6 +122,7 @@ export default function SavedProjectsManager({
                         )}
                         <button 
                           onClick={() => removeProject(p.id)}
+                          aria-label={t('delete')}
                           className="p-3 text-rose-300 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-colors"
                         >
                           <Trash2 size={16} />
