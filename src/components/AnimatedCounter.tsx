@@ -1,64 +1,51 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useMotionValue, useTransform, animate, MotionValue } from 'framer-motion';
 
 interface AnimatedCounterProps {
   value: number;
   direction?: 'up' | 'down';
-  includeDecimals?: boolean;
-  prefix?: string;
+  includeComma?: boolean;
   suffix?: string;
-  className?: string;
+  prefix?: string;
+  decimals?: number;
 }
 
-export default function AnimatedCounter({
-  value,
-  direction = 'up',
-  includeDecimals = false,
-  prefix = '',
+export default function AnimatedCounter({ 
+  value, 
+  direction = 'up', 
+  includeComma = true,
   suffix = '',
-  className = '',
+  prefix = '',
+  decimals = 0
 }: AnimatedCounterProps) {
   const count = useMotionValue(direction === 'up' ? 0 : value);
-  const rounded = useTransform(count, (latest) => {
-    const formatter = new Intl.NumberFormat('th-TH', {
-      minimumFractionDigits: includeDecimals ? 2 : 0,
-      maximumFractionDigits: includeDecimals ? 2 : 0,
-    });
-    return formatter.format(latest);
-  });
+  const [displayValue, setDisplayValue] = useState(direction === 'up' ? "0" : value.toLocaleString());
 
   useEffect(() => {
     const controls = animate(count, value, {
-      duration: 1.5,
-      ease: [0.16, 1, 0.3, 1], // Custom easeOutQuart-like for premium feel
+      duration: 2,
+      ease: [0.16, 1, 0.3, 1],
     });
-    return () => controls.stop();
+
+    return controls.stop;
   }, [value, count]);
 
+  useEffect(() => {
+    return count.on('change', (latest) => {
+      const formatted = new Intl.NumberFormat('th-TH', {
+        minimumFractionDigits: decimals,
+        maximumFractionDigits: decimals,
+        useGrouping: includeComma,
+      }).format(latest);
+      setDisplayValue(formatted);
+    });
+  }, [count, decimals, includeComma]);
+
   return (
-    <span className={className}>
-      {prefix}
-      <AnimatedValue value={rounded} />
-      {suffix}
+    <span className="tabular-nums">
+      {prefix}{displayValue}{suffix}
     </span>
   );
-}
-
-function AnimatedValue({ value }: { value: MotionValue<string> }) {
-  const ref = useRef<HTMLSpanElement>(null);
-
-  useEffect(() => {
-    if (ref.current) {
-      ref.current.textContent = value.get();
-    }
-    return value.on('change', (latest: string) => {
-      if (ref.current) {
-        ref.current.textContent = latest;
-      }
-    });
-  }, [value]);
-
-  return <span ref={ref} style={{ fontVariantNumeric: 'tabular-nums' }}>{value.get()}</span>;
 }

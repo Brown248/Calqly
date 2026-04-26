@@ -157,19 +157,29 @@ function runSimulation(
       }
     }
 
-    let principalMonth = baseMonthlyPayment - interestMonth;
+    let currentMonthlyPayment = baseMonthlyPayment;
     
-    if (input.type === 'personal') {
-      // In personal loan, standard payment might cover less principal initially if terms are weird, 
-      // but usually PMT is fixed.
-    } else if (input.type === 'home' && input.isStepUp) {
-      // Re-amortize slightly or use PMT for current rate? 
-      // For true accuracy, banks recalculate PMT when rate changes.
-      // To simplify, we keep baseMonthlyPayment fixed unless it doesn't cover interest.
-      if (principalMonth < 0) {
-        principalMonth = 0; // Negative amortization safeguard (very simplistic)
+    // RECALCULATION LOGIC: 
+    // In real-world Thai home loans (Step-up or MRR), banks recalculate PMT when rates change 
+    // to ensure the loan finishes within the original term.
+    if (input.type === 'home' && (currentMonth > 1 || input.isStepUp)) {
+      const remainingMonths = totalMonthsInput - currentMonth + 1;
+      if (remainingMonths > 0) {
+        const calculatedPmtForCurrentRate = ratePerMonth === 0 
+          ? remainingBalance / remainingMonths 
+          : remainingBalance * ratePerMonth / (1 - Math.pow(1 + ratePerMonth, -remainingMonths));
+        
+        // If the calculated PMT for current rate is higher than our base payment, use it.
+        // This prevents "66 years" or "100 years" bugs.
+        if (calculatedPmtForCurrentRate > currentMonthlyPayment) {
+          currentMonthlyPayment = calculatedPmtForCurrentRate;
+        }
       }
     }
+
+    let principalMonth = currentMonthlyPayment - interestMonth;
+    
+    if (principalMonth < 0) principalMonth = 0;
 
     let actualPrincipalPaid = principalMonth + extraThisMonth;
 

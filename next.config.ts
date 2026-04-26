@@ -14,7 +14,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: '/go/tax-plan',
-        destination: 'https://www.set.or.th/th/education-research/education/main', // Example: Point to educational resource or real affiliate
+        destination: 'https://www.finnomena.com/tax-saving-fund/',
         permanent: false,
       },
       {

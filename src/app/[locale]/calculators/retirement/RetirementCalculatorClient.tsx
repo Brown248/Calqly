@@ -484,7 +484,7 @@ export default function RetirementCalculatorClient() {
                   </div>
                 </div>
                 
-                <Link href="/articles" className="shrink-0 w-full md:w-auto mt-6 md:mt-0 flex justify-center items-center gap-3 px-8 py-5 bg-white rounded-2xl font-black text-[12px] uppercase tracking-widest text-slate-800 shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition-all group/btn relative z-10">
+                <Link href="/articles/retirement-planning-first-jobber" className="shrink-0 w-full md:w-auto mt-6 md:mt-0 flex justify-center items-center gap-3 px-8 py-5 bg-white rounded-2xl font-black text-[12px] uppercase tracking-widest text-slate-800 shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition-all group/btn relative z-10">
                   {t('learn_swr_rule')} <ChevronRight size={16} className="text-slate-400 group-hover/btn:translate-x-1 transition-transform" />
                 </Link>
 

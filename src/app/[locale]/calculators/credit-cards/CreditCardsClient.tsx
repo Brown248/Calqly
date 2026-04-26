@@ -135,14 +135,14 @@ export default function CreditCardsClient() {
 
         {/* Card Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
-          <AnimatePresence mode="popLayout">
+          <AnimatePresence>
             {filtered.map(card => (
               <m.div 
                 key={card.id} 
-                layout
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 10 }}
+                transition={{ duration: 0.3 }}
                 className={`group flex flex-col bg-white rounded-[32px] border transition-all duration-500 overflow-hidden ${
                   compareIds.includes(card.id) 
                     ? 'border-teal-500 ring-4 ring-teal-500/5' 
