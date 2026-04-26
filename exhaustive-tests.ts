@@ -259,7 +259,7 @@ test("Inflation compounding works correctly", () => {
   const r = calculateRetirement({
     ...defaultRetirementInput,
     currentAge: 30,
-    retireAge: 60, 
+    retirementAge: 60, 
     monthlyExpensesToday: 50000,
     inflationRate: 3
   });
@@ -271,7 +271,7 @@ test("Safe Withdrawal Rate (SWR) logic", () => {
   const safe = calculateRetirement({
     ...defaultRetirementInput,
     currentAge: 60,
-    retireAge: 60,
+    retirementAge: 60,
     startingSavings: 20000000, 
     monthlyExpensesToday: 50000, 
     passiveIncomeRetire: 0,
@@ -283,7 +283,7 @@ test("Safe Withdrawal Rate (SWR) logic", () => {
   const danger = calculateRetirement({
     ...defaultRetirementInput,
     currentAge: 60,
-    retireAge: 60,
+    retirementAge: 60,
     startingSavings: 10000000, 
     monthlyExpensesToday: 60000, 
     passiveIncomeRetire: 0,
