@@ -397,7 +397,10 @@
     "back": "Back",
     "next": "Next",
     "yr": "yrs",
-    "mo": "mo"
+    "mo": "mo",
+    "aff_retire_title": "Secure Retirement with Pension Insurance",
+    "aff_retire_desc": "Receive steady income after retirement and get up to 200,000 THB tax deduction.",
+    "aff_retire_cta": "Check Plans & Quotes 🏖️"
   },
   "ROICalculator": {
     "title": "Sincere ROI Simulator",

@@ -381,8 +381,13 @@ export function calculateLoan(input: LoanInput): LoanResult {
   const timeSaved = Math.max(0, totalMonthsInput - extraSim.monthsTaken);
   
   // For interest saved, we compare what we WOULD have paid in normal case 
-  // (but if normal case failed, we use a theoretical normal payment total)
-  const interestSaved = Math.max(0, normalSim.totalInterest - extraSim.totalInterest);
+  // If the normal simulation hit the 100-year cap, we cap the comparison to something sane
+  // or use a theoretical normal total if it's more reliable.
+  const baseTotalInterest = normalSim.monthsTaken >= 1200 
+    ? (baseMonthlyPayment * totalMonthsInput - amount) // Fallback to a simple PMT * term (ignores step-up but prevents 18M results)
+    : normalSim.totalInterest;
+
+  const interestSaved = Math.max(0, baseTotalInterest - extraSim.totalInterest);
 
   return {
     monthlyPayment: baseMonthlyPayment,
