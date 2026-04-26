@@ -239,6 +239,7 @@ export default function LoanCalculatorClient() {
             <NumericFormat 
               value={input.amount} 
               onValueChange={(v) => setInput(p => ({...p, amount: v.floatValue || 0}))} 
+              onFocus={(e) => e.target.select()}
               thousandSeparator="," 
               className="input-field text-2xl font-black"
               inputMode="decimal"
@@ -259,6 +260,7 @@ export default function LoanCalculatorClient() {
                   const val = v.floatValue || 0;
                   setInput(p => tenureUnit === 'year' ? {...p, years: val, months: 0} : {...p, months: val, years: 0});
                 }} 
+                onFocus={(e) => e.target.select()}
                 className="input-field font-black"
                 inputMode="decimal"
               />
@@ -271,6 +273,7 @@ export default function LoanCalculatorClient() {
               <NumericFormat 
                 value={input.interestRate} 
                 onValueChange={(v) => setInput(p => ({...p, interestRate: v.floatValue || 0}))} 
+                onFocus={(e) => e.target.select()}
                 className="input-field font-black"
                 inputMode="decimal"
               />
@@ -318,6 +321,7 @@ export default function LoanCalculatorClient() {
                             type="number" 
                             value={step.year} 
                             onChange={(e) => updateStep(i, 'year', +e.target.value)}
+                            onFocus={(e) => e.target.select()}
                             className="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 text-sm font-bold outline-none focus:ring-2 focus:ring-teal-500/20"
                           />
                         </div>
@@ -328,6 +332,7 @@ export default function LoanCalculatorClient() {
                             step="0.1"
                             value={step.rate} 
                             onChange={(e) => updateStep(i, 'rate', +e.target.value)}
+                            onFocus={(e) => e.target.select()}
                             className="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 text-sm font-bold outline-none focus:ring-2 focus:ring-teal-500/20"
                           />
                         </div>
@@ -379,12 +384,13 @@ export default function LoanCalculatorClient() {
                     <div className="grid grid-cols-2 gap-4">
                       <div className="input-group">
                         <label className="text-[11px] font-black text-slate-500 uppercase mb-2 block">{t('refinance_year') || 'Refinance at Year'}</label>
-                        <input 
-                          type="number" 
-                          value={input.refinanceYear} 
-                          onChange={(e) => setInput({...input, refinanceYear: +e.target.value})}
-                          className="w-full bg-white border border-indigo-200 rounded-2xl px-5 py-3 font-black outline-none focus:ring-4 focus:ring-indigo-500/10"
-                        />
+                          <input 
+                            type="number" 
+                            value={input.refinanceYear} 
+                            onChange={(e) => setInput({...input, refinanceYear: +e.target.value})}
+                            onFocus={(e) => e.target.select()}
+                            className="w-full bg-white border border-indigo-200 rounded-2xl px-5 py-3 font-black outline-none focus:ring-4 focus:ring-indigo-500/10"
+                          />
                       </div>
                       <div className="input-group">
                         <label className="text-[11px] font-black text-slate-500 uppercase mb-2 block">{t('new_rate') || 'New Rate (%)'}</label>
@@ -393,6 +399,7 @@ export default function LoanCalculatorClient() {
                           step="0.1"
                           value={input.refinanceRate} 
                           onChange={(e) => setInput({...input, refinanceRate: +e.target.value})}
+                          onFocus={(e) => e.target.select()}
                           className="w-full bg-white border border-indigo-200 rounded-2xl px-5 py-3 font-black outline-none focus:ring-4 focus:ring-indigo-500/10"
                         />
                       </div>
@@ -417,6 +424,7 @@ export default function LoanCalculatorClient() {
                 <NumericFormat 
                   value={input.extraPayment} 
                   onValueChange={(v) => setInput(p => ({...p, extraPayment: v.floatValue || 0}))} 
+                  onFocus={(e) => e.target.select()}
                   thousandSeparator="," 
                   className="w-full bg-white border border-slate-200 rounded-2xl px-5 py-3 font-black outline-none focus:ring-4 focus:ring-emerald-500/10"
                   placeholder="0"
@@ -463,6 +471,7 @@ export default function LoanCalculatorClient() {
                   <NumericFormat 
                     value={input.yearlyExtraPayment} 
                     onValueChange={(v) => setInput(p => ({...p, yearlyExtraPayment: v.floatValue || 0}))} 
+                    onFocus={(e) => e.target.select()}
                     thousandSeparator="," 
                     className="w-full bg-white border border-slate-200 rounded-2xl px-5 py-3 font-black outline-none focus:ring-4 focus:ring-emerald-500/10"
                     placeholder="0"
@@ -480,22 +489,23 @@ export default function LoanCalculatorClient() {
                 <div className="flex flex-col md:flex-row items-center gap-3">
                   <span className="text-xs font-bold text-slate-600 whitespace-nowrap">{t('goal_seeker_backward')}</span>
                   <div className="flex items-center gap-2">
-                    <input 
-                      type="number" 
-                      min="1" 
-                      max={input.years}
-                      placeholder={String(Math.max(1, input.years - 5))}
-                      className="w-20 bg-white border border-emerald-200 rounded-xl px-3 py-2 text-center font-black text-emerald-700 outline-none focus:ring-2 focus:ring-emerald-500"
-                      onChange={(e) => {
-                        const targetYears = +e.target.value;
-                        if (targetYears > 0 && targetYears < input.years) {
-                          const targetMonths = targetYears * 12;
-                          const currentBase = result.monthlyPayment;
-                          const approxRequired = (result.totalPayment / targetMonths) - currentBase;
-                          setInput(p => ({ ...p, extraPayment: Math.max(0, Math.round(approxRequired / 100) * 100) }));
-                        }
-                      }}
-                    />
+                      <input 
+                        type="number" 
+                        min="1" 
+                        max={input.years}
+                        placeholder={String(Math.max(1, input.years - 5))}
+                        className="w-20 bg-white border border-emerald-200 rounded-xl px-3 py-2 text-center font-black text-emerald-700 outline-none focus:ring-2 focus:ring-emerald-500"
+                        onFocus={(e) => e.target.select()}
+                        onChange={(e) => {
+                          const targetYears = +e.target.value;
+                          if (targetYears > 0 && targetYears < input.years) {
+                            const targetMonths = targetYears * 12;
+                            const currentBase = result.monthlyPayment;
+                            const approxRequired = (result.totalPayment / targetMonths) - currentBase;
+                            setInput(p => ({ ...p, extraPayment: Math.max(0, Math.round(approxRequired / 100) * 100) }));
+                          }
+                        }}
+                      />
                     <span className="text-xs font-bold text-slate-600">{t('goal_seeker_years_label')}</span>
                   </div>
                 </div>

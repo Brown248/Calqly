@@ -6,19 +6,20 @@ import { formatCurrency } from '@/utils/formatters';
 import { useTranslations, useLocale } from 'next-intl';
 import { NumericFormat } from 'react-number-format';
 import dynamic from 'next/dynamic';
-import { m } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 
 const ResponsiveContainer = dynamic(() => import('recharts').then(mod => mod.ResponsiveContainer), { ssr: false });
 const PieChart = dynamic(() => import('recharts').then(mod => mod.PieChart), { ssr: false });
 const Pie = dynamic(() => import('recharts').then(mod => mod.Pie), { ssr: false });
 const Cell = dynamic(() => import('recharts').then(mod => mod.Cell), { ssr: false });
-const Tooltip = dynamic(() => import('recharts').then(mod => mod.Tooltip), { ssr: false });
+const RechartsTooltip = dynamic(() => import('recharts').then(mod => mod.Tooltip), { ssr: false });
 const Legend = dynamic(() => import('recharts').then(mod => mod.Legend), { ssr: false });
 
 import AnimatedCounter from '@/components/AnimatedCounter';
 import ShareButton from '@/components/ShareButton';
 import ExportReport from '@/components/ExportReport';
 import { Wallet, TrendingDown, Sparkles, ShieldAlert, History } from 'lucide-react';
+import BackButton from '@/components/layout/BackButton';
 
 import SavedProjectsManager from '@/components/SavedProjectsManager';
 import { SavedProject } from '@/hooks/useFinancialStore';
@@ -91,6 +92,9 @@ export default function RealCostCalculatorClient() {
   return (
     <div className="bg-[#fcfdfd] min-h-screen pb-20 pt-32">
       <div className="max-w-5xl mx-auto px-4 md:px-6">
+        <div className="mb-8">
+           <BackButton href="/calculators" />
+        </div>
         <m.section 
           className="zen-card mb-12"
           initial={{ opacity: 0, y: 20 }}
@@ -109,6 +113,7 @@ export default function RealCostCalculatorClient() {
               <NumericFormat 
                 value={input.price} 
                 onValueChange={(v) => setInput(p => ({...p, price: v.floatValue || 0}))} 
+                onFocus={(e) => e.target.select()}
                 thousandSeparator="," 
                 className="input-field text-2xl font-black"
                 inputMode="decimal"
@@ -121,6 +126,7 @@ export default function RealCostCalculatorClient() {
                 <NumericFormat 
                   value={input.downPayment} 
                   onValueChange={(v) => setInput(p => ({...p, downPayment: v.floatValue || 0}))} 
+                  onFocus={(e) => e.target.select()}
                   thousandSeparator="," 
                   className="input-field font-black"
                   inputMode="decimal"
@@ -131,6 +137,7 @@ export default function RealCostCalculatorClient() {
                 <NumericFormat 
                   value={input.interestRate} 
                   onValueChange={(v) => setInput(p => ({...p, interestRate: v.floatValue || 0}))} 
+                  onFocus={(e) => e.target.select()}
                   className="input-field font-black"
                   inputMode="decimal"
                 />
@@ -140,6 +147,7 @@ export default function RealCostCalculatorClient() {
                 <NumericFormat 
                   value={input.loanTermYears} 
                   onValueChange={(v) => setInput(p => ({...p, loanTermYears: v.floatValue || 0}))} 
+                  onFocus={(e) => e.target.select()}
                   className="input-field font-black"
                   inputMode="decimal"
                 />
@@ -149,6 +157,7 @@ export default function RealCostCalculatorClient() {
                 <NumericFormat 
                   value={input.usageYears} 
                   onValueChange={(v) => setInput(p => ({...p, usageYears: v.floatValue || 0}))} 
+                  onFocus={(e) => e.target.select()}
                   className="input-field font-black"
                   inputMode="decimal"
                 />
@@ -160,6 +169,7 @@ export default function RealCostCalculatorClient() {
               <NumericFormat 
                 value={input.ongoingCostsAnnual} 
                 onValueChange={(v) => setInput(p => ({...p, ongoingCostsAnnual: v.floatValue || 0}))} 
+                onFocus={(e) => e.target.select()}
                 thousandSeparator="," 
                 className="input-field font-black"
                 inputMode="decimal"
@@ -175,6 +185,7 @@ export default function RealCostCalculatorClient() {
                 <NumericFormat 
                   value={input.opportunityCostRate} 
                   onValueChange={(v) => setInput(p => ({...p, opportunityCostRate: v.floatValue || 0}))} 
+                  onFocus={(e) => e.target.select()}
                   className="w-full bg-white border border-slate-200 rounded-2xl px-5 py-3 font-black outline-none focus:ring-4 focus:ring-emerald-500/10"
                 />
                 <p className="text-[11px] font-bold text-slate-500 leading-relaxed italic">
@@ -280,7 +291,7 @@ export default function RealCostCalculatorClient() {
                         <Cell key={`cell-${index}`} fill={entry.color} stroke="none" />
                       ))}
                     </Pie>
-                    <Tooltip 
+                    <RechartsTooltip 
                       contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 10px 30px rgba(0,0,0,0.1)', fontWeight: 'bold' }}
                       formatter={(v) => formatCurrency(Number(v))}
                     />

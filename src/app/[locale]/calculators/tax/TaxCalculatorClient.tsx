@@ -225,11 +225,26 @@ export default function TaxCalculatorClient() {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                       <div className="space-y-3">
                         <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1 flex justify-between">
-                          {t('monthly_income')} 
-                          <button onClick={() => setInput({...input, incomeType: input.incomeType === 'monthly' ? 'yearly' : 'monthly'})} className="text-teal-600 hover:underline">{input.incomeType === 'monthly' ? t('switch_to_year') : t('switch_to_month')}</button>
+                          {input.incomeType === 'monthly' ? t('monthly_income') : t('yearly_income')} 
+                          <button 
+                            onClick={() => setInput({
+                              ...input, 
+                              incomeType: input.incomeType === 'monthly' ? 'yearly' : 'monthly',
+                              salary: input.incomeType === 'monthly' ? input.salary * 12 : input.salary / 12
+                            })} 
+                            className="text-teal-600 hover:underline"
+                          >
+                            {input.incomeType === 'monthly' ? t('switch_to_year') : t('switch_to_month')}
+                          </button>
                         </label>
                         <div className="relative group">
-                          <NumericFormat value={input.salary} onValueChange={(v) => setInput({...input, salary: v.floatValue || 0})} thousandSeparator="," className="w-full bg-slate-50 border border-slate-100 rounded-[24px] px-8 py-5 text-2xl font-black text-slate-800 outline-none focus:ring-8 focus:ring-teal-500/5 focus:bg-white focus:border-teal-200 transition-all" />
+                          <NumericFormat 
+                            value={input.salary} 
+                            onValueChange={(v) => setInput({...input, salary: v.floatValue || 0})} 
+                            onFocus={(e) => e.target.select()}
+                            thousandSeparator="," 
+                            className="w-full bg-slate-50 border border-slate-100 rounded-[24px] px-8 py-5 text-2xl font-black text-slate-800 outline-none focus:ring-8 focus:ring-teal-500/5 focus:bg-white focus:border-teal-200 transition-all" 
+                          />
                           <span className="absolute right-6 top-1/2 -translate-y-1/2 text-slate-300 font-black">฿</span>
                         </div>
                       </div>
@@ -237,7 +252,13 @@ export default function TaxCalculatorClient() {
                       <div className="space-y-3">
                         <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">{t('bonus')}</label>
                         <div className="relative group">
-                          <NumericFormat value={input.bonus} onValueChange={(v) => setInput({...input, bonus: v.floatValue || 0})} thousandSeparator="," className="w-full bg-slate-50 border border-slate-100 rounded-[24px] px-8 py-5 text-2xl font-black text-slate-800 outline-none focus:ring-8 focus:ring-teal-500/5 focus:bg-white focus:border-teal-200 transition-all" />
+                          <NumericFormat 
+                            value={input.bonus} 
+                            onValueChange={(v) => setInput({...input, bonus: v.floatValue || 0})} 
+                            onFocus={(e) => e.target.select()}
+                            thousandSeparator="," 
+                            className="w-full bg-slate-50 border border-slate-100 rounded-[24px] px-8 py-5 text-2xl font-black text-slate-800 outline-none focus:ring-8 focus:ring-teal-500/5 focus:bg-white focus:border-teal-200 transition-all" 
+                          />
                           <span className="absolute right-6 top-1/2 -translate-y-1/2 text-slate-300 font-black">฿</span>
                         </div>
                       </div>
@@ -245,7 +266,13 @@ export default function TaxCalculatorClient() {
                       <div className="space-y-3">
                         <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">{t('other_income')}</label>
                         <div className="relative group">
-                          <NumericFormat value={input.otherIncome} onValueChange={(v) => setInput({...input, otherIncome: v.floatValue || 0})} thousandSeparator="," className="w-full bg-slate-50 border border-slate-100 rounded-[24px] px-8 py-5 text-2xl font-black text-slate-800 outline-none focus:ring-8 focus:ring-teal-500/5 focus:bg-white focus:border-teal-200 transition-all" />
+                          <NumericFormat 
+                            value={input.otherIncome} 
+                            onValueChange={(v) => setInput({...input, otherIncome: v.floatValue || 0})} 
+                            onFocus={(e) => e.target.select()}
+                            thousandSeparator="," 
+                            className="w-full bg-slate-50 border border-slate-100 rounded-[24px] px-8 py-5 text-2xl font-black text-slate-800 outline-none focus:ring-8 focus:ring-teal-500/5 focus:bg-white focus:border-teal-200 transition-all" 
+                          />
                           <span className="absolute right-6 top-1/2 -translate-y-1/2 text-slate-300 font-black">฿</span>
                         </div>
                       </div>
@@ -267,7 +294,13 @@ export default function TaxCalculatorClient() {
                       <div className="space-y-3">
                         <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1 text-orange-600">{t('withheld')}</label>
                         <div className="relative">
-                          <NumericFormat value={input.withholdingTax} onValueChange={(v) => setInput({...input, withholdingTax: v.floatValue || 0})} thousandSeparator="," className="w-full bg-orange-50/30 border border-orange-100 rounded-[24px] px-8 py-5 text-2xl font-black text-orange-700 outline-none focus:ring-8 focus:ring-orange-500/5 focus:bg-white focus:border-orange-200 transition-all" />
+                          <NumericFormat 
+                            value={input.withholdingTax} 
+                            onValueChange={(v) => setInput({...input, withholdingTax: v.floatValue || 0})} 
+                            onFocus={(e) => e.target.select()}
+                            thousandSeparator="," 
+                            className="w-full bg-orange-50/30 border border-orange-100 rounded-[24px] px-8 py-5 text-2xl font-black text-orange-700 outline-none focus:ring-8 focus:ring-orange-500/5 focus:bg-white focus:border-orange-200 transition-all" 
+                          />
                           <span className="absolute right-6 top-1/2 -translate-y-1/2 text-orange-200 font-black">฿</span>
                         </div>
                       </div>

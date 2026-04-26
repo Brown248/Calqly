@@ -148,14 +148,26 @@ export default function RetirementCalculatorClient() {
                     <div className="lg:col-span-2 space-y-2">
                       <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">{t('starting_savings')}</label>
                       <div className="relative">
-                        <NumericFormat value={input.startingSavings ?? 0} onValueChange={(v) => updateInput('startingSavings', v.floatValue || 0)} thousandSeparator="," className="w-full bg-slate-50 border border-slate-100 rounded-[24px] px-8 py-5 text-2xl font-black text-slate-800 outline-none focus:ring-8 focus:ring-amber-500/5 focus:bg-white transition-all" />
+                        <NumericFormat 
+                          value={input.startingSavings ?? 0} 
+                          onValueChange={(v) => updateInput('startingSavings', v.floatValue || 0)} 
+                          onFocus={(e) => e.target.select()}
+                          thousandSeparator="," 
+                          className="w-full bg-slate-50 border border-slate-100 rounded-[24px] px-8 py-5 text-2xl font-black text-slate-800 outline-none focus:ring-8 focus:ring-amber-500/5 focus:bg-white transition-all" 
+                        />
                         <span className="absolute right-6 top-1/2 -translate-y-1/2 text-slate-300 font-black text-xl">฿</span>
                       </div>
                     </div>
                     <div className="space-y-2">
                       <label className="text-[11px] font-black text-teal-600 uppercase tracking-widest ml-1">{t('current_monthly_saving')}</label>
                       <div className="relative">
-                        <NumericFormat value={input.currentMonthlySaving ?? 0} onValueChange={(v) => updateInput('currentMonthlySaving', v.floatValue || 0)} thousandSeparator="," className="w-full bg-teal-50/30 border border-teal-100 rounded-[24px] px-8 py-5 text-2xl font-black text-teal-700 outline-none focus:ring-8 focus:ring-teal-500/5 focus:bg-white transition-all" />
+                        <NumericFormat 
+                          value={input.currentMonthlySaving ?? 0} 
+                          onValueChange={(v) => updateInput('currentMonthlySaving', v.floatValue || 0)} 
+                          onFocus={(e) => e.target.select()}
+                          thousandSeparator="," 
+                          className="w-full bg-teal-50/30 border border-teal-100 rounded-[24px] px-8 py-5 text-2xl font-black text-teal-700 outline-none focus:ring-8 focus:ring-teal-500/5 focus:bg-white transition-all" 
+                        />
                         <span className="absolute right-6 top-1/2 -translate-y-1/2 text-teal-200 font-black text-xl">฿</span>
                       </div>
                     </div>
@@ -168,7 +180,13 @@ export default function RetirementCalculatorClient() {
                       <div className="space-y-4">
                         <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">{t('monthly_spend')}</label>
                         <div className="relative">
-                          <NumericFormat value={input.monthlyExpensesToday ?? 0} onValueChange={(v) => updateInput('monthlyExpensesToday', v.floatValue || 0)} thousandSeparator="," className="w-full bg-slate-50 border border-slate-100 rounded-[32px] px-10 py-8 text-4xl font-black text-amber-600 outline-none focus:ring-8 focus:ring-amber-500/5 transition-all" />
+                          <NumericFormat 
+                            value={input.monthlyExpensesToday ?? 0} 
+                            onValueChange={(v) => updateInput('monthlyExpensesToday', v.floatValue || 0)} 
+                            onFocus={(e) => e.target.select()}
+                            thousandSeparator="," 
+                            className="w-full bg-slate-50 border border-slate-100 rounded-[32px] px-10 py-8 text-4xl font-black text-amber-600 outline-none focus:ring-8 focus:ring-amber-500/5 transition-all" 
+                          />
                           <span className="absolute right-8 top-1/2 -translate-y-1/2 text-amber-200 font-black text-2xl">฿</span>
                         </div>
                         <div className="grid grid-cols-3 gap-3">
@@ -185,11 +203,23 @@ export default function RetirementCalculatorClient() {
                       <div className="grid grid-cols-1 gap-6">
                         <div className="space-y-2">
                           <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1 flex justify-between">{t('dream_fund')} <Info size={14} className="text-slate-300" /></label>
-                          <NumericFormat value={input.dreamFund ?? 0} onValueChange={(v) => updateInput('dreamFund', v.floatValue || 0)} thousandSeparator="," className="w-full bg-slate-50 border border-slate-100 rounded-[20px] px-6 py-4 font-black text-slate-800 outline-none focus:ring-4 focus:ring-amber-500/10 transition-all" />
+                          <NumericFormat 
+                            value={input.dreamFund ?? 0} 
+                            onValueChange={(v) => updateInput('dreamFund', v.floatValue || 0)} 
+                            onFocus={(e) => e.target.select()}
+                            thousandSeparator="," 
+                            className="w-full bg-slate-50 border border-slate-100 rounded-[20px] px-6 py-4 font-black text-slate-800 outline-none focus:ring-4 focus:ring-amber-500/10 transition-all" 
+                          />
                         </div>
                         <div className="space-y-2">
                           <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1 flex justify-between">{t('passive_income')} <Info size={14} className="text-slate-300" /></label>
-                          <NumericFormat value={input.passiveIncomeRetire ?? 0} onValueChange={(v) => updateInput('passiveIncomeRetire', v.floatValue || 0)} thousandSeparator="," className="w-full bg-slate-50 border border-slate-100 rounded-[20px] px-6 py-4 font-black text-slate-800 outline-none focus:ring-4 focus:ring-amber-500/10 transition-all" />
+                          <NumericFormat 
+                            value={input.passiveIncomeRetire ?? 0} 
+                            onValueChange={(v) => updateInput('passiveIncomeRetire', v.floatValue || 0)} 
+                            onFocus={(e) => e.target.select()}
+                            thousandSeparator="," 
+                            className="w-full bg-slate-50 border border-slate-100 rounded-[20px] px-6 py-4 font-black text-slate-800 outline-none focus:ring-4 focus:ring-amber-500/10 transition-all" 
+                          />
                         </div>
                       </div>
                     </div>
@@ -215,7 +245,13 @@ export default function RetirementCalculatorClient() {
                           <m.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 10 }} className="space-y-4">
                             <div className="space-y-2">
                                <label className="text-[11px] font-black text-rose-600 uppercase tracking-widest ml-1">{t('health_buffer')}</label>
-                               <NumericFormat value={input.healthBufferAmount ?? 0} onValueChange={(v) => updateInput('healthBufferAmount', v.floatValue || 0)} thousandSeparator="," className="w-full bg-white border border-rose-100 rounded-[20px] px-6 py-4 font-black text-rose-700 outline-none focus:ring-8 focus:ring-rose-500/5 transition-all" />
+                               <NumericFormat 
+                                 value={input.healthBufferAmount ?? 0} 
+                                 onValueChange={(v) => updateInput('healthBufferAmount', v.floatValue || 0)} 
+                                 onFocus={(e) => e.target.select()}
+                                 thousandSeparator="," 
+                                 className="w-full bg-white border border-rose-100 rounded-[20px] px-6 py-4 font-black text-rose-700 outline-none focus:ring-8 focus:ring-rose-500/5 transition-all" 
+                               />
                             </div>
                             <div className="p-4 bg-rose-50 rounded-2xl border border-rose-100 flex gap-3">
                                <AlertTriangle size={16} className="text-rose-500 shrink-0 mt-0.5" />
@@ -236,7 +272,12 @@ export default function RetirementCalculatorClient() {
                       </div>
                       <div className="space-y-6">
                         <div className="relative">
-                          <NumericFormat value={input.inflationRate ?? 3} onValueChange={(v) => updateInput('inflationRate', v.floatValue || 0)} className="w-full bg-white border border-orange-100 rounded-[24px] px-8 py-5 text-3xl font-black text-orange-600 outline-none focus:ring-8 focus:ring-orange-500/5 transition-all" />
+                          <NumericFormat 
+                            value={input.inflationRate ?? 3} 
+                            onValueChange={(v) => updateInput('inflationRate', v.floatValue || 0)} 
+                            onFocus={(e) => e.target.select()}
+                            className="w-full bg-white border border-orange-100 rounded-[24px] px-8 py-5 text-3xl font-black text-orange-600 outline-none focus:ring-8 focus:ring-orange-500/5 transition-all" 
+                          />
                           <span className="absolute right-8 top-1/2 -translate-y-1/2 text-orange-200 font-black text-2xl">%</span>
                         </div>
                         <div className="p-5 bg-white/80 rounded-[24px] border border-orange-100/50 flex gap-4">

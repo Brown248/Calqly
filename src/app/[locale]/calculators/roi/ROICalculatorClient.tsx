@@ -146,11 +146,23 @@ export default function ROICalculatorClient() {
               <m.div key="step1" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="space-y-8">
                 <div className="input-group">
                   <label className="input-label">{t('initial_inv')}</label>
-                  <NumericFormat value={input.initialInvestment ?? 0} onValueChange={(v) => updateInput('initialInvestment', v.floatValue || 0)} thousandSeparator="," className="input-field text-xl font-black" />
+                  <NumericFormat 
+                    value={input.initialInvestment ?? 0} 
+                    onValueChange={(v) => updateInput('initialInvestment', v.floatValue || 0)} 
+                    onFocus={(e) => e.target.select()}
+                    thousandSeparator="," 
+                    className="input-field text-xl font-black" 
+                  />
                 </div>
                 <div className="input-group">
                   <label className="input-label">{t('monthly_inv')}</label>
-                  <NumericFormat value={input.monthlyInvestment ?? 0} onValueChange={(v) => updateInput('monthlyInvestment', v.floatValue || 0)} thousandSeparator="," className="input-field text-xl font-black text-purple-600" />
+                  <NumericFormat 
+                    value={input.monthlyInvestment ?? 0} 
+                    onValueChange={(v) => updateInput('monthlyInvestment', v.floatValue || 0)} 
+                    onFocus={(e) => e.target.select()}
+                    thousandSeparator="," 
+                    className="input-field text-xl font-black text-purple-600" 
+                  />
                 </div>
                 <div className="input-group">
                   <div className="flex justify-between mb-4">
@@ -181,7 +193,12 @@ export default function ROICalculatorClient() {
                 </div>
                 <div className="input-group pt-4 border-t border-slate-50">
                   <label className="input-label">{t('custom_return_label')} (%)</label>
-                  <NumericFormat value={input.annualReturn} onValueChange={(v) => updateInput('annualReturn', v.floatValue || 0)} className="input-field font-black" />
+                  <NumericFormat 
+                    value={input.annualReturn} 
+                    onValueChange={(v) => updateInput('annualReturn', v.floatValue || 0)} 
+                    onFocus={(e) => e.target.select()}
+                    className="input-field font-black" 
+                  />
                 </div>
               </m.div>
             )}
@@ -220,7 +237,12 @@ export default function ROICalculatorClient() {
                   {input.inflationAdjusted && (
                     <div className="input-group">
                       <label className="text-[11px] font-black text-purple-400 uppercase mb-2">{t('inflation_rate_label')} (%)</label>
-                      <NumericFormat value={input.inflationRate} onValueChange={(v) => updateInput('inflationRate', v.floatValue || 0)} className="w-full bg-white/50 border-none rounded-xl px-4 py-2 font-black text-purple-600 outline-none" />
+                      <NumericFormat 
+                        value={input.inflationRate} 
+                        onValueChange={(v) => updateInput('inflationRate', v.floatValue || 0)} 
+                        onFocus={(e) => e.target.select()}
+                        className="w-full bg-white/50 border-none rounded-xl px-4 py-2 font-black text-purple-600 outline-none" 
+                      />
                     </div>
                   )}
                 </div>
