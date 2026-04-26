@@ -250,7 +250,18 @@ export default function LoanCalculatorClient() {
             <div className="input-group">
               <label className="input-label flex justify-between">
                 {t('tenure')}
-                <button onClick={() => setTenureUnit(tenureUnit === 'year' ? 'month' : 'year')} className="text-[11px] text-teal-600 underline font-bold uppercase">
+                <button 
+                  onClick={() => {
+                    const newUnit = tenureUnit === 'year' ? 'month' : 'year';
+                    setTenureUnit(newUnit);
+                    if (newUnit === 'month') {
+                      setInput(p => ({...p, months: p.years * 12, years: 0}));
+                    } else {
+                      setInput(p => ({...p, years: Math.floor(p.months / 12), months: 0}));
+                    }
+                  }} 
+                  className="text-[11px] text-teal-600 underline font-bold uppercase"
+                >
                   {tenureUnit === 'year' ? t('switch_to_month') : t('switch_to_year')}
                 </button>
               </label>
@@ -492,17 +503,21 @@ export default function LoanCalculatorClient() {
                       <input 
                         type="number" 
                         min="1" 
-                        max={input.years}
-                        placeholder={String(Math.max(1, input.years - 5))}
+                        max={tenureUnit === 'year' ? input.years : Math.floor(input.months / 12)}
+                        placeholder={String(Math.max(1, (tenureUnit === 'year' ? input.years : input.months/12) - 5))}
                         className="w-20 bg-white border border-emerald-200 rounded-xl px-3 py-2 text-center font-black text-emerald-700 outline-none focus:ring-2 focus:ring-emerald-500"
                         onFocus={(e) => e.target.select()}
                         onChange={(e) => {
                           const targetYears = +e.target.value;
-                          if (targetYears > 0 && targetYears < input.years) {
+                          const currentYears = tenureUnit === 'year' ? input.years : input.months / 12;
+                          if (targetYears > 0 && targetYears < currentYears) {
                             const targetMonths = targetYears * 12;
-                            const currentBase = result.monthlyPayment;
-                            const approxRequired = (result.totalPayment / targetMonths) - currentBase;
-                            setInput(p => ({ ...p, extraPayment: Math.max(0, Math.round(approxRequired / 100) * 100) }));
+                            // Exact formula: M = P [ i(1 + i)^n ] / [ (1 + i)^n – 1 ]
+                            // We use a simplified delta approach for the extra payment
+                            const ratePerMonth = (input.interestRate / 100) / 12;
+                            const requiredPayment = input.amount * (ratePerMonth * Math.pow(1 + ratePerMonth, targetMonths)) / (Math.pow(1 + ratePerMonth, targetMonths) - 1);
+                            const extraNeeded = requiredPayment - result.monthlyPayment;
+                            setInput(p => ({ ...p, extraPayment: Math.max(0, Math.round(extraNeeded / 100) * 100) }));
                           }
                         }}
                       />

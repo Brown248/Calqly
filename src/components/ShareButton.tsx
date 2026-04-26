@@ -17,6 +17,12 @@ export default function ShareButton({ data }: ShareButtonProps) {
   const handleShare = () => {
     try {
       const shareUrl = buildSharedUrl(data);
+      
+      // Update browser URL without reloading
+      if (typeof window !== 'undefined') {
+        const url = new URL(shareUrl);
+        window.history.replaceState({}, '', url.pathname + url.search);
+      }
 
       navigator.clipboard.writeText(shareUrl);
       setCopied(true);
@@ -61,4 +67,3 @@ export default function ShareButton({ data }: ShareButtonProps) {
     </m.button>
   );
 }
-
