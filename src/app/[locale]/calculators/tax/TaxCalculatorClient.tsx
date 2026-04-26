@@ -3,12 +3,13 @@
 import { useEffect, useState, useMemo } from 'react';
 import { calculateTax, defaultTaxInput, TaxInput } from '@/utils/taxCalculations';
 import { formatCurrency, formatNumber } from '@/utils/formatters';
-import { useTranslations, useLocale } from 'next-intl';
+import { useTranslations } from 'next-intl';
 import { NumericFormat } from 'react-number-format';
 import { AnimatePresence, m } from 'framer-motion';
 import AnimatedCounter from '@/components/AnimatedCounter';
 import ShareButton from '@/components/ShareButton';
 import ExportReport from '@/components/ExportReport';
+import SincereAffiliateBox from '@/components/SincereAffiliateBox';
 import Tooltip from '@/components/Tooltip';
 import BackButton from '@/components/layout/BackButton';
 import { 
@@ -32,7 +33,6 @@ import { readSharedStateFromUrl } from '@/utils/shareState';
 
 export default function TaxCalculatorClient() {
   const t = useTranslations('TaxCalculator');
-  const locale = useLocale();
 
   const [activeStep, setActiveStep] = useState<1 | 2 | 3 | 4>(1);
   const [input, setInput] = useState<TaxInput>(defaultTaxInput);
@@ -491,10 +491,17 @@ export default function TaxCalculatorClient() {
                 <ShareButton data={input as unknown as Record<string, unknown>} />
               </div>
 
+              <div className="pt-4">
+                <SincereAffiliateBox 
+                  title={t('tax_saving_title')}
+                  description={t('step_investment_desc')}
+                  ctaText={t('tax_saving_cta')}
+                  link="/go/tax-saving"
+                  colorTheme="teal"
+                />
+              </div>
             </div>
           </div>
-          
-
         </section>
       </div>
     </div>

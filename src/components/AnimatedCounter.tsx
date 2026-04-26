@@ -50,6 +50,9 @@ function AnimatedValue({ value }: { value: MotionValue<string> }) {
   const ref = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
+    if (ref.current) {
+      ref.current.textContent = value.get();
+    }
     return value.on('change', (latest: string) => {
       if (ref.current) {
         ref.current.textContent = latest;
@@ -57,5 +60,5 @@ function AnimatedValue({ value }: { value: MotionValue<string> }) {
     });
   }, [value]);
 
-  return <span ref={ref} style={{ fontVariantNumeric: 'tabular-nums' }} />;
+  return <span ref={ref} style={{ fontVariantNumeric: 'tabular-nums' }}>{value.get()}</span>;
 }

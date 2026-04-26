@@ -36,10 +36,10 @@ export default function Footer() {
     {
       title: t('articles'),
       links: [
-        { href: '/articles', label: t('art_tax') },
-        { href: '/articles', label: t('art_loan') },
-        { href: '/articles', label: t('art_save') },
-        { href: '/articles', label: t('art_tax_summary') },
+        { href: '/articles/thai-tax-guide-2569', label: t('art_tax') },
+        { href: '/articles/home-loan-guide-2569', label: t('art_loan') },
+        { href: '/articles/retirement-planning-first-jobber', label: t('art_save') },
+        { href: '/articles/compound-interest-power', label: t('art_tax_summary') },
       ]
     }
   ];

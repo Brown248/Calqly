@@ -376,14 +376,22 @@ export function calculateLoan(input: LoanInput): LoanResult {
     };
   }
 
+  // Logical Savings calculation
+  // We save time relative to the PLANNED duration, not the 100-year safeguard limit
+  const timeSaved = Math.max(0, totalMonthsInput - extraSim.monthsTaken);
+  
+  // For interest saved, we compare what we WOULD have paid in normal case 
+  // (but if normal case failed, we use a theoretical normal payment total)
+  const interestSaved = Math.max(0, normalSim.totalInterest - extraSim.totalInterest);
+
   return {
     monthlyPayment: baseMonthlyPayment,
     totalInterest: hasExtraPayments(input) ? extraSim.totalInterest : normalSim.totalInterest,
     totalPayment: amount + (hasExtraPayments(input) ? extraSim.totalInterest : normalSim.totalInterest),
     totalDurationMonths: hasExtraPayments(input) ? extraSim.monthsTaken : normalSim.monthsTaken,
     effectiveRateForCar: null,
-    interestSaved: Math.max(0, normalSim.totalInterest - extraSim.totalInterest),
-    timeSavedMonths: Math.max(0, normalSim.monthsTaken - extraSim.monthsTaken),
+    interestSaved: interestSaved,
+    timeSavedMonths: timeSaved,
     amortization: hasExtraPayments(input) ? extraSim.amortization : normalSim.amortization,
     chartData,
     refinanceWarningYear,

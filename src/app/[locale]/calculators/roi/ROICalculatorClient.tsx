@@ -21,6 +21,7 @@ const Label = dynamic(() => import('recharts').then(mod => mod.Label), { ssr: fa
 import AnimatedCounter from '@/components/AnimatedCounter';
 import ShareButton from '@/components/ShareButton';
 import ExportReport from '@/components/ExportReport';
+import SincereAffiliateBox from '@/components/SincereAffiliateBox';
 import BackButton from '@/components/layout/BackButton';
 import { 
   TrendingUp, 
@@ -347,6 +348,16 @@ export default function ROICalculatorClient() {
               <p className="text-sm font-bold text-orange-700 leading-relaxed mb-4">{t('waiting_desc', { amount: formatCompactNumber(result.costOfWaiting5Years) })}</p>
               <div className="text-3xl font-black text-orange-600 break-all w-full leading-tight">+{formatCompactNumber(result.costOfWaiting5Years)} <span className="text-sm opacity-60">฿ / {t('mo')}</span></div>
             </div>
+          </div>
+
+          <div className="mb-12">
+            <SincereAffiliateBox 
+              title={t('preset_stocks') + " & ETFs"}
+              description={t('preset_stocks') + " " + t('how_to_choose_1')}
+              ctaText={t('next')}
+              link="/go/investing"
+              colorTheme="purple"
+            />
           </div>
 
           <div className="flex gap-4 border-t border-slate-50 pt-10">

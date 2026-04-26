@@ -1,9 +1,11 @@
 'use client';
 
 import { useEffect, useState, useMemo } from 'react';
+import { Link } from '@/i18n/routing';
 import { calculateRetirement, defaultRetirementInput, RetirementInput } from '@/utils/retirementCalc';
 import { formatCurrency, formatNumber } from '@/utils/formatters';
 import { useTranslations, useLocale } from 'next-intl';
+import SincereAffiliateBox from '@/components/SincereAffiliateBox';
 import { NumericFormat } from 'react-number-format';
 import dynamic from 'next/dynamic';
 import { AnimatePresence, m } from 'framer-motion';
@@ -441,12 +443,22 @@ export default function RetirementCalculatorClient() {
                   </div>
                 </div>
                 
-                <a href={`/${isTh ? 'th' : 'en'}/articles`} className="shrink-0 w-full md:w-auto mt-6 md:mt-0 flex justify-center items-center gap-3 px-8 py-5 bg-white rounded-2xl font-black text-[12px] uppercase tracking-widest text-slate-800 shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition-all group/btn relative z-10">
+                <Link href="/articles" className="shrink-0 w-full md:w-auto mt-6 md:mt-0 flex justify-center items-center gap-3 px-8 py-5 bg-white rounded-2xl font-black text-[12px] uppercase tracking-widest text-slate-800 shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition-all group/btn relative z-10">
                   {t('learn_swr_rule')} <ChevronRight size={16} className="text-slate-400 group-hover/btn:translate-x-1 transition-transform" />
-                </a>
+                </Link>
 
                 {/* Decorative background abstract element */}
                 <div className={`absolute -bottom-24 -right-24 w-64 h-64 rounded-full blur-[80px] pointer-events-none opacity-50 ${result.swrStatus === 'safe' ? 'bg-emerald-300' : result.swrStatus === 'warning' ? 'bg-amber-300' : 'bg-rose-300'}`} />
+              </div>
+
+              <div className="mt-12">
+                <SincereAffiliateBox 
+                  title={t('aff_retire_title')}
+                  description={t('aff_retire_desc')}
+                  ctaText={t('aff_retire_cta')}
+                  link="/go/pension"
+                  colorTheme="amber"
+                />
               </div>
 
 

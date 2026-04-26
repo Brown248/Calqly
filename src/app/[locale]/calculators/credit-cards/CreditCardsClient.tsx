@@ -187,18 +187,26 @@ export default function CreditCardsClient() {
                   </div>
 
                   <div className="flex">
-                    <button
-                      className={`flex-1 py-3 rounded-xl font-bold text-xs transition-all flex items-center justify-center gap-2 ${
-                        compareIds.includes(card.id) 
-                          ? 'bg-teal-50 text-teal-600 border border-teal-100' 
-                          : 'bg-slate-50 text-slate-500 border border-slate-100 hover:bg-slate-100'
-                      }`}
-                      onClick={() => toggleCompare(card.id)}
-                    >
-                      {compareIds.includes(card.id) ? <Check size={14} /> : '+'}
-                      {t('compare')}
-                    </button>
-                  </div>
+                      <button
+                        className={`flex-1 py-3 rounded-xl font-bold text-xs transition-all flex items-center justify-center gap-2 ${
+                          compareIds.includes(card.id) 
+                            ? 'bg-teal-50 text-teal-600 border border-teal-100' 
+                            : 'bg-slate-50 text-slate-500 border border-slate-100 hover:bg-slate-100'
+                        }`}
+                        onClick={() => toggleCompare(card.id)}
+                      >
+                        {compareIds.includes(card.id) ? <Check size={14} /> : '+'}
+                        {t('compare')}
+                      </button>
+                      <a 
+                        href={card.officialUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex-1 py-3 bg-teal-600 text-white rounded-xl font-bold text-xs text-center hover:bg-teal-700 transition-colors"
+                      >
+                        {t('apply_now')}
+                      </a>
+                    </div>
                 </div>
               </m.div>
             ))}
@@ -308,7 +316,15 @@ export default function CreditCardsClient() {
                     <tr>
                       <td className="py-8 px-4"></td>
                       {compareCards.map(c => (
-                        <td key={c.id} className="py-8 px-4">
+                        <td key={c.id} className="py-8 px-4 text-center">
+                          <a 
+                            href={c.officialUrl} 
+                            target="_blank" 
+                            rel="noopener noreferrer" 
+                            className="btn btn-primary w-full text-xs py-3"
+                          >
+                            {t('apply_now')}
+                          </a>
                         </td>
                       ))}
                     </tr>
@@ -343,6 +359,20 @@ export default function CreditCardsClient() {
 
 
 
+        <div className="mt-12 p-6 rounded-[32px] bg-slate-50 border border-slate-100 text-[10px] font-medium text-slate-400 leading-relaxed">
+          <p className="mb-2 uppercase font-black tracking-widest text-slate-500">KTC Disclosure & Disclaimer:</p>
+          {isTh ? (
+            <>
+              * กู้เท่าที่จำเป็นและชำระคืนได้เต็มจำนวนตามกำหนด จะได้ไม่เสียดอกเบี้ย 16% ต่อปี<br/>
+              * ข้อมูลบัตรเครดิตที่แสดงบนหน้านี้เป็นการรวบรวมเพื่อความสะดวกในการเปรียบเทียบเท่านั้น เงื่อนไขและสิทธิประโยชน์อาจเปลี่ยนแปลงตามประกาศของธนาคาร/สถาบันการเงิน โปรดตรวจสอบรายละเอียดล่าสุดที่เว็บไซต์ทางการของผู้ออกบัตรก่อนการสมัคร
+            </>
+          ) : (
+            <>
+              * Borrow only as much as you need and can afford to repay in full to avoid 16% p.a. interest.<br/>
+              * Credit card information shown on this page is for comparison purposes only. Terms and benefits are subject to change by the issuer. Please verify the latest details on the official issuer website before applying.
+            </>
+          )}
+        </div>
       </div>
     </div>
   );
