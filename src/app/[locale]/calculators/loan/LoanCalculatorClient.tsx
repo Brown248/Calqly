@@ -26,7 +26,7 @@ const ChartTooltip = dynamic(() => import('recharts').then(mod => mod.Tooltip), 
 import AnimatedCounter from '@/components/AnimatedCounter';
 import ShareButton from '@/components/ShareButton';
 import ExportReport from '@/components/ExportReport';
-import SincereAffiliateBox from '@/components/SincereAffiliateBox';
+
 import Tooltip from '@/components/Tooltip';
 import BackButton from '@/components/layout/BackButton';
 import { Home, Car, CreditCard, Plus, Trash2, TrendingDown, Sparkles, ChevronDown, Calendar, ShieldCheck, AlertTriangle, Info, BellRing } from 'lucide-react';
@@ -932,15 +932,6 @@ export default function LoanCalculatorClient() {
           <div className="flex gap-4 border-t border-slate-50 mt-12 pt-10">
             <ExportReport elementId="result-panel" fileName="ultimate-debt-plan" csvData={result.amortization} />
             <ShareButton data={input as unknown as Record<string, unknown>} />
-          </div>
-          <div className="mt-12">
-            <SincereAffiliateBox 
-              title={t('refinance_offer_title')}
-              description={t('refinance_offer_desc', { amount: formatNumber(result.totalInterest) })}
-              ctaText={t('refinance_offer_cta')}
-              link="/go/refinance"
-              colorTheme="indigo"
-            />
           </div>
         </m.section>
       </div>

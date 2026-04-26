@@ -9,7 +9,7 @@ import { AnimatePresence, m } from 'framer-motion';
 import AnimatedCounter from '@/components/AnimatedCounter';
 import ShareButton from '@/components/ShareButton';
 import ExportReport from '@/components/ExportReport';
-import SincereAffiliateBox from '@/components/SincereAffiliateBox';
+
 import Tooltip from '@/components/Tooltip';
 import BackButton from '@/components/layout/BackButton';
 import { 
@@ -522,16 +522,6 @@ export default function TaxCalculatorClient() {
               <div className="grid grid-cols-2 gap-4">
                 <ExportReport elementId="receipt-panel" fileName="tax-report-2026" csvData={result.brackets} />
                 <ShareButton data={input as unknown as Record<string, unknown>} />
-              </div>
-
-              <div className="pt-4">
-                <SincereAffiliateBox 
-                  title={t('tax_saving_title')}
-                  description={t('step_investment_desc')}
-                  ctaText={t('tax_saving_cta')}
-                  link="/go/tax-saving"
-                  colorTheme="teal"
-                />
               </div>
             </div>
           </div>

@@ -5,7 +5,7 @@ import { Link } from '@/i18n/routing';
 import { calculateRetirement, defaultRetirementInput, RetirementInput } from '@/utils/retirementCalc';
 import { formatCurrency, formatNumber } from '@/utils/formatters';
 import { useTranslations, useLocale } from 'next-intl';
-import SincereAffiliateBox from '@/components/SincereAffiliateBox';
+
 import { NumericFormat } from 'react-number-format';
 import dynamic from 'next/dynamic';
 import { AnimatePresence, m } from 'framer-motion';
@@ -491,18 +491,6 @@ export default function RetirementCalculatorClient() {
                 {/* Decorative background abstract element */}
                 <div className={`absolute -bottom-24 -right-24 w-64 h-64 rounded-full blur-[80px] pointer-events-none opacity-50 ${result.swrStatus === 'safe' ? 'bg-emerald-300' : result.swrStatus === 'warning' ? 'bg-amber-300' : 'bg-rose-300'}`} />
               </div>
-
-              <div className="mt-12">
-                <SincereAffiliateBox 
-                  title={t('aff_retire_title')}
-                  description={t('aff_retire_desc')}
-                  ctaText={t('aff_retire_cta')}
-                  link="/go/pension"
-                  colorTheme="amber"
-                />
-              </div>
-
-
           </div>
         </section>
       </div>
