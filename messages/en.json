@@ -304,7 +304,7 @@
     "disclaimer_title": "Disclaimer",
     "disclaimer_text": "The content of this article is for educational purposes only and does not constitute legal, tax, or investment advice. Please consult with a professional.",
     "toc": "Table of Contents",
-    "read_time": "{time} min read",
+    "read_time": "{time, number} min read",
     "search_placeholder": "Search articles...",
     "no_results": "No articles found matching \"{query}\"",
     "aff_tax_title": "Tax Saving 2026 with RMF/SSF",

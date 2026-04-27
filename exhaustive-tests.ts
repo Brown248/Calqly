@@ -433,6 +433,23 @@ test("Refinance warning detection", () => {
 });
 
 
+test("Step-up Interest leading to 100-year limit (The 66-year bug)", () => {
+  const l = calculateLoan({
+    ...defaultLoanInput,
+    type: 'home',
+    amount: 3000000,
+    years: 30,
+    isStepUp: true,
+    steps: [
+      { year: 1, rate: 0.1 }, // Extremely low start
+      { year: 4, rate: 8.0 }, // Very high jump
+    ]
+  });
+  // If it hits 1200 months, it's the bug.
+  // We expect it to finish around 360 months (30 years) because of recalculation.
+  expect(l.totalDurationMonths).toBeLessThan(400); 
+});
+
 console.log("\n=========================================");
 console.log(`🎯 TOTAL RESULTS: ${passed} Passed, ${failed} Failed`);
 console.log("=========================================\n");

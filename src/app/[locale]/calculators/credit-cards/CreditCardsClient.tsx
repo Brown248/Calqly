@@ -135,20 +135,18 @@ export default function CreditCardsClient() {
 
         {/* Card Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
-          <AnimatePresence>
-            {filtered.map(card => (
-              <m.div 
-                key={card.id} 
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 10 }}
-                transition={{ duration: 0.3 }}
-                className={`group flex flex-col bg-white rounded-[32px] border transition-all duration-500 overflow-hidden ${
-                  compareIds.includes(card.id) 
-                    ? 'border-teal-500 ring-4 ring-teal-500/5' 
-                    : 'border-slate-100 hover:border-teal-200 hover:shadow-2xl hover:shadow-teal-600/5'
-                }`}
-              >
+          {filtered.map(card => (
+            <m.div 
+              key={card.id} 
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+              className={`group flex flex-col bg-white rounded-[32px] border transition-all duration-500 overflow-hidden ${
+                compareIds.includes(card.id) 
+                  ? 'border-teal-500 ring-4 ring-teal-500/5' 
+                  : 'border-slate-100 hover:border-teal-200 hover:shadow-2xl hover:shadow-teal-600/5'
+              }`}
+            >
                 <div className="p-8 h-32 flex flex-col justify-end relative" style={{background: card.gradient}}>
                   <div className="absolute top-6 right-8 text-white/20"><CreditCard size={48} /></div>
                   <div className="relative z-10">
@@ -210,7 +208,6 @@ export default function CreditCardsClient() {
                 </div>
               </m.div>
             ))}
-          </AnimatePresence>
         </div>
 
         {filtered.length === 0 && (

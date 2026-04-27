@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import { useMotionValue, useTransform, animate, MotionValue } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import { useMotionValue, useTransform, animate, useMotionValueEvent } from 'framer-motion';
 
 interface AnimatedCounterProps {
   value: number;
@@ -21,7 +21,19 @@ export default function AnimatedCounter({
   decimals = 0
 }: AnimatedCounterProps) {
   const count = useMotionValue(direction === 'up' ? 0 : value);
-  const [displayValue, setDisplayValue] = useState(direction === 'up' ? "0" : value.toLocaleString());
+  const rounded = useTransform(count, (latest) => {
+    return new Intl.NumberFormat('th-TH', {
+      minimumFractionDigits: decimals,
+      maximumFractionDigits: decimals,
+      useGrouping: includeComma,
+    }).format(latest);
+  });
+
+  const [display, setDisplay] = useState(rounded.get());
+
+  useMotionValueEvent(rounded, "change", (latest) => {
+    setDisplay(latest);
+  });
 
   useEffect(() => {
     const controls = animate(count, value, {
@@ -32,20 +44,9 @@ export default function AnimatedCounter({
     return controls.stop;
   }, [value, count]);
 
-  useEffect(() => {
-    return count.on('change', (latest) => {
-      const formatted = new Intl.NumberFormat('th-TH', {
-        minimumFractionDigits: decimals,
-        maximumFractionDigits: decimals,
-        useGrouping: includeComma,
-      }).format(latest);
-      setDisplayValue(formatted);
-    });
-  }, [count, decimals, includeComma]);
-
   return (
     <span className="tabular-nums">
-      {prefix}{displayValue}{suffix}
+      {prefix}{display}{suffix}
     </span>
   );
 }

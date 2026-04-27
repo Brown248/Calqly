@@ -13,6 +13,11 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
+        source: '/th/articles',
+        destination: '/articles',
+        permanent: true,
+      },
+      {
         source: '/go/tax-plan',
         destination: 'https://www.finnomena.com/tax-saving-fund/',
         permanent: false,

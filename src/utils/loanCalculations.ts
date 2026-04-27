@@ -159,26 +159,28 @@ function runSimulation(
 
     let currentMonthlyPayment = baseMonthlyPayment;
     
-    // RECALCULATION LOGIC: 
-    // In real-world Thai home loans (Step-up or MRR), banks recalculate PMT when rates change 
+    // RECALCULATION LOGIC:
+    // In real-world Thai home loans (Step-up or MRR), banks recalculate PMT when rates change
     // to ensure the loan finishes within the original term.
-    if (input.type === 'home' && (currentMonth > 1 || input.isStepUp)) {
-      const remainingMonths = totalMonthsInput - currentMonth + 1;
-      if (remainingMonths > 0) {
-        const calculatedPmtForCurrentRate = ratePerMonth === 0 
-          ? remainingBalance / remainingMonths 
-          : remainingBalance * ratePerMonth / (1 - Math.pow(1 + ratePerMonth, -remainingMonths));
-        
-        // If the calculated PMT for current rate is higher than our base payment, use it.
-        // This prevents "66 years" or "100 years" bugs.
-        if (calculatedPmtForCurrentRate > currentMonthlyPayment) {
-          currentMonthlyPayment = calculatedPmtForCurrentRate;
-        }
+    const remainingMonths = totalMonthsInput - currentMonth + 1;
+    if (remainingMonths > 0) {
+      const calculatedPmtForCurrentRate = ratePerMonth === 0
+        ? remainingBalance / remainingMonths
+        : remainingBalance * ratePerMonth / (1 - Math.pow(1 + ratePerMonth, -remainingMonths));
+
+      // If the calculated PMT for current rate is higher than our base payment, use it.
+      // This prevents "66 years" or "100 years" bugs where interest exceeds payment.
+      if (calculatedPmtForCurrentRate > currentMonthlyPayment) {
+        currentMonthlyPayment = calculatedPmtForCurrentRate;
       }
     }
 
-    let principalMonth = currentMonthlyPayment - interestMonth;
-    
+    // Safety: Ensure payment at least covers interest to prevent infinite loops/100-year bugs
+    if (currentMonthlyPayment < interestMonth + 10) {
+      currentMonthlyPayment = interestMonth + 100; // Force small principal payment
+    }
+
+    let principalMonth = currentMonthlyPayment - interestMonth;    
     if (principalMonth < 0) principalMonth = 0;
 
     let actualPrincipalPaid = principalMonth + extraThisMonth;

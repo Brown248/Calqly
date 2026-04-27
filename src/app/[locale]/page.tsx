@@ -102,7 +102,7 @@ export default function Home() {
 
   const STATS = [
     { value: 5, suffix: '+', label: t('stat_tools'), icon: <BarChart3 size={24} /> },
-    { value: 10, suffix: '+', label: t('stat_articles'), icon: <Building2 size={24} /> },
+    { value: 4, suffix: '+', label: t('stat_articles'), icon: <Building2 size={24} /> },
     { value: 100, suffix: '%', label: t('stat_free').replace(' 100%', ''), icon: <ShieldCheck size={24} /> },
   ];
 
