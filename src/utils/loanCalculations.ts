@@ -162,23 +162,13 @@ function runSimulation(
     // RECALCULATION LOGIC:
     // In real-world Thai home loans (Step-up or MRR), banks recalculate PMT when rates change
     // to ensure the loan finishes within the original term.
-    const remainingMonths = totalMonthsInput - currentMonth + 1;
-    if (remainingMonths > 0) {
-      const calculatedPmtForCurrentRate = ratePerMonth === 0
+    const remainingMonths = Math.max(1, totalMonthsInput - currentMonth + 1);
+    const calculatedPmtForCurrentRate = ratePerMonth === 0
         ? remainingBalance / remainingMonths
         : remainingBalance * ratePerMonth / (1 - Math.pow(1 + ratePerMonth, -remainingMonths));
 
-      // If the calculated PMT for current rate is higher than our base payment, use it.
-      // This prevents "66 years" or "100 years" bugs where interest exceeds payment.
-      if (calculatedPmtForCurrentRate > currentMonthlyPayment) {
-        currentMonthlyPayment = calculatedPmtForCurrentRate;
-      }
-    }
-
-    // Safety: Ensure payment at least covers interest to prevent infinite loops/100-year bugs
-    if (currentMonthlyPayment < interestMonth + 10) {
-      currentMonthlyPayment = interestMonth + 100; // Force small principal payment
-    }
+    // Always adjust payment to cover current interest and amortize remainder
+    currentMonthlyPayment = Math.max(baseMonthlyPayment, calculatedPmtForCurrentRate);
 
     let principalMonth = currentMonthlyPayment - interestMonth;    
     if (principalMonth < 0) principalMonth = 0;
@@ -389,8 +379,10 @@ export function calculateLoan(input: LoanInput): LoanResult {
   }
 
   // Logical Savings calculation
-  // We save time relative to the PLANNED duration, not the 100-year safeguard limit
-  const timeSaved = Math.max(0, totalMonthsInput - extraSim.monthsTaken);
+  // Compare extra sim against normal sim to see how much time extra payments actually save.
+  // In step-up mode, recalculated PMT already shortens the normal sim from the original term,
+  // so comparing against totalMonthsInput would overstate the savings from extra payments.
+  const timeSaved = Math.max(0, normalSim.monthsTaken - extraSim.monthsTaken);
   
   // For interest saved, we compare what we WOULD have paid in normal case 
   // If the normal simulation hit the 100-year cap, we cap the comparison to something sane

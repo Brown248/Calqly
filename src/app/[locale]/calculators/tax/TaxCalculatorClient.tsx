@@ -7,10 +7,10 @@ import { useTranslations } from 'next-intl';
 import { NumericFormat } from 'react-number-format';
 import { AnimatePresence, m } from 'framer-motion';
 import AnimatedCounter from '@/components/AnimatedCounter';
-import ShareButton from '@/components/ShareButton';
-import ExportReport from '@/components/ExportReport';
-
 import Tooltip from '@/components/Tooltip';
+import ExportReport from '@/components/ExportReport';
+import ShareButton from '@/components/ShareButton';
+import RelatedArticlesSidebar from '@/components/calculators/RelatedArticlesSidebar';
 import BackButton from '@/components/layout/BackButton';
 import { 
   ShieldCheck, 
@@ -522,6 +522,10 @@ export default function TaxCalculatorClient() {
               <div className="grid grid-cols-2 gap-4">
                 <ExportReport elementId="receipt-panel" fileName="tax-report-2026" csvData={result.brackets} />
                 <ShareButton data={input as unknown as Record<string, unknown>} />
+              </div>
+
+              <div className="pt-4">
+                <RelatedArticlesSidebar category="tax" />
               </div>
             </div>
           </div>

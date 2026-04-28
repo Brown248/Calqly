@@ -35,6 +35,7 @@ import SavedProjectsManager from '@/components/SavedProjectsManager';
 import ComparisonRow from '@/components/ComparisonRow';
 import { SavedProject, useFinancialStore } from '@/hooks/useFinancialStore';
 import { readSharedStateFromUrl } from '@/utils/shareState';
+import RelatedArticlesSidebar from '@/components/calculators/RelatedArticlesSidebar';
 
 export default function LoanCalculatorClient() {
   const t = useTranslations('LoanCalculator');
@@ -269,12 +270,26 @@ export default function LoanCalculatorClient() {
                 value={tenureUnit === 'year' ? input.years : input.months} 
                 onValueChange={(v) => {
                   const val = v.floatValue || 0;
+                  // Soft caps for sanity
+                  const maxYears = input.type === 'home' ? 40 : 10;
+                  const maxMonths = maxYears * 12;
+                  
+                  if (tenureUnit === 'year' && val > maxYears) {
+                    // We allow it but maybe we should cap it? 
+                    // Let's cap at 60 for extreme cases but warn
+                  }
+                  
                   setInput(p => tenureUnit === 'year' ? {...p, years: val, months: 0} : {...p, months: val, years: 0});
                 }} 
                 onFocus={(e) => e.target.select()}
-                className="input-field font-black"
+                className={`input-field font-black ${(tenureUnit === 'year' ? input.years : input.months / 12) > (input.type === 'home' ? 40 : 10) ? 'border-orange-300 bg-orange-50/30' : ''}`}
                 inputMode="decimal"
               />
+              {(tenureUnit === 'year' ? input.years : input.months / 12) > (input.type === 'home' ? 40 : 10) && (
+                <m.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-[10px] font-bold text-orange-600 mt-2 flex items-center gap-1">
+                  <AlertTriangle size={10} /> {t('unrealistic_tenure_warning') || 'Unusually long tenure for this loan type'}
+                </m.p>
+              )}
             </div>
             <div className="input-group">
               <label className="input-label flex items-center gap-2">
@@ -841,6 +856,9 @@ export default function LoanCalculatorClient() {
                   </div>
                 ))}
               </div>
+            </div>
+            <div className="lg:col-span-4 mt-8">
+              <RelatedArticlesSidebar category="loan" />
             </div>
           </div>
 

@@ -21,7 +21,7 @@ export default function AnimatedCounter({
   decimals = 0
 }: AnimatedCounterProps) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-50px" });
+  const isInView = useInView(ref, { once: true, margin: "-10px" });
   const [display, setDisplay] = useState(
     new Intl.NumberFormat('th-TH', {
       minimumFractionDigits: decimals,

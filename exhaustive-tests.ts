@@ -447,6 +447,7 @@ test("Step-up Interest leading to 100-year limit (The 66-year bug)", () => {
   });
   // If it hits 1200 months, it's the bug.
   // We expect it to finish around 360 months (30 years) because of recalculation.
+  console.log(`Duration: ${l.totalDurationMonths} months`);
   expect(l.totalDurationMonths).toBeLessThan(400); 
 });
 

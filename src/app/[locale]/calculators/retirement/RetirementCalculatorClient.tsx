@@ -41,6 +41,8 @@ import {
   ShieldCheck
 } from 'lucide-react';
 
+import RelatedArticlesSidebar from '@/components/calculators/RelatedArticlesSidebar';
+
 import SavedProjectsManager from '@/components/SavedProjectsManager';
 import { readSharedStateFromUrl } from '@/utils/shareState';
 
@@ -493,6 +495,8 @@ export default function RetirementCalculatorClient() {
               </div>
           </div>
         </section>
+        {/* Related Articles Sidebar */}
+        <RelatedArticlesSidebar category="retirement" />
       </div>
     </div>
   );

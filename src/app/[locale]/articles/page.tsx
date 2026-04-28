@@ -116,7 +116,7 @@ export default function ArticlesPage() {
                           {article.category}
                         </span>
                         <span className="flex items-center gap-1.5 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                          <Clock size={12} /> {t('read_time', { time: article.readTime })}
+                          <Clock size={12} /> {t('read_time', { time: article.readTime || 5 })}
                         </span>
                       </div>
                       <h3 className="text-2xl font-black text-slate-800 mb-4 group-hover:text-teal-600 transition-colors line-clamp-2 tracking-tight">
