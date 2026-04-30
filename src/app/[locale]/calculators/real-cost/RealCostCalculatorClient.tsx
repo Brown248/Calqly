@@ -6,7 +6,7 @@ import { formatCurrency } from '@/utils/formatters';
 import { useTranslations, useLocale } from 'next-intl';
 import { NumericFormat } from 'react-number-format';
 import dynamic from 'next/dynamic';
-import { m, AnimatePresence } from 'framer-motion';
+import { m } from 'framer-motion';
 
 const ResponsiveContainer = dynamic(() => import('recharts').then(mod => mod.ResponsiveContainer), { ssr: false });
 const PieChart = dynamic(() => import('recharts').then(mod => mod.PieChart), { ssr: false });

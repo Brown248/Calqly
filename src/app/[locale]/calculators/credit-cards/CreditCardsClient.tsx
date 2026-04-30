@@ -52,14 +52,14 @@ export default function CreditCardsClient() {
             animate={{ opacity: 1, scale: 1 }}
             className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-full border border-teal-100 text-teal-600 text-[10px] font-black uppercase tracking-[0.2em] mb-8 shadow-sm"
           >
-            <Sparkles size={14} /> Premium Selection 2026
+            <Sparkles size={14} /> {t('premium_badge')}
           </m.div>
           <m.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-4xl md:text-6xl font-black text-slate-800 mb-8 tracking-tight leading-tight"
           >
-            {isTh ? 'เปรียบเทียบ' : 'Compare'}<span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-emerald-600"> {t('title')}</span>
+            {t('page_title')}<span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-emerald-600"> {t('title_accent')}</span>
           </m.h1>
           <m.p 
             initial={{ opacity: 0 }}
@@ -272,15 +272,15 @@ export default function CreditCardsClient() {
               <header className="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-8 relative z-10">
                 <div>
                   <div className="inline-flex items-center gap-2 px-3 py-1 bg-teal-50 rounded-lg text-teal-600 text-[10px] font-black uppercase tracking-[0.2em] mb-4 border border-teal-100/50">
-                    Side-by-Side Analysis
+                    {t('side_by_side_label')}
                   </div>
-                  <h3 className="text-4xl md:text-5xl font-black text-slate-800 tracking-tight">{t('total_cards', { count: compareCards.length })} <span className="text-teal-500">Overview</span></h3>
+                  <h3 className="text-4xl md:text-5xl font-black text-slate-800 tracking-tight">{t('total_cards', { count: compareCards.length })} <span className="text-teal-500">{t('overview_label')}</span></h3>
                   <p className="text-slate-400 font-bold uppercase text-[11px] tracking-[0.2em] mt-3">{t('deep_dive_label')}</p>
                 </div>
                 <div className="flex gap-4">
                   <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100 flex items-center gap-4">
                     <ShieldCheck className="text-emerald-500" size={24} />
-                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-tight">Verified<br/>Details</span>
+                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-tight">{t('verified_label')}</span>
                   </div>
                 </div>
               </header>

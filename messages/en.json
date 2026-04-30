@@ -452,6 +452,9 @@
   },
   "CreditCards": {
     "title": "Credit Card Comparison",
+    "page_title": "Compare",
+    "title_accent": "Credit Cards",
+    "premium_badge": "Premium Selection 2026",
     "subtitle": "Compare best credit cards by bank, rewards, and income requirements.",
     "affiliate_disclosure": "Financial Disclosure: Some links below are affiliate links. We may earn a commission if you apply, at no extra cost to you.",
     "min_income": "Min Income",
@@ -484,7 +487,10 @@
     "no_match_title": "No cards match your criteria",
     "no_match_desc": "Try adjusting the filters or income level to see more results.",
     "reset_filters": "Reset All Filters",
-    "deep_dive_label": "Deep dive comparison"
+    "deep_dive_label": "Deep dive comparison",
+    "side_by_side_label": "Side-by-Side Analysis",
+    "overview_label": "Overview",
+    "verified_label": "Verified Details"
   },
   "About": {
     "page_title": "About Us | CalqlyHub",
@@ -545,6 +551,7 @@
   "AIAdvisor": {
     "badge": "AI Financial Advisor",
     "title": "Personal Finance Analysis",
+    "subtitle": "Local Processing ({count} saved plans)",
     "waiting": "Waiting for your first plan... AI will start immediately",
     "privacy": "All data processed on your browser only",
     "insight_debt_warning": "You have total debt of {amount}. Consider increasing extra payments to reduce interest burden.",

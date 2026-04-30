@@ -55,7 +55,7 @@ export default function AIAdvisor() {
                     <BrainCircuit size={14} /> {t('badge')}
                  </div>
                  <h2 className="text-3xl font-black text-slate-800 tracking-tight">{t('title')}</h2>
-                 <p className="text-sm font-bold text-slate-400 mt-2">Local Processing ({projects.length} saved plans)</p>
+                 <p className="text-sm font-bold text-slate-400 mt-2">{t('subtitle', { count: projects.length })}</p>
               </div>
 
               {/* Insights List */}
